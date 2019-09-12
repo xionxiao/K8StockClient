@@ -1,6 +1,6 @@
 ﻿namespace stockapp
 {
-    partial class Form3
+    partial class Form_main
     {
         /// <summary>
         /// Required designer variable.
@@ -113,21 +113,21 @@
             this.menuStrip1.Size = new System.Drawing.Size(663, 25);
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
+          //  this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // 报价ToolStripMenuItem
             // 
             this.报价ToolStripMenuItem.Name = "报价ToolStripMenuItem";
             this.报价ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.报价ToolStripMenuItem.Text = "报价";
-            this.报价ToolStripMenuItem.Click += new System.EventHandler(this.报价ToolStripMenuItem_Click);
+            this.报价ToolStripMenuItem.Click += new System.EventHandler(this.BaojiaToolStripMenuItem_Click);
             // 
             // 设置ToolStripMenuItem
             // 
             this.设置ToolStripMenuItem.Name = "设置ToolStripMenuItem";
             this.设置ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.设置ToolStripMenuItem.Text = "设置";
-            this.设置ToolStripMenuItem.Click += new System.EventHandler(this.设置ToolStripMenuItem_Click);
+            this.设置ToolStripMenuItem.Click += new System.EventHandler(this.SetToolStripMenuItem_Click);
             // 
             // 退出ToolStripMenuItem
             // 
@@ -135,7 +135,7 @@
             this.退出ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.退出ToolStripMenuItem.Text = "退出";
             // 
-            // Form3
+            // Form_main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -148,11 +148,11 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Form3";
+            this.Name = "Form_main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "股票管理";
             this.TopMost = true;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form3_FormClosed);
+         //   this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form3_FormClosed);
             this.Load += new System.EventHandler(this.Form3_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form3_KeyDown);
             this.groupBox1.ResumeLayout(false);

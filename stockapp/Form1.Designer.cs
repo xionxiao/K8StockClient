@@ -1,6 +1,6 @@
 ﻿namespace stockapp
 {
-    partial class Form1
+    partial class Form_hangqi
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -321,7 +321,7 @@
             this.textBox2.Size = new System.Drawing.Size(81, 21);
             this.textBox2.TabIndex = 46;
             // 
-            // Form1
+            // Form_hangqi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -357,9 +357,8 @@
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Form1";
+            this.Name = "Form_hangqi";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Click += new System.EventHandler(this.Form1_Click);

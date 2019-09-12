@@ -14,7 +14,7 @@ using Newtonsoft.Json.Linq;
 using System.Reflection;
 namespace stockapp
 {
-    public partial class Form3 : Form
+    public partial class Form_main : Form
     {
         public int m_StockNum = 100;
         public string ip_hq = "123.57.232.178:80";
@@ -24,34 +24,19 @@ namespace stockapp
         public JObject json2 = new JObject();
         delegate void Reflist(JArray ja);
         delegate void Reflist2(JObject jo);
-       
-        public Form3()
+        public Form_main()
         {
             InitializeComponent();
 
         }
-
-        private void Form3_FormClosed(object sender, FormClosedEventArgs e)
+        private void BaojiaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void 报价ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //Thread t = new Thread(ThreadFun);
-            //t.IsBackground = true;
-            //t.Start();
-            ThreadFun();
-
-        }
-        public void ThreadFun()
-        {
-            Form1 f1 = new Form1(ip_hq, ip_jy, json1, this,json2);
+            Form_hangqi f1 = new Form_hangqi(ip_hq, ip_jy, json1, this, json2);
             f1.TopMost = true;
             f1.Show();
-        }
 
-        private void 设置ToolStripMenuItem_Click(object sender, EventArgs e)
+        }
+        private void SetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form4 f4 = new Form4(ip_hq, ip_jy);
             f4.ShowDialog();
@@ -91,6 +76,8 @@ namespace stockapp
         }
         private void refresh_list1(JArray ja)
         {
+            if (ja == null || ja.Count == 0)
+                return;
             //是否为创建控件的线程，不是为true
             if (this.listView1.InvokeRequired)
             {
@@ -122,7 +109,7 @@ namespace stockapp
                     }
                     else if (ja[i]["买卖标志"].ToString().Equals("卖出担保品"))
                     {
-                        item1.ForeColor = RGB(0x65E339);
+                        item1.ForeColor = Form_hangqi.RGB(0x65E339);
                     }
 
                     item1.SubItems.Add(ja[i]["合同编号"].ToString());
@@ -141,11 +128,11 @@ namespace stockapp
                 //else
                 //    listView1.EnsureVisible(pos);
             }
-        }
-       
-        
+        } 
         private void refresh_list2(JObject ja)
         {
+            if (ja == null || ja.Count == 0)
+                return;
             //是否为创建控件的线程，不是为true
             if (this.listView2.InvokeRequired)
             {
@@ -174,7 +161,7 @@ namespace stockapp
                     }
                     else if (ja[jp.Name]["买卖标志"].ToString().Contains("卖出"))
                     {
-                        item1.ForeColor = RGB(0x65E339);;
+                        item1.ForeColor = Form_hangqi.RGB(0x65E339);;
                     }
                     //MessageBox.Show(jp.ToString());
                     listView2.Items.Add(item1);
@@ -183,126 +170,114 @@ namespace stockapp
 
             }
         }
+        private JArray str_to_jarray(string str)
+        {
+            if (str == null)
+                return null;
+            try
+            {
+                JObject jo = (JObject)JsonConvert.DeserializeObject(str);
+                if (jo.Count == 0 || jo["orderlist"] == null)
+                    return null;
+                JArray ja = (JArray)JsonConvert.DeserializeObject(jo["orderlist"].ToString());
+                return ja;
+            }
+            catch
+            {
+                return null;
+            }
+         }
+        private JArray str1_to_jarray(string str)
+        {
+            if (str == null)
+                return null;
+            try
+            {
+                JObject jo = (JObject)JsonConvert.DeserializeObject(str);
+                if (jo.Count == 0 || jo["deals"] == null)
+                    return null;
+                JArray ja = (JArray)JsonConvert.DeserializeObject(jo["deals"].ToString());
+                return ja;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        private JArray str2_to_jarray(string str)
+        {
+            if (str == null)
+                return null;
+            try
+            {
+                JObject jo = (JObject)JsonConvert.DeserializeObject(str);
+                if (jo.Count == 0 || jo["position"] == null)
+                    return null;
+                JArray ja = (JArray)JsonConvert.DeserializeObject(jo["position"].ToString());
+                return ja;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        private void get_sell_nums(JArray ja)
+        {
+            json1.RemoveAll();
+            for (int i = 0; i < ja.Count; i++)
+            {
+                json1[ja[i]["证券代码"].ToString()] = ja[i]["可卖数量"].ToString();
+            }
+        }
+        private JObject str3_to_jobject(string str)
+        {
+            if (str == null)
+                return null;
+            try
+            {
+                JObject jo = (JObject)JsonConvert.DeserializeObject(str);
+                if (jo.Count == 0 || jo["stockpool"] == null)
+                    return null;
+                JObject jo1 = (JObject)JsonConvert.DeserializeObject(jo["stockpool"].ToString());
+                return jo1;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        private void get_rongquan_nums(JObject jo)
+        {
+            json2.RemoveAll();
+            foreach (JProperty jp in jo.Properties())
+            {
+                json2[jp.Name] = jo[jp.Name]["融券数量"].ToString();
+            }
+        }
         public void Run()
         {
             while (true)
             {
-                string str = "http://" + ip_jy + "/query?catalogues=orderlist";
-
-                string str2 = GetRequestData(str);
-
-                if (str2 == null)
-                {
-                    Thread.Sleep(1000);
-                    goto l2;
-                }
-                JObject jo = (JObject)JsonConvert.DeserializeObject(str2);
-                string[] values = jo.Properties().Select(item => item.Value.ToString()).ToArray();
-
-                if (values[0] == "[]" || jo["error"] != null)
-                {
-                    Thread.Sleep(1000);
-                    goto l2;
-                }
-
-                JArray ja = (JArray)JsonConvert.DeserializeObject(values[0]);
-
+                string temp = "http://" + ip_jy + "/query?catalogues=orderlist";
+                string str = Form_hangqi.GetRequestData(temp);
+                JArray ja= str_to_jarray(str);
                 refresh_list1(ja);
 
-                //////////////////////////////////
-                //////////////////////////////////
-                //////////////////////////////////
-
-            l2:
-                str = "http://" + ip_jy + "/query?catalogues=deals";
-
-                str2 = GetRequestData(str);
-
-                if (str2 == null)
-                {
-                    Thread.Sleep(1000);
-                    goto l3;
-                }
-
-
-                jo = (JObject)JsonConvert.DeserializeObject(str2);
-
-                values = jo.Properties().Select(item => item.Value.ToString()).ToArray();
-
-                if (values[0] == "[]" || jo["error"] != null)
-                {
-                    Thread.Sleep(1000);
-                    goto l3;
-                }
-
-
-
-                ja = (JArray)JsonConvert.DeserializeObject(values[0]);
-
-
-
+                temp = "http://" + ip_jy + "/query?catalogues=deals";
+                string str1 =Form_hangqi.GetRequestData(temp);
+                ja = str1_to_jarray(str1);
                 refresh_list2(filter_data(ja));
-            l3:
-                /////////////////////////////////
-                /////////////////////////////////
-                /////////////////////////////////
+                   
+                temp = "http://" + ip_jy + "/query?catalogues=position";
+                string str2 =Form_hangqi.GetRequestData(temp);
+                ja = str2_to_jarray(str2);
+                get_sell_nums(ja);
 
-                 str = "http://" + ip_jy + "/query?catalogues=position";
-
-                str2 = GetRequestData(str);
-
-                if (str2 == null)
-                {
-                    Thread.Sleep(1000);
-                    goto l4;
-                }
-
-                jo = (JObject)JsonConvert.DeserializeObject(str2);
-
-                values = jo.Properties().Select(item => item.Value.ToString()).ToArray();
-
-                if (values[0] == "[]" || jo["error"] != null)
-                {
-                    Thread.Sleep(1000);
-                    goto l4;
-                }
-                ja = (JArray)JsonConvert.DeserializeObject(values[0]);
-
-                for (int i = 0; i < ja.Count; i++)
-                {
-                    json1[ja[i]["证券代码"].ToString()] = ja[i]["可卖数量"].ToString();
-                }
-
-                /////////////////////////////
-                /////////////////////////////
-                /////////////////////////////
-
-            l4:
                 str = "http://" + ip_jy + "/query?catalogues=stockpool";
-
-                str2 = GetRequestData(str);
-
-                if (str2 == null)
-                {
-                    Thread.Sleep(1000);
-                    continue;
-                }
-
-                jo = (JObject)JsonConvert.DeserializeObject(str2);
-
-                values = jo.Properties().Select(item => item.Value.ToString()).ToArray();
-
-                if (values[0] == "[]" || jo["error"] != null)
-                {
-                    Thread.Sleep(1000);
-                    continue;
-                }
-                JObject jo1= (JObject)JsonConvert.DeserializeObject(values[0]);
-                json2.RemoveAll();
-                foreach (JProperty jp in jo1.Properties())
-                {
-                    json2[jp.Name] = jo1[jp.Name]["融券数量"].ToString();
-                }
+                string str3 = Form_hangqi.GetRequestData(str);
+                JObject jo = str3_to_jobject(str3);
+                get_rongquan_nums(jo); 
+               
                 Thread.Sleep(3000);
             }
         }
@@ -375,176 +350,7 @@ namespace stockapp
            
             return jo;
         }
-        //private void refresh_list2()
-        //{
-        //    string str1 = "http://" + ip_jy + "/query?catalogues=position";
-        //    //string str2 = "http://" + ip_jy + "/query?catalogues=stockpool";
-        //    string str3 = GetRequestData(str1);
-        //    //string str4 = GetRequestData(str2);
-        //    if (str3 == null)
-        //        return;
-        //    JObject jo = (JObject)JsonConvert.DeserializeObject(str3);
-        //    string[] values = jo.Properties().Select(item => item.Value.ToString()).ToArray();
-
-        //    if (values[0] == "[]" || jo["error"] != null)
-        //    {
-        //        return;
-        //    }
-
-        //    JArray ja = (JArray)JsonConvert.DeserializeObject(values[0]);
-
-        // //   listView2.Items.Clear();
-
-        //    for (int i = 0; i < ja.Count; i++)
-        //    {
-        //        //ListViewItem item1 = new ListViewItem();
-
-        //        //item1.SubItems[0].Text = ja[i]["证券代码"].ToString();
-
-        //        //item1.SubItems.Add(ja[i]["证券名称"].ToString());
-
-        //        //item1.SubItems.Add("买入");
-
-        //        //item1.SubItems.Add(ja[i]["证券数量"].ToString());
-
-        //        //item1.SubItems.Add(ja[i]["买入成本价"].ToString());
-
-        //        //item1.SubItems.Add(ja[i]["浮动盈亏"].ToString());
-
-        //        //item1.SubItems.Add(ja[i]["盈亏比例(%)"].ToString());
-        //        json[ja[i]["证券代码"].ToString()] = ja[i]["可卖数量"].ToString();
-        //        //listView2.Items.Add(item1);
-
-        //    }
-        //    //listView2.EnsureVisible(listView2.Items.Count - 1);
-
-        //    // jo = (JObject)JsonConvert.DeserializeObject(str4);
-        //    // values = jo.Properties().Select(item => item.Value.ToString()).ToArray();
-
-        //    //if (values[0] == "[]" || jo["error"] != null)
-        //    //{
-        //    //    return;
-        //    //}
-
-        //    //ja = (JArray)JsonConvert.DeserializeObject(values[0]);
-        //}
-        //private void refresh_list1()
-        //{
-
-
-        //    string str = "http://" + ip_jy + "/query?catalogues=orderlist";
-
-
-
-        //    string str2 = GetRequestData(str);
-
-        //    if (str2 == null)
-        //        return;
-
-        //    JObject jo = (JObject)JsonConvert.DeserializeObject(str2);
-        //    string[] values = jo.Properties().Select(item => item.Value.ToString()).ToArray();
-
-        //    if (values[0] == "[]" || jo["error"] != null)
-        //    {
-        //        return;
-        //    }
-
-        //    listView1.Items.Clear();
-
-        //    JArray ja = (JArray)JsonConvert.DeserializeObject(values[0]);
-
-        //    int pos = -1;
-        //    for (int i = 0; i < ja.Count; i++)
-        //    {
-        //        ListViewItem item1 = new ListViewItem();
-
-        //        item1.SubItems[0].Text = ja[i]["委托时间"].ToString();
-
-        //        item1.SubItems.Add(ja[i]["证券代码"].ToString());
-
-        //        item1.SubItems.Add(ja[i]["证券名称"].ToString());
-
-        //        item1.SubItems.Add(ja[i]["委托价格"].ToString());
-
-        //        item1.SubItems.Add(ja[i]["委托数量"].ToString());
-
-        //        item1.SubItems.Add(ja[i]["买卖标志"].ToString());
-        //        if (ja[i]["买卖标志"].ToString().Equals("买入担保品"))
-        //        {
-        //            item1.ForeColor = Color.Red;
-        //        }
-        //        else if (ja[i]["买卖标志"].ToString().Equals("卖出担保品"))
-        //        {
-        //            item1.ForeColor = RGB(0x65E339);
-        //        }
-
-        //        item1.SubItems.Add(ja[i]["合同编号"].ToString());
-        //        if (ordernum.Equals(ja[i]["合同编号"].ToString()))
-        //        {
-        //            item1.BackColor = Color.Blue;
-        //           // pos = i;
-        //        }
-
-        //        item1.SubItems.Add(ja[i]["状态说明"].ToString());
-
-        //        if (ja[i]["状态说明"].ToString().Equals("未报") || ja[i]["状态说明"].ToString().Equals("已报"))
-        //        {
-        //            listView1.Items.Add(item1);
-        //            pos++;
-        //        }
-        //    }
-            
-        //        listView1.EnsureVisible(pos);
-            
-           
-
-        //    //    Thread.Sleep(2000);
-        //    //}
-
-        //}
-        private Color RGB(int color)
-        {
-            int r = 0xFF & color;
-            int g = 0xFF00 & color;
-            g >>= 8;
-            int b = 0xFF0000 & color;
-            b >>= 16;
-            return Color.FromArgb(r, g, b);
-        }
-        public static string GetRequestData(string sUrl)
-        {
-            //MessageBox.Show(sUrl);
-            //使用HttpWebRequest类的Create方法创建一个请求到uri的对象。
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(sUrl);
-            //指定请求的方式为Get方式
-            request.Method = WebRequestMethods.Http.Get;
-            request.Timeout = 1000;
-            //获取该请求所响应回来的资源，并强转为HttpWebResponse响应对象
-            try
-            {
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-
-                string str = reader.ReadToEnd();
-                response.Close();
-                return str;
-            }
-            catch
-            {
-                return null;
-            }
-
-
-        }
-
-        //private void timer1_Tick(object sender, EventArgs e)
-        //{
-
-        //    refresh_list1();
-        //    refresh_list2();
-
-        //}
-
+   
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -552,9 +358,6 @@ namespace stockapp
                 ordernum = listView1.SelectedItems[0].SubItems[6].Text;
 
         }
-
-       
-
         private void Form3_KeyDown(object sender, KeyEventArgs e)
         {
 
@@ -571,152 +374,21 @@ namespace stockapp
 
 
                 string str = "http://" + ip_jy + "/cancel?stock=" + stock + "&order=" + ordernum;
-                string ret = GetRequestData_Post(str);
+                string ret =Form_hangqi.GetRequestData_Post(str);
 
             }
-        }
-        public static string GetRequestData_Post(string sUrl)
-        {
-            //MessageBox.Show(sUrl);
-            //使用HttpWebRequest类的Create方法创建一个请求到uri的对象。
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(sUrl);
-            //指定请求的方式为Get方式
-            request.Method = WebRequestMethods.Http.Post;
-            request.Timeout = 1000;
-            //获取该请求所响应回来的资源，并强转为HttpWebResponse响应对象
-            try
-            {
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-
-                string str = reader.ReadToEnd();
-                response.Close();
-                return str;
-            }
-            catch
-            {
-                return null;
-            }
-
-
-        }
+        }    
         protected void refresh_control()
         {
-            string str = "http://" + ip_jy + "/query?catalogues=orderlist";
-
-            string str2 = GetRequestData(str);
-
-            if (str2 == null)
-            {
-                Thread.Sleep(1000);
-                goto l2;
-            }
-            JObject jo = (JObject)JsonConvert.DeserializeObject(str2);
-            string[] values = jo.Properties().Select(item => item.Value.ToString()).ToArray();
-
-            if (values[0] == "[]" || jo["error"] != null)
-            {
-                Thread.Sleep(1000);
-                goto l2;
-            }
-
-            JArray ja = (JArray)JsonConvert.DeserializeObject(values[0]);
-
+            string temp = "http://" + ip_jy + "/query?catalogues=orderlist";
+            string str = Form_hangqi.GetRequestData(temp);
+            JArray ja = str_to_jarray(str);
             refresh_list1(ja);
 
-                //////////////////////////////////
-        //////////////////////////////////
-        //////////////////////////////////
-
-            l2:
-            str = "http://" + ip_jy + "/query?catalogues=deals";
-
-            str2 = GetRequestData(str);
-
-            if (str2 == null)
-            {
-                Thread.Sleep(1000);
-                goto l3;
-            }
-
-
-            jo = (JObject)JsonConvert.DeserializeObject(str2);
-
-            values = jo.Properties().Select(item => item.Value.ToString()).ToArray();
-
-            if (values[0] == "[]" || jo["error"] != null)
-            {
-                Thread.Sleep(1000);
-                goto l3;
-            }
-
-
-
-            ja = (JArray)JsonConvert.DeserializeObject(values[0]);
-
-
-
+            temp = "http://" + ip_jy + "/query?catalogues=deals";
+            string str1 = Form_hangqi.GetRequestData(temp);
+            ja = str1_to_jarray(str1);
             refresh_list2(filter_data(ja));
-        l3:
-            /////////////////////////////////
-            /////////////////////////////////
-            /////////////////////////////////
-
-            str = "http://" + ip_jy + "/query?catalogues=position";
-
-            str2 = GetRequestData(str);
-
-            if (str2 == null)
-            {
-                Thread.Sleep(1000);
-                return;
-            }
-
-            jo = (JObject)JsonConvert.DeserializeObject(str2);
-
-            values = jo.Properties().Select(item => item.Value.ToString()).ToArray();
-
-            if (values[0] == "[]" || jo["error"] != null)
-            {
-                Thread.Sleep(1000);
-                return;
-            }
-            ja = (JArray)JsonConvert.DeserializeObject(values[0]);
-
-            for (int i = 0; i < ja.Count; i++)
-            {
-                json1[ja[i]["证券代码"].ToString()] = ja[i]["可卖数量"].ToString();
-            }
-
-            /////////////////////////////
-            /////////////////////////////
-            /////////////////////////////
-
-            str = "http://" + ip_jy + "/query?catalogues=stockpool";
-
-            str2 = GetRequestData(str);
-
-            if (str2 == null)
-            {
-                Thread.Sleep(1000);
-                return;
-            }
-
-            jo = (JObject)JsonConvert.DeserializeObject(str2);
-
-            values = jo.Properties().Select(item => item.Value.ToString()).ToArray();
-
-            if (values[0] == "[]" || jo["error"] != null)
-            {
-                Thread.Sleep(1000);
-                return;
-            }
-            JObject jo1 = (JObject)JsonConvert.DeserializeObject(values[0]);
-            json2.RemoveAll();
-            foreach (JProperty jp in jo1.Properties())
-            {
-                json2[jp.Name] = jo1[jp.Name]["融券数量"].ToString();
-            }
         }
         protected override void WndProc(ref Message m)
         {
@@ -735,10 +407,7 @@ namespace stockapp
             base.WndProc(ref m);
         }
 
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
+       
     }
     public static class ControlExtensions
     {

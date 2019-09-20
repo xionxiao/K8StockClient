@@ -9,11 +9,11 @@ using System.Windows.Forms;
 
 namespace stockapp
 {
-    public partial class Form4 : Form
+    public partial class ServerSettingForm : Form
     {
         public string ip_hangqing;
         public string ip_jiaoyi;
-        public Form4(string ip_hq,string ip_jy)
+        public ServerSettingForm(string ip_hq,string ip_jy)
         {
             InitializeComponent();
             this.ip_hangqing = ip_hq;
@@ -29,10 +29,8 @@ namespace stockapp
         private void Form4_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
-            {
-               
+            {  
                 this.Close();
-
             }
         }
 

@@ -42,44 +42,12 @@ namespace stockapp
             js_rongquan_nums = json2;
             main_wnd_handle = fm.Handle;
 
-            /*在这个地方开启双缓冲*/
+            /*开启双缓冲*/
             listView1.DoubleBuffering(true);
             listView2.DoubleBuffering(true);
-            listView3.DoubleBuffering(true);
-            
+            listView3.DoubleBuffering(true);            
         }
-
-        //public static string UnicodeToGB(string text)
-        //{
-        //    try
-        //    {
-        //        System.Text.RegularExpressions.MatchCollection mc = System.Text.RegularExpressions.Regex.Matches(text, "\\\\u([\\w]{4})");
-        //        if (mc != null && mc.Count > 0)
-        //        {
-        //            foreach (System.Text.RegularExpressions.Match m2 in mc)
-        //            {
-        //                string v = m2.Value;
-        //                string word = v.Substring(2);
-        //                byte[] codes = new byte[2];
-        //                int code = Convert.ToInt32(word.Substring(0, 2), 16);
-        //                int code2 = Convert.ToInt32(word.Substring(2), 16);
-        //                codes[0] = (byte)code2;
-        //                codes[1] = (byte)code;
-        //                text = text.Replace(v, Encoding.Unicode.GetString(codes));
-        //            }
-        //        }
-        //        else
-        //        {
-
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return text;
-        //    }
-        //    return text;
-        //}
-      
+     
         /*更新第三个列表框控件*/
         private void refresh_list3(JArray ja)
         {
@@ -95,9 +63,6 @@ namespace stockapp
             {
                 for (int i = 0; i < ja.Count; i++)
                 {
-
-
-
                     this.listView3.Items[i].SubItems[0].Text = ja[i]["价格"].ToString().Substring(0,
                         ja[i]["价格"].ToString().IndexOf(".") + 3);
                     int nq = int.Parse(ja[i]["现量"].ToString());
@@ -134,12 +99,10 @@ namespace stockapp
                     }
 
                 }
-
                 listView3.EnsureVisible(listView3.Items.Count - 1);
-                
             }
- 
         }
+
         private JArray str_to_jarray(string str)
         {
             if (str == null)
@@ -157,6 +120,7 @@ namespace stockapp
                 return null;
             }
         }
+
         private JArray str2_to_jarray(string str)
         {
             if (str == null)
@@ -174,6 +138,7 @@ namespace stockapp
                 return null;
             }
         }
+
         private JArray str1_to_jarray(string str)
         {
             if (str == null)
@@ -191,6 +156,7 @@ namespace stockapp
                 return null;
             }
         }
+
         private void refresh_list1(JArray ja)
         {
             if (ja == null || ja.Count ==0)
@@ -202,7 +168,6 @@ namespace stockapp
             }
             else
             {
-
                  string [] str_price_arr ={"","一价","二价","三价","四价","五价","六价","七价",
                                         "八价","九价","十价"};
                  string[] str_num_arr = { "","一量","二量","三量","四量","五量","六量","七量","八量"
@@ -233,10 +198,9 @@ namespace stockapp
                      else
                          listView1.Items[10 + i].SubItems[1].ForeColor = Color.White;
                  }
-
-
             }
         }
+
         private void refresh_list2(JArray ja)
         {
             if (ja == null  || ja.Count ==0)
@@ -250,13 +214,11 @@ namespace stockapp
             {
                 for (int i = 0; i < ja.Count; i++)
                 {
-
                     listView2.Items[i].SubItems[0].Text = ja[i]["价格"].ToString().Substring(0,
                         ja[i]["价格"].ToString().IndexOf(".") + 3);
                     listView2.Items[i].SubItems[1].Text = ja[i]["成交量"].ToString().Substring(0,
                        ja[i]["成交量"].ToString().IndexOf("."));
                     listView2.Items[i].SubItems[2].Text = ja[i]["性质"].ToString();
-
 
                     if (ja[i]["性质"].ToString() == "S")
                     {
@@ -265,7 +227,6 @@ namespace stockapp
                         listView2.Items[i].SubItems[2].ForeColor = RGB(0x65E339);
                         listView2.Items[i].SubItems[3].ForeColor = RGB(0x65E339);
                     }
-
                     else
                     {
                         listView2.Items[i].SubItems[0].ForeColor = RGB(0x5C5CFF); //blue
@@ -276,10 +237,9 @@ namespace stockapp
                     listView2.Items[i].SubItems[3].Text = ja[i]["成交时间"].ToString();
                     listView2.EnsureVisible(listView2.Items.Count - 1);
                 }
-
             }
- 
         }
+
         private void refresh_lefttop_controls(JArray ja1)
         {
             if (ja1 == null || ja1.Count == 0)
@@ -306,9 +266,9 @@ namespace stockapp
             double temp1 = price * 1.1;
             this.richTextBox1.Text = string.Format("{0:F2}", temp1);
             temp1 = price * 0.9;
-            this.richTextBox2.Text = string.Format("{0:F2}", temp1);
-                   
+            this.richTextBox2.Text = string.Format("{0:F2}", temp1);           
         }
+
         private void add_list2(JArray ja)
         {
             if (ja == null || ja.Count == 0)
@@ -349,6 +309,7 @@ namespace stockapp
                 }
             }
         }
+
         private void add_list1(JArray ja)
         {
             if (ja == null || ja.Count == 0)
@@ -403,16 +364,16 @@ namespace stockapp
                     item.SubItems.Add(ja[0]["买"+str_price_arr[i]].ToString());
                     item.SubItems[2].ForeColor = Color.White;
                     listView1.Items.Add(item);
-
                 }
             }
-
         }
+
         private void add_list3(JArray ja)
         {
 
             if (ja == null || ja.Count == 0)
                 return;
+
             if (this.listView3.InvokeRequired)
             {
                 //为当前控件指定委托
@@ -459,6 +420,7 @@ namespace stockapp
                 }
             }
         }
+
         private void Run(object num)
         {
             string Num = num.ToString();
@@ -487,8 +449,7 @@ namespace stockapp
                     add_list1(ja1);
                     refresh_lefttop_controls(ja1);   
                    
-                }
-                   
+                }           
           
                  /*如果listview1不是首次显示的数据*/
                 if (listView1.Items.Count != 0)
@@ -517,6 +478,7 @@ namespace stockapp
                 }
             }
         }
+
         private void handle_shiftup_msg()
         {
             if (textBox5.Focused)
@@ -584,6 +546,7 @@ namespace stockapp
             }
  
         }
+
         private void handle_escape_msg()
         {
             choice_f = 0;
@@ -595,6 +558,7 @@ namespace stockapp
             textBox5.Text = "";
             textBox2.Visible = false;
         }
+
         private void start_recv_data()
         {
             textBox1.Focus();
@@ -648,8 +612,8 @@ namespace stockapp
             thread = new Thread(new ParameterizedThreadStart(Run));
             thread.IsBackground = true;
             thread.Start(temp);
-
         }
+
         private void post_order()
         {
             float price = float.Parse(textBox5.Text);
@@ -686,8 +650,7 @@ namespace stockapp
                      "&share=" + num;
                 Thread thread = new Thread(new ParameterizedThreadStart(post_msg_to_main_wnd));
                 thread.IsBackground = true;
-                thread.Start(str);
-               
+                thread.Start(str);       
             }
             if (choice_f == 4)
             {
@@ -707,6 +670,7 @@ namespace stockapp
             textBox5.Text = "";
             textBox2.Visible = false;
         }
+
         private void handle_f1_msg()
         {
             string temp = "";
@@ -725,21 +689,17 @@ namespace stockapp
             textBox5.Visible = true;
             textBox2.Visible = true;
 
-
-
             label3.Text = "F2池";
             label5.Text = "F3池";
 
-            label4.Text = "买入价格";
-            label4.BackColor = RGB(0x5C5CFF); ;
+            label4.Text = "买入";
+            label4.ForeColor = RGB(0x5C5CFF); ;
 
             label6.Text = "股数";
-            label6.BackColor = RGB(0x5C5CFF); ;
+            label6.ForeColor = RGB(0x5C5CFF); ;
 
             if (listView1.Items.Count > 0)
             {
-
-
                 if (listView1.Items[11].SubItems[1].Text == "0.00")
                     textBox5.Text = listView1.Items[9].SubItems[1].Text;
                 else
@@ -757,6 +717,7 @@ namespace stockapp
                 textBox3.Text = js_sell_nums[temp].ToString();
             choice_f = 1;
         }
+
         private void handle_f2_msg()
         {
             string temp = "";
@@ -775,19 +736,15 @@ namespace stockapp
             textBox5.Visible = true;
             textBox2.Visible = true;
 
-
-
             label3.Text = "F2池";
             label5.Text = "";
             textBox4.Visible = false;
 
-
-            label4.Text = "卖出价格";
-            label4.BackColor = RGB(0x65E339);
+            label4.Text = "卖出";
+            label4.ForeColor = RGB(0x65E339);
 
             label6.Text = "股数";
-            label6.BackColor = RGB(0x65E339);
-
+            label6.ForeColor = RGB(0x65E339);
 
             if (listView1.Items.Count > 0)
             {
@@ -810,6 +767,7 @@ namespace stockapp
             textBox5.Focus();
             choice_f = 2;
         }
+
         private void handle_f3_msg()
         {
             string temp = "";
@@ -828,19 +786,15 @@ namespace stockapp
             textBox5.Visible = true;
             textBox2.Visible = true;
 
-
-
             label3.Text = "F3池：";
             label5.Text = "";
             textBox4.Visible = false;
 
-
-            label4.Text = "卖出价格";
-            label4.BackColor = Color.Blue;
+            label4.Text = "卖出";
+            label4.ForeColor = Color.Blue;
 
             label6.Text = "股数";
-            label6.BackColor = Color.Blue;
-
+            label6.ForeColor = Color.Blue;
 
             if (listView1.Items.Count > 0)
             {
@@ -862,6 +816,7 @@ namespace stockapp
                 textBox3.Text = (0).ToString();
             choice_f = 3;
         }
+
         private void handle_f4_msg()
         {
             label4.Visible = true;
@@ -871,19 +826,15 @@ namespace stockapp
             textBox5.Visible = true;
             textBox2.Visible = true;
 
-
-
             label3.Text = "公共池";
             label5.Text = "";
             textBox4.Visible = false;
 
-
-            label4.Text = "公共池";
-            label4.BackColor = Color.Blue;
+            label4.Text = "卖出";
+            label4.ForeColor = Color.Blue;
 
             label6.Text = "股数";
-            label6.BackColor = Color.Blue;
-
+            label6.ForeColor = Color.Blue;
 
             if (listView1.Items.Count > 0)
             {
@@ -897,9 +848,8 @@ namespace stockapp
             }
             textBox5.Focus();
             choice_f = 4;
-
-
         }
+
         private void handle_f5_msg()
         {
             label4.Visible = true;
@@ -914,12 +864,11 @@ namespace stockapp
                 textBox4.Visible = false;
 
 
-                label4.Text = "卖出价格";
-                label4.BackColor = Color.Blue;
+                label4.Text = "卖出";
+                label4.ForeColor = Color.Blue;
 
                 label6.Text = "股数";
-                label6.BackColor = Color.Blue;
-
+                label6.ForeColor = Color.Blue;
 
                 if (listView1.Items.Count > 0)
                 {
@@ -933,6 +882,7 @@ namespace stockapp
                 }
                 textBox5.Focus();
         }
+
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Up)
@@ -959,37 +909,33 @@ namespace stockapp
             {
                 post_order();
             }
-
             if (e.KeyCode == Keys.F1)
             {
                 handle_f1_msg();
             }
-
             if (e.KeyCode == Keys.F2)
             {
                 handle_f2_msg();
             }
-
             if (e.KeyCode == Keys.F3)
             {
                 handle_f3_msg();  
             }
-
             if (e.KeyCode == Keys.F4)
             {
                 handle_f4_msg();               
             }
-
             if (e.KeyCode == Keys.F5)
             {
                 handle_f5_msg();                
             }
         }
+
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
-                Form2 f2 = new Form2(stocknum);
+                QuantitySettingForm f2 = new QuantitySettingForm(stocknum);
                 DialogResult res = f2.ShowDialog();
                 if (res == DialogResult.Cancel)
                 {
@@ -1000,6 +946,7 @@ namespace stockapp
                 //   MessageBox.Show(f2.m_DefaultNum.ToString());
             }
         }
+
         public static Color RGB(int color)
         {
             int r = 0xFF & color;
@@ -1009,6 +956,7 @@ namespace stockapp
             b >>= 16;
             return Color.FromArgb(r, g, b);
         }
+
         public static string GetRequestData(string sUrl)
         {
             //MessageBox.Show(sUrl);
@@ -1031,9 +979,8 @@ namespace stockapp
             {
                 return null;
             }
-
-
         }
+
         public static string GetRequestData_Post(string sUrl)
         {
             //MessageBox.Show(sUrl);
@@ -1056,9 +1003,8 @@ namespace stockapp
             {
                 return null;
             }
-
-
         }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             this.listView2.Columns.Add("Price", 45);
@@ -1076,21 +1022,21 @@ namespace stockapp
             this.listView3.Columns.Add("N", 30);
             //Control.CheckForIllegalCrossThreadCalls = false;
         }
+
         private void textBox1_MouseClick(object sender, MouseEventArgs e)
         {
             textBox1.Focus();
             textBox1.SelectAll();
         }
+
         //实现tab键的切换
         protected override bool ProcessCmdKey(ref   Message msg, Keys keyData)
         {
             if (keyData == Keys.Tab && textBox6.Focused)
             {
-
                 textBox5.Focus();
                 return true;
             }
-
             return false;
         }
 
@@ -1131,9 +1077,10 @@ namespace stockapp
             }
             catch
             {
-
+                return;
             }
         }
+
         public void post_msg_to_main_wnd(object str)
         {
             string str1 = (string)str;
@@ -1143,6 +1090,7 @@ namespace stockapp
             lp.s = str2;
             Win32API.SendMessage(main_wnd_handle, 0x63, 0, ref lp);
         }
+
         /*将数字以 万 千 百 进行分割*/
         private void show_num(int num)
         {
@@ -1173,6 +1121,14 @@ namespace stockapp
             }
         }
 
+        private void listView2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
-  
 }

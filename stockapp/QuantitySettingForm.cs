@@ -9,10 +9,10 @@ using System.Windows.Forms;
 
 namespace stockapp
 {
-    public partial class Form2 : Form
+    public partial class QuantitySettingForm : Form
     {
         public int m_DefaultNum;
-        public Form2(int num)
+        public QuantitySettingForm(int num)
         {
             m_DefaultNum = num;
             InitializeComponent();
@@ -31,7 +31,6 @@ namespace stockapp
                     MessageBox.Show("输入格式不对，请重新输入!");
                     return;
                 }
-                
                 this.Close();
             }
         }
@@ -40,11 +39,5 @@ namespace stockapp
         {
             this.Text = m_DefaultNum.ToString();
         }
-
-        
-
-        
-
-      
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace stockapp
 {
-    partial class Form4
+    partial class ServerSettingForm
     {
         /// <summary>
         /// Required designer variable.
@@ -91,16 +91,17 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "行情地址";
             // 
-            // Form4
+            // ServerIpSettingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(379, 187);
             this.Controls.Add(this.groupBox1);
             this.KeyPreview = true;
-            this.Name = "Form4";
+            this.Name = "ServerIpSettingForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form4";
+            this.Text = "服务器地址设置";
+            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form4_FormClosing);
             this.Load += new System.EventHandler(this.Form4_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form4_KeyDown);

@@ -27,8 +27,8 @@ namespace stockapp
         public Form_main()
         {
             InitializeComponent();
-
         }
+
         private void BaojiaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form_hangqi f1 = new Form_hangqi(ip_hq, ip_jy, json1, this, json2);
@@ -36,9 +36,10 @@ namespace stockapp
             f1.Show();
 
         }
+
         private void SetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form4 f4 = new Form4(ip_hq, ip_jy);
+            ServerSettingForm f4 = new ServerSettingForm(ip_hq, ip_jy);
             f4.ShowDialog();
             ip_hq = f4.ip_hangqing;
             ip_jy = f4.ip_jiaoyi;
@@ -74,6 +75,7 @@ namespace stockapp
             JObject jo = new JObject();
            
         }
+
         private void refresh_list1(JArray ja)
         {
             if (ja == null || ja.Count == 0)
@@ -128,7 +130,8 @@ namespace stockapp
                 //else
                 //    listView1.EnsureVisible(pos);
             }
-        } 
+        }
+
         private void refresh_list2(JObject ja)
         {
             if (ja == null || ja.Count == 0)
@@ -165,11 +168,10 @@ namespace stockapp
                     }
                     //MessageBox.Show(jp.ToString());
                     listView2.Items.Add(item1);
-
                 }
-
             }
         }
+
         private JArray str_to_jarray(string str)
         {
             if (str == null)
@@ -186,7 +188,8 @@ namespace stockapp
             {
                 return null;
             }
-         }
+        }
+
         private JArray str1_to_jarray(string str)
         {
             if (str == null)
@@ -204,6 +207,7 @@ namespace stockapp
                 return null;
             }
         }
+
         private JArray str2_to_jarray(string str)
         {
             if (str == null)
@@ -221,6 +225,7 @@ namespace stockapp
                 return null;
             }
         }
+
         private void get_sell_nums(JArray ja)
         {
             json1.RemoveAll();
@@ -229,6 +234,7 @@ namespace stockapp
                 json1[ja[i]["证券代码"].ToString()] = ja[i]["可卖数量"].ToString();
             }
         }
+
         private JObject str3_to_jobject(string str)
         {
             if (str == null)
@@ -246,6 +252,7 @@ namespace stockapp
                 return null;
             }
         }
+
         private void get_rongquan_nums(JObject jo)
         {
             json2.RemoveAll();
@@ -254,6 +261,7 @@ namespace stockapp
                 json2[jp.Name] = jo[jp.Name]["融券数量"].ToString();
             }
         }
+
         public void Run()
         {
             while (true)
@@ -261,37 +269,42 @@ namespace stockapp
                 string temp = "http://" + ip_jy + "/query?catalogues=orderlist";
                 string str = Form_hangqi.GetRequestData(temp);
                 JArray ja= str_to_jarray(str);
-                refresh_list1(ja);
+                if (ja != null)
+                    refresh_list1(ja);
 
                 temp = "http://" + ip_jy + "/query?catalogues=deals";
                 string str1 =Form_hangqi.GetRequestData(temp);
                 ja = str1_to_jarray(str1);
-                refresh_list2(filter_data(ja));
+                if (ja != null)
+                    refresh_list2(filter_data(ja));
                    
                 temp = "http://" + ip_jy + "/query?catalogues=position";
                 string str2 =Form_hangqi.GetRequestData(temp);
                 ja = str2_to_jarray(str2);
-                get_sell_nums(ja);
+                if (ja != null)
+                    get_sell_nums(ja);
 
                 str = "http://" + ip_jy + "/query?catalogues=stockpool";
                 string str3 = Form_hangqi.GetRequestData(str);
                 JObject jo = str3_to_jobject(str3);
-                get_rongquan_nums(jo); 
+                if (ja != null)
+                    get_rongquan_nums(jo); 
                
                 Thread.Sleep(3000);
             }
         }
+
         private JObject filter_data(JArray ja)
         {
             JObject jo= new JObject();
           //  int index = 0;
+            System.Diagnostics.Debug.Assert(ja!=null);
             int num = ja.Count;
             JArray jacopy = new JArray();
             for (int i = 0; i < num; i++)
             {
                 if (ja[i]["状态说明"].ToString().Contains("普通成交"))
                 {
-
                     jacopy.Add(ja[i]);
                   //  index++;
                 }
@@ -340,14 +353,10 @@ namespace stockapp
                         }
                         else
                         {
-
                             jo.Remove(jacopy[i]["证券代码"].ToString());
-
                         }
                     }
                 }
-
-           
             return jo;
         }
    
@@ -356,11 +365,10 @@ namespace stockapp
 
             if (listView1.SelectedIndices.Count != 0)
                 ordernum = listView1.SelectedItems[0].SubItems[6].Text;
-
         }
+
         private void Form3_KeyDown(object sender, KeyEventArgs e)
         {
-
             if (e.KeyCode == Keys.Escape)
             {
                 string stock = "";
@@ -371,13 +379,11 @@ namespace stockapp
                         stock = listView1.Items[i].SubItems[1].Text;
                     }
                 }
-
-
                 string str = "http://" + ip_jy + "/cancel?stock=" + stock + "&order=" + ordernum;
                 string ret =Form_hangqi.GetRequestData_Post(str);
-
             }
-        }    
+        }
+
         protected void refresh_control()
         {
             string temp = "http://" + ip_jy + "/query?catalogues=orderlist";
@@ -390,6 +396,7 @@ namespace stockapp
             ja = str1_to_jarray(str1);
             refresh_list2(filter_data(ja));
         }
+
         protected override void WndProc(ref Message m)
         {
             switch (m.Msg)
@@ -402,13 +409,11 @@ namespace stockapp
                         listBox1.Items.Add(ml.s);
                    refresh_control();
                     break;
-
             }
             base.WndProc(ref m);
         }
-
-       
     }
+    
     public static class ControlExtensions
     {
         public static void DoubleBuffering(this Control control, bool enable)

@@ -4,14 +4,10 @@ using System.Linq;
 using System.Text;
 
 using System.Runtime.InteropServices;
-namespace stockapp
+namespace K8
 {
-    
     public class Win32API
     {
-        
-
-
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
@@ -37,6 +33,7 @@ namespace stockapp
             [MarshalAs(UnmanagedType.LPStr)]
             public string lpData;
         }
+
         //消息发送API
         [DllImport("User32.dll", EntryPoint = "SendMessage")]
         public static extern int SendMessage(
@@ -46,7 +43,6 @@ namespace stockapp
             int lParam          //参数2
         );
 
-        
         //消息发送API
         [DllImport("User32.dll", EntryPoint = "SendMessage")]
         public static extern int SendMessage(
@@ -74,8 +70,6 @@ namespace stockapp
             int lParam            // 参数2
         );
         
-        
-        
         //消息发送API
         [DllImport("User32.dll", EntryPoint = "PostMessage")]
         public static extern int PostMessage(
@@ -93,6 +87,5 @@ namespace stockapp
             int wParam,         // 参数1
             ref  COPYDATASTRUCT lParam  // 参数2
         );
-
     }
 }

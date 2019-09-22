@@ -1,4 +1,4 @@
-﻿namespace stockapp
+﻿namespace K8
 {
     partial class ServerSettingForm
     {

@@ -12,150 +12,139 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Reflection;
-namespace stockapp
+using RestSharp;
+using K8.Properties;
+
+namespace K8
 {
-    public partial class Form_main : Form
+    public partial class MainForm : Form
     {
-        public int m_StockNum = 100;
-        public string ip_hq = "123.57.232.178:80";
-        public string ip_jy = "10.10.135.92:8888";
+        private string mTradeServer = Settings.Default.TradeServerIP;
         private string ordernum = "";
-        public JObject json1 = new JObject();
-        public JObject json2 = new JObject();
-        delegate void Reflist(JArray ja);
-        delegate void Reflist2(JObject jo);
-        public Form_main()
+        delegate void Reflist_JArray(JArray ja);
+        delegate void Reflist_JObject(JObject jo);
+
+        public MainForm()
         {
             InitializeComponent();
         }
 
         private void BaojiaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form_hangqi f1 = new Form_hangqi(ip_hq, ip_jy, json1, this, json2);
+            QuoteForm f1 = new QuoteForm(this);
             f1.TopMost = true;
             f1.Show();
-
         }
 
         private void SetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ServerSettingForm f4 = new ServerSettingForm(ip_hq, ip_jy);
+            ServerSettingForm f4 = new ServerSettingForm();
             f4.ShowDialog();
-            ip_hq = f4.ip_hangqing;
-            ip_jy = f4.ip_jiaoyi;
         }
 
-        private void Form3_Load(object sender, EventArgs e)
+        private void MainFormInit(object sender, EventArgs e)
         {
-            this.listView1.Columns.Add("时间", 80);
-            this.listView1.Columns.Add("代码", 60);
-            this.listView1.Columns.Add("名称", 80);
-            this.listView1.Columns.Add("价格", 70);
-            this.listView1.Columns.Add("股数", 60);
-            this.listView1.Columns.Add("方向", 90);
-            this.listView1.Columns.Add("委托编号", 80);
-            this.listView1.Columns.Add("状态", 60);
+            this.OrderList.Columns.Add("时间", 80);
+            this.OrderList.Columns.Add("代码", 60);
+            this.OrderList.Columns.Add("名称", 80);
+            this.OrderList.Columns.Add("价格", 70);
+            this.OrderList.Columns.Add("股数", 60);
+            this.OrderList.Columns.Add("方向", 90);
+            this.OrderList.Columns.Add("委托编号", 80);
+            this.OrderList.Columns.Add("状态", 60);
+            this.OrderList.Columns.Add("0", 60);
 
-            this.listView2.Columns.Add("证券代码", 80);
-            this.listView2.Columns.Add("证券名称", 80);
-            this.listView2.Columns.Add("仓位方向", 100);
-            this.listView2.Columns.Add("证券数量", 80);
+            this.PositionList.Columns.Add("证券代码", 80);
+            this.PositionList.Columns.Add("证券名称", 80);
+            this.PositionList.Columns.Add("仓位方向", 100);
+            this.PositionList.Columns.Add("证券数量", 80);
+            this.PositionList.Columns.Add("0", 80);
             //this.listView2.Columns.Add("持仓均价", 80);
             //this.listView2.Columns.Add("参考盈亏", 100);
             //this.listView2.Columns.Add("盈亏比例", 80);
 
             Control.CheckForIllegalCrossThreadCalls = false;
 
-            listView1.DoubleBuffering(true);
-            listView2.DoubleBuffering(true);
-   
+            OrderList.DoubleBuffering(true);
+            PositionList.DoubleBuffering(true);
+
             Thread thread = new Thread(Run);
             thread.IsBackground = true;
             thread.Start();
-            JObject jo = new JObject();
-           
+
         }
 
-        private void refresh_list1(JArray ja)
+        private int refresh_ol_count = 0;
+        private void refresh_OrderList(JArray ja)
         {
             if (ja == null || ja.Count == 0)
                 return;
             //是否为创建控件的线程，不是为true
-            if (this.listView1.InvokeRequired)
+            if (this.OrderList.InvokeRequired)
             {
                 //为当前控件指定委托
-                this.listView1.Invoke(new Reflist(refresh_list1), ja);
+                this.OrderList.Invoke(new Reflist_JArray(refresh_OrderList), ja);
             }
             else
             {
-                int pos = -1;
-                listView1.Items.Clear();
+                OrderList.BeginUpdate();
+                OrderList.Items.Clear();
+                refresh_ol_count++;
+                OrderList.Columns[8].Text = refresh_ol_count.ToString();
                 for (int i = 0; i < ja.Count; i++)
                 {
-                    ListViewItem item1 = new ListViewItem();
-
-                    item1.SubItems[0].Text = ja[i]["委托时间"].ToString();
-
-                    item1.SubItems.Add(ja[i]["证券代码"].ToString());
-
-                    item1.SubItems.Add(ja[i]["证券名称"].ToString());
-
-                    item1.SubItems.Add(ja[i]["委托价格"].ToString());
-
-                    item1.SubItems.Add(ja[i]["委托数量"].ToString());
-
-                    item1.SubItems.Add(ja[i]["买卖标志"].ToString());
+                    ListViewItem item = new ListViewItem();
+                    item.SubItems[0].Text = ja[i]["委托时间"].ToString();
+                    item.SubItems.Add(ja[i]["证券代码"].ToString());
+                    item.SubItems.Add(ja[i]["证券名称"].ToString());
+                    item.SubItems.Add(ja[i]["委托价格"].ToString());
+                    item.SubItems.Add(ja[i]["委托数量"].ToString());
+                    item.SubItems.Add(ja[i]["买卖标志"].ToString());
                     if (ja[i]["买卖标志"].ToString().Equals("买入担保品"))
                     {
-                        item1.ForeColor = Color.Red;
+                        item.ForeColor = Color.Red;
                     }
                     else if (ja[i]["买卖标志"].ToString().Equals("卖出担保品"))
                     {
-                        item1.ForeColor = Form_hangqi.RGB(0x65E339);
+                        item.ForeColor = QuoteForm.RGB(0x65E339);
                     }
 
-                    item1.SubItems.Add(ja[i]["合同编号"].ToString());
+                    item.SubItems.Add(ja[i]["合同编号"].ToString());
                     if (ordernum.Equals(ja[i]["合同编号"].ToString()))
                     {
-                        item1.BackColor = Color.Blue;
-                        pos = i;
+                        item.BackColor = Color.Blue;
                     }
-                    item1.SubItems.Add(ja[i]["状态说明"].ToString());
-
-                    listView1.Items.Add(item1);
-
+                    item.SubItems.Add(ja[i]["状态说明"].ToString());
+                    OrderList.Items.Add(item);
                 }
-                //if (pos == -1)
-                    listView1.EnsureVisible(listView1.Items.Count - 1);
-                //else
-                //    listView1.EnsureVisible(pos);
+                OrderList.EnsureVisible(OrderList.Items.Count - 1);
+                OrderList.EndUpdate();
             }
         }
 
-        private void refresh_list2(JObject ja)
+        private int refresh_pl_count = 0;
+        private void refresh_PositionList(JObject ja)
         {
             if (ja == null || ja.Count == 0)
                 return;
             //是否为创建控件的线程，不是为true
-            if (this.listView2.InvokeRequired)
+            if (this.PositionList.InvokeRequired)
             {
                 //为当前控件指定委托
-                this.listView2.Invoke(new Reflist2(refresh_list2), ja);
+                this.PositionList.Invoke(new Reflist_JObject(refresh_PositionList), ja);
             }
             else
             {
-                listView2.Items.Clear();
-               // JsonReader jr = new JsonReader();
+                PositionList.BeginUpdate();
+                PositionList.Items.Clear();
+                PositionList.Columns[4].Text = refresh_pl_count.ToString();
+                refresh_pl_count++;
                 foreach (JProperty jp in ja.Properties())
                 {
                     ListViewItem item1 = new ListViewItem();
-
-                    item1.SubItems[0].Text = ja[jp.Name]["证券代码"].ToString() ;
-
+                    item1.SubItems[0].Text = ja[jp.Name]["证券代码"].ToString();
                     item1.SubItems.Add(ja[jp.Name]["证券名称"].ToString());
-
                     item1.SubItems.Add(ja[jp.Name]["买卖标志"].ToString());
-
                     item1.SubItems.Add(ja[jp.Name]["成交数量"].ToString());
 
                     if (ja[jp.Name]["买卖标志"].ToString().Contains("买入"))
@@ -164,87 +153,43 @@ namespace stockapp
                     }
                     else if (ja[jp.Name]["买卖标志"].ToString().Contains("卖出"))
                     {
-                        item1.ForeColor = Form_hangqi.RGB(0x65E339);;
+                        item1.ForeColor = QuoteForm.RGB(0x65E339); ;
                     }
-                    //MessageBox.Show(jp.ToString());
-                    listView2.Items.Add(item1);
+                    PositionList.Items.Add(item1);
                 }
+                PositionList.EndUpdate();
             }
         }
 
-        private JArray str_to_jarray(string str)
+        private JArray str_to_jarray(string field, string source_str)
         {
-            if (str == null)
+            if (source_str == null)
                 return null;
             try
             {
-                JObject jo = (JObject)JsonConvert.DeserializeObject(str);
-                if (jo.Count == 0 || jo["orderlist"] == null)
+                JObject jo = (JObject)JsonConvert.DeserializeObject(source_str);
+                if (jo.Count == 0 || jo[field] == null)
                     return null;
-                JArray ja = (JArray)JsonConvert.DeserializeObject(jo["orderlist"].ToString());
+                JArray ja = (JArray)JsonConvert.DeserializeObject(jo[field].ToString());
                 return ja;
             }
             catch
             {
                 return null;
             }
+
         }
 
-        private JArray str1_to_jarray(string str)
+        private JObject str_to_jobject(string field, string str)
         {
             if (str == null)
                 return null;
             try
             {
                 JObject jo = (JObject)JsonConvert.DeserializeObject(str);
-                if (jo.Count == 0 || jo["deals"] == null)
+                if (jo.Count == 0 || jo[field] == null)
                     return null;
-                JArray ja = (JArray)JsonConvert.DeserializeObject(jo["deals"].ToString());
-                return ja;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        private JArray str2_to_jarray(string str)
-        {
-            if (str == null)
-                return null;
-            try
-            {
-                JObject jo = (JObject)JsonConvert.DeserializeObject(str);
-                if (jo.Count == 0 || jo["position"] == null)
-                    return null;
-                JArray ja = (JArray)JsonConvert.DeserializeObject(jo["position"].ToString());
-                return ja;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        private void get_sell_nums(JArray ja)
-        {
-            json1.RemoveAll();
-            for (int i = 0; i < ja.Count; i++)
-            {
-                json1[ja[i]["证券代码"].ToString()] = ja[i]["可卖数量"].ToString();
-            }
-        }
-
-        private JObject str3_to_jobject(string str)
-        {
-            if (str == null)
-                return null;
-            try
-            {
-                JObject jo = (JObject)JsonConvert.DeserializeObject(str);
-                if (jo.Count == 0 || jo["stockpool"] == null)
-                    return null;
-                JObject jo1 = (JObject)JsonConvert.DeserializeObject(jo["stockpool"].ToString());
+                JObject jo1 = (JObject)JsonConvert.DeserializeObject(jo[field].ToString());
                 return jo1;
             }
             catch
@@ -253,52 +198,88 @@ namespace stockapp
             }
         }
 
-        private void get_rongquan_nums(JObject jo)
-        {
-            json2.RemoveAll();
-            foreach (JProperty jp in jo.Properties())
-            {
-                json2[jp.Name] = jo[jp.Name]["融券数量"].ToString();
-            }
-        }
-
         public void Run()
         {
-            while (true)
+            FetchOrdersList(false);
+            FetchDeals(false);
+        }
+
+        public void FetchPosition(bool once=true)
+        {
+            var client = new RestClient("http://" + mTradeServer);
+            var request = new RestRequest("query", Method.GET);
+            request.AddParameter("catalogues", "position");
+
+            client.ExecuteAsync(request, response =>
             {
-                string temp = "http://" + ip_jy + "/query?catalogues=orderlist";
-                string str = Form_hangqi.GetRequestData(temp);
-                JArray ja= str_to_jarray(str);
-                if (ja != null)
-                    refresh_list1(ja);
+                var temp = str_to_jarray("position", response.Content);
+                DataSet.gPositionList = temp;
+                if (once == false)
+                {
+                    Thread.Sleep(Settings.Default.PositionRefreshTime);
+                    FetchPosition();
+                }
+            });
+        }
 
-                temp = "http://" + ip_jy + "/query?catalogues=deals";
-                string str1 =Form_hangqi.GetRequestData(temp);
-                ja = str1_to_jarray(str1);
-                if (ja != null)
-                    refresh_list2(filter_data(ja));
-                   
-                temp = "http://" + ip_jy + "/query?catalogues=position";
-                string str2 =Form_hangqi.GetRequestData(temp);
-                ja = str2_to_jarray(str2);
-                if (ja != null)
-                    get_sell_nums(ja);
+        public void FetchStockPool(bool once = true)
+        {
+            var client = new RestClient("http://" + mTradeServer);
+            var request = new RestRequest("query", Method.GET);
+            request.AddParameter("catalogues", "stockpool");
 
-                str = "http://" + ip_jy + "/query?catalogues=stockpool";
-                string str3 = Form_hangqi.GetRequestData(str);
-                JObject jo = str3_to_jobject(str3);
-                if (ja != null)
-                    get_rongquan_nums(jo); 
-               
-                Thread.Sleep(3000);
-            }
+            client.ExecuteAsync(request, response =>
+            {
+                var temp = str_to_jobject("stockpool", response.Content);
+                DataSet.gStockPool = temp;
+                if (once == false)
+                {
+                    Thread.Sleep(Settings.Default.StockPoolRefreshTime);
+                    FetchStockPool();
+                }
+            });
+        }
+
+        public void FetchOrdersList(bool once = true)
+        {
+            var client = new RestClient("http://" + mTradeServer);
+            var request = new RestRequest("query", Method.GET);
+            request.AddParameter("catalogues", "orderlist");
+
+            client.ExecuteAsync(request, response =>
+            {
+                var temp = str_to_jarray("orderlist", response.Content);
+                refresh_OrderList(temp);
+                DataSet.gOrderList = temp;
+                if (once == false)
+                {
+                    Thread.Sleep(Settings.Default.OrdersListRefreshTime);
+                    FetchOrdersList();
+                }
+            });
+        }
+
+        public void FetchDeals(bool once = true)
+        {
+            var client = new RestClient("http://" + mTradeServer);
+            var request = new RestRequest("query", Method.GET);
+            request.AddParameter("catalogues", "deals");
+            client.ExecuteAsync(request, res =>
+            {
+                var temp = str_to_jarray("deals", res.Content);
+                refresh_PositionList(filter_data(temp));
+                DataSet.gDeals = temp;
+                if (once == false)
+                Thread.Sleep(Settings.Default.DealsRefreshTime);
+                FetchDeals();
+            });
         }
 
         private JObject filter_data(JArray ja)
         {
-            JObject jo= new JObject();
-          //  int index = 0;
-            System.Diagnostics.Debug.Assert(ja!=null);
+            if (ja == null)
+                return null;
+            JObject jo = new JObject();
             int num = ja.Count;
             JArray jacopy = new JArray();
             for (int i = 0; i < num; i++)
@@ -306,65 +287,63 @@ namespace stockapp
                 if (ja[i]["状态说明"].ToString().Contains("普通成交"))
                 {
                     jacopy.Add(ja[i]);
-                  //  index++;
                 }
             }
             for (int i = 0; i < jacopy.Count; i++)
-                {
-                    if (jo[jacopy[i]["证券代码"].ToString()] == null)
-                        jo[jacopy[i]["证券代码"].ToString()] = jacopy[i];
+            {
+                if (jo[jacopy[i]["证券代码"].ToString()] == null)
+                    jo[jacopy[i]["证券代码"].ToString()] = jacopy[i];
 
+                else
+                {
+                    int num1 = 0, num2 = 0;//买入+ 卖出-
+
+                    //这个时候和原来的比较
+                    if (jo[jacopy[i]["证券代码"].ToString()]["买卖标志"].ToString().Contains("买入"))
+                    {
+                        num1 = int.Parse(jo[jacopy[i]["证券代码"].ToString()]["成交数量"].ToString());
+                    }
+                    else if (jo[jacopy[i]["证券代码"].ToString()]["买卖标志"].ToString().Contains("卖出"))
+                    {
+                        num1 = -1 * int.Parse(jo[jacopy[i]["证券代码"].ToString()]["成交数量"].ToString());
+                    }
+
+                    if (jacopy[i]["买卖标志"].ToString().Contains("买入"))
+                    {
+                        num2 = int.Parse(jacopy[i]["成交数量"].ToString());
+                    }
+                    else if (jacopy[i]["买卖标志"].ToString().Contains("卖出"))
+                    {
+                        num2 = -1 * int.Parse(jacopy[i]["成交数量"].ToString());
+                    }
+
+                    if (num1 + num2 > 0)
+                    {
+                        jo[jacopy[i]["证券代码"].ToString()]["买卖标志"] = "买入";
+                        //    jo[jacopy[i]["证券代码"].ToString()]["买卖标志"].ToString().Replace("卖出", "买入");
+                        jo[jacopy[i]["证券代码"].ToString()]["成交数量"] = (num1 + num2).ToString();
+
+                    }
+                    else if (num1 + num2 < 0)
+                    {
+                        jo[jacopy[i]["证券代码"].ToString()]["买卖标志"] = "卖出";
+                        //   jo[jacopy[i]["证券代码"].ToString()]["买卖标志"].ToString().Replace("买入", "卖出");
+                        jo[jacopy[i]["证券代码"].ToString()]["成交数量"] = (-1 * (num1 + num2)).ToString();
+                    }
                     else
                     {
-                        int num1=0, num2=0;//买入+ 卖出-
-
-                        //这个时候和原来的比较
-                        if (jo[jacopy[i]["证券代码"].ToString()]["买卖标志"].ToString().Contains("买入"))
-                        {
-
-                            num1 = int.Parse(jo[jacopy[i]["证券代码"].ToString()]["成交数量"].ToString());
-                        }
-                        else if (jo[jacopy[i]["证券代码"].ToString()]["买卖标志"].ToString().Contains("卖出"))
-                        {
-                            num1 = -1 * int.Parse(jo[jacopy[i]["证券代码"].ToString()]["成交数量"].ToString());
-                        }
-
-                        if (jacopy[i]["买卖标志"].ToString().Contains("买入"))
-                        {
-                            num2 = int.Parse(jacopy[i]["成交数量"].ToString());
-                        }
-                        else if(jacopy[i]["买卖标志"].ToString().Contains("卖出"))
-                        {
-                            num2 = -1 * int.Parse(jacopy[i]["成交数量"].ToString());
-                        }
-
-                        if ( num1 + num2 > 0)
-                        {
-                            jo[jacopy[i]["证券代码"].ToString()]["买卖标志"] = "买入";
-                        //    jo[jacopy[i]["证券代码"].ToString()]["买卖标志"].ToString().Replace("卖出", "买入");
-                            jo[jacopy[i]["证券代码"].ToString()]["成交数量"] = (num1 + num2).ToString();
-
-                        }
-                        else if (num1 + num2 < 0)
-                        {
-                            jo[jacopy[i]["证券代码"].ToString()]["买卖标志"] = "卖出";
-                             //   jo[jacopy[i]["证券代码"].ToString()]["买卖标志"].ToString().Replace("买入", "卖出");
-                            jo[jacopy[i]["证券代码"].ToString()]["成交数量"] = (-1 * (num1 + num2)).ToString();
-                        }
-                        else
-                        {
-                            jo.Remove(jacopy[i]["证券代码"].ToString());
-                        }
+                        jo.Remove(jacopy[i]["证券代码"].ToString());
                     }
                 }
+            }
             return jo;
         }
-   
+
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            if (listView1.SelectedIndices.Count != 0)
-                ordernum = listView1.SelectedItems[0].SubItems[6].Text;
+            if (OrderList.SelectedIndices.Count != 0)
+                ordernum = OrderList.SelectedItems[0].SubItems[6].Text;
         }
 
         private void Form3_KeyDown(object sender, KeyEventArgs e)
@@ -372,29 +351,29 @@ namespace stockapp
             if (e.KeyCode == Keys.Escape)
             {
                 string stock = "";
-                for (int i = 0; i < listView1.Items.Count; i++)
+                for (int i = 0; i < OrderList.Items.Count; i++)
                 {
-                    if (ordernum.Equals(listView1.Items[i].SubItems[6].Text))
+                    if (ordernum.Equals(OrderList.Items[i].SubItems[6].Text))
                     {
-                        stock = listView1.Items[i].SubItems[1].Text;
+                        stock = OrderList.Items[i].SubItems[1].Text;
                     }
                 }
-                string str = "http://" + ip_jy + "/cancel?stock=" + stock + "&order=" + ordernum;
-                string ret =Form_hangqi.GetRequestData_Post(str);
+                string str = "http://" + mTradeServer + "/cancel?stock=" + stock + "&order=" + ordernum;
+                string ret = QuoteForm.GetRequestData_Post(str);
             }
         }
 
         protected void refresh_control()
         {
-            string temp = "http://" + ip_jy + "/query?catalogues=orderlist";
-            string str = Form_hangqi.GetRequestData(temp);
-            JArray ja = str_to_jarray(str);
-            refresh_list1(ja);
+            string temp = "http://" + mTradeServer + "/query?catalogues=orderlist";
+            string str = QuoteForm.GetRequestData(temp);
+            JArray ja = str_to_jarray("orderlist", str);
+            refresh_OrderList(ja);
 
-            temp = "http://" + ip_jy + "/query?catalogues=deals";
-            string str1 = Form_hangqi.GetRequestData(temp);
-            ja = str1_to_jarray(str1);
-            refresh_list2(filter_data(ja));
+            temp = "http://" + mTradeServer + "/query?catalogues=deals";
+            string str1 = QuoteForm.GetRequestData(temp);
+            ja = str_to_jarray("deals", str1);
+            refresh_PositionList(filter_data(ja));
         }
 
         protected override void WndProc(ref Message m)
@@ -402,18 +381,43 @@ namespace stockapp
             switch (m.Msg)
             {
                 case 0x63:
-                     Win32API.My_lParam ml = new Win32API.My_lParam();
-                        Type t = ml.GetType();
-                        ml = (Win32API.My_lParam)m.GetLParam(t);
-                    if(ml.s!=null)
-                        listBox1.Items.Add(ml.s);
-                   refresh_control();
+                    Win32API.My_lParam ml = new Win32API.My_lParam();
+                    Type t = ml.GetType();
+                    ml = (Win32API.My_lParam)m.GetLParam(t);
+                    if (ml.s != null)
+                        OutPutBox.Items.Add(ml.s);
+                    refresh_control();
                     break;
             }
             base.WndProc(ref m);
         }
+
+        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OrderList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OutPutBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
-    
+
     public static class ControlExtensions
     {
         public static void DoubleBuffering(this Control control, bool enable)

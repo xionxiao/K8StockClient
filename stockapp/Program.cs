@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace stockapp
+namespace K8
 {
     static class Program
     {
@@ -15,7 +17,15 @@ namespace stockapp
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form_main());
+            Application.Run(new MainForm());
         }
+    }
+
+    class DataSet
+    {
+        public static JArray gOrderList = null;
+        public static JArray gPositionList = null;
+        public static JArray gDeals = null;
+        public static JObject gStockPool = null;
     }
 }

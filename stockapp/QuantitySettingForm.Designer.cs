@@ -1,4 +1,4 @@
-﻿namespace stockapp
+﻿namespace K8
 {
     partial class QuantitySettingForm
     {
@@ -36,7 +36,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("SimSun", 10.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(37, 35);
+            this.label1.Location = new System.Drawing.Point(37, 31);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(90, 14);
             this.label1.TabIndex = 0;
@@ -49,7 +49,7 @@
             this.textBox1.Size = new System.Drawing.Size(66, 21);
             this.textBox1.TabIndex = 1;
             // 
-            // DefaultStockQuantitySettingForm
+            // QuantitySettingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -60,7 +60,7 @@
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "DefaultStockQuantitySettingForm";
+            this.Name = "QuantitySettingForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "默认股数设置";
             this.TopMost = true;

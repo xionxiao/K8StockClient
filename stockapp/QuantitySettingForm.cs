@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace stockapp
+namespace K8
 {
     public partial class QuantitySettingForm : Form
     {

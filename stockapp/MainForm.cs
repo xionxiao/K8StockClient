@@ -19,7 +19,7 @@ namespace K8
 {
     public partial class MainForm : Form
     {
-        private string mTradeServer = Settings.Default.TradeServerIP;
+        private string mTradeServer = "http://" + Settings.Default.TradeServerIP;
         private string ordernum = "";
         delegate void Reflist_JArray(JArray ja);
         delegate void Reflist_JObject(JObject jo);
@@ -77,48 +77,53 @@ namespace K8
         private int refresh_ol_count = 0;
         private void refresh_OrderList(JArray ja)
         {
-            if (ja == null || ja.Count == 0)
-                return;
-            //是否为创建控件的线程，不是为true
-            if (this.OrderList.InvokeRequired)
+            try
             {
-                //为当前控件指定委托
-                this.OrderList.Invoke(new Reflist_JArray(refresh_OrderList), ja);
-            }
-            else
-            {
-                OrderList.BeginUpdate();
-                OrderList.Items.Clear();
-                refresh_ol_count++;
-                OrderList.Columns[8].Text = refresh_ol_count.ToString();
-                for (int i = 0; i < ja.Count; i++)
+                //是否为创建控件的线程，不是为true
+                if (this.OrderList.InvokeRequired)
                 {
-                    ListViewItem item = new ListViewItem();
-                    item.SubItems[0].Text = ja[i]["委托时间"].ToString();
-                    item.SubItems.Add(ja[i]["证券代码"].ToString());
-                    item.SubItems.Add(ja[i]["证券名称"].ToString());
-                    item.SubItems.Add(ja[i]["委托价格"].ToString());
-                    item.SubItems.Add(ja[i]["委托数量"].ToString());
-                    item.SubItems.Add(ja[i]["买卖标志"].ToString());
-                    if (ja[i]["买卖标志"].ToString().Equals("买入担保品"))
-                    {
-                        item.ForeColor = Color.Red;
-                    }
-                    else if (ja[i]["买卖标志"].ToString().Equals("卖出担保品"))
-                    {
-                        item.ForeColor = QuoteForm.RGB(0x65E339);
-                    }
-
-                    item.SubItems.Add(ja[i]["合同编号"].ToString());
-                    if (ordernum.Equals(ja[i]["合同编号"].ToString()))
-                    {
-                        item.BackColor = Color.Blue;
-                    }
-                    item.SubItems.Add(ja[i]["状态说明"].ToString());
-                    OrderList.Items.Add(item);
+                    //为当前控件指定委托
+                    this.OrderList.Invoke(new Reflist_JArray(refresh_OrderList), ja);
                 }
-                OrderList.EnsureVisible(OrderList.Items.Count - 1);
-                OrderList.EndUpdate();
+                else
+                {
+                    OrderList.BeginUpdate();
+                    OrderList.Items.Clear();
+                    refresh_ol_count++;
+                    OrderList.Columns[8].Text = refresh_ol_count.ToString();
+                    for (int i = 0; i < ja.Count; i++)
+                    {
+                        ListViewItem item = new ListViewItem();
+                        item.SubItems[0].Text = ja[i]["委托时间"].ToString();
+                        item.SubItems.Add(ja[i]["证券代码"].ToString());
+                        item.SubItems.Add(ja[i]["证券名称"].ToString());
+                        item.SubItems.Add(ja[i]["委托价格"].ToString());
+                        item.SubItems.Add(ja[i]["委托数量"].ToString());
+                        item.SubItems.Add(ja[i]["买卖标志"].ToString());
+                        if (ja[i]["买卖标志"].ToString().Equals("买入担保品"))
+                        {
+                            item.ForeColor = Color.Red;
+                        }
+                        else if (ja[i]["买卖标志"].ToString().Equals("卖出担保品"))
+                        {
+                            item.ForeColor = QuoteForm.RGB(0x65E339);
+                        }
+
+                        item.SubItems.Add(ja[i]["合同编号"].ToString());
+                        if (ordernum.Equals(ja[i]["合同编号"].ToString()))
+                        {
+                            item.BackColor = Color.Blue;
+                        }
+                        item.SubItems.Add(ja[i]["状态说明"].ToString());
+                        OrderList.Items.Add(item);
+                    }
+                    //OrderList.EnsureVisible(OrderList.Items.Count - 1);
+                    OrderList.EndUpdate();
+                }
+            }
+            catch
+            {
+                return;
             }
         }
 
@@ -206,7 +211,7 @@ namespace K8
 
         public void FetchPosition(bool once=true)
         {
-            var client = new RestClient("http://" + mTradeServer);
+            var client = new RestClient(mTradeServer);
             var request = new RestRequest("query", Method.GET);
             request.AddParameter("catalogues", "position");
 
@@ -217,14 +222,14 @@ namespace K8
                 if (once == false)
                 {
                     Thread.Sleep(Settings.Default.PositionRefreshTime);
-                    FetchPosition();
+                    FetchPosition(false);
                 }
             });
         }
 
         public void FetchStockPool(bool once = true)
         {
-            var client = new RestClient("http://" + mTradeServer);
+            var client = new RestClient(mTradeServer);
             var request = new RestRequest("query", Method.GET);
             request.AddParameter("catalogues", "stockpool");
 
@@ -235,14 +240,14 @@ namespace K8
                 if (once == false)
                 {
                     Thread.Sleep(Settings.Default.StockPoolRefreshTime);
-                    FetchStockPool();
+                    FetchStockPool(false);
                 }
             });
         }
 
         public void FetchOrdersList(bool once = true)
         {
-            var client = new RestClient("http://" + mTradeServer);
+            var client = new RestClient(mTradeServer);
             var request = new RestRequest("query", Method.GET);
             request.AddParameter("catalogues", "orderlist");
 
@@ -254,14 +259,14 @@ namespace K8
                 if (once == false)
                 {
                     Thread.Sleep(Settings.Default.OrdersListRefreshTime);
-                    FetchOrdersList();
+                    FetchOrdersList(false);
                 }
             });
         }
 
         public void FetchDeals(bool once = true)
         {
-            var client = new RestClient("http://" + mTradeServer);
+            var client = new RestClient(mTradeServer);
             var request = new RestRequest("query", Method.GET);
             request.AddParameter("catalogues", "deals");
             client.ExecuteAsync(request, res =>
@@ -270,8 +275,10 @@ namespace K8
                 refresh_PositionList(filter_data(temp));
                 DataSet.gDeals = temp;
                 if (once == false)
-                Thread.Sleep(Settings.Default.DealsRefreshTime);
-                FetchDeals();
+                {
+                    Thread.Sleep(Settings.Default.DealsRefreshTime);
+                    FetchDeals(false);
+                }
             });
         }
 
@@ -358,19 +365,19 @@ namespace K8
                         stock = OrderList.Items[i].SubItems[1].Text;
                     }
                 }
-                string str = "http://" + mTradeServer + "/cancel?stock=" + stock + "&order=" + ordernum;
+                string str = mTradeServer + "/cancel?stock=" + stock + "&order=" + ordernum;
                 string ret = QuoteForm.GetRequestData_Post(str);
             }
         }
 
         protected void refresh_control()
         {
-            string temp = "http://" + mTradeServer + "/query?catalogues=orderlist";
+            string temp = mTradeServer + "/query?catalogues=orderlist";
             string str = QuoteForm.GetRequestData(temp);
             JArray ja = str_to_jarray("orderlist", str);
             refresh_OrderList(ja);
 
-            temp = "http://" + mTradeServer + "/query?catalogues=deals";
+            temp = mTradeServer + "/query?catalogues=deals";
             string str1 = QuoteForm.GetRequestData(temp);
             ja = str_to_jarray("deals", str1);
             refresh_PositionList(filter_data(ja));

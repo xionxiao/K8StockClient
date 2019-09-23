@@ -18,6 +18,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
 using RestSharp;
+using K8.Properties;
 
 namespace K8
 {
@@ -32,8 +33,8 @@ namespace K8
         private IntPtr main_wnd_handle;     /*主窗口句柄*/
         private Form parent;
         delegate void Reflist(JArray ja);   /*声明委托*/
-        private string[] CH_NUM = {"零","一","二","三","四","五","六","七","八","九","十" };
-
+        delegate void Reflist1(JObject ja);   /*声明委托*/
+        private string[] CH_NUM = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十" };
 
         public QuoteForm(Form fm)
         {
@@ -46,114 +47,82 @@ namespace K8
 
             /*开启双缓冲*/
             QuoteList.DoubleBuffering(true);
-            transaction_detail_list.DoubleBuffering(true);
-            transaction_list.DoubleBuffering(true);
+            TransactionDetailList.DoubleBuffering(true);
+            TransactionList.DoubleBuffering(true);
         }
-     
+
         /*更新第三个列表框控件*/
         private int ref_list3_count = 0;
-        private void refresh_list3(JArray ja)
+        private void RefreshTransactionList(JObject jo)
         {
-            if (ja == null)
-                return;
-            //是否为创建控件的线程，不是为true
-            if (this.transaction_list.InvokeRequired)
+            try
             {
-                //为当前控件指定委托
-                this.transaction_list.Invoke(new Reflist(refresh_list3), ja);
-            }
-            else
-            {
-                transaction_list.Columns[4].Text = (++ref_list3_count).ToString();
-                for (int i = 0; i < ja.Count; i++)
+                JArray ja = (JArray)(jo["transaction"]);
+                //是否为创建控件的线程，不是为true
+                if (this.TransactionList.InvokeRequired)
                 {
-                    this.transaction_list.Items[i].SubItems[0].Text = ja[i]["价格"].ToString().Substring(0,
-                        ja[i]["价格"].ToString().IndexOf(".") + 3);
-                    int nq = int.Parse(ja[i]["现量"].ToString());
-                    this.transaction_list.Items[i].SubItems[1].Text = (nq.ToString());
-
-                    this.transaction_list.Items[i].SubItems[2].Text = (ja[i]["时间"].ToString());
-
-                    int num1 = int.Parse(ja[i]["笔数"].ToString());
-                    if (num1 == 0)
-                    {
-                        num1 = 0;
-                    }
-                    else
-                        num1 = nq / num1;
-                    this.transaction_list.Items[i].SubItems[3].Text = (num1.ToString());
-
-                    if (ja[i]["买卖"].ToString() == "1")
-                    {
-                        this.transaction_list.Items[i].SubItems[0].ForeColor = RGB(0x65E339);
-                        this.transaction_list.Items[i].SubItems[1].ForeColor = RGB(0x65E339);
-                        this.transaction_list.Items[i].SubItems[2].ForeColor = RGB(0x65E339);
-                        this.transaction_list.Items[i].SubItems[3].ForeColor = Color.White;
-                    }
-                    else
-                    {
-                        this.transaction_list.Items[i].SubItems[0].ForeColor = RGB(0x5C5CFF);
-                        this.transaction_list.Items[i].SubItems[1].ForeColor = RGB(0x5C5CFF);
-                        this.transaction_list.Items[i].SubItems[2].ForeColor = RGB(0x5C5CFF);
-                        this.transaction_list.Items[i].SubItems[3].ForeColor = Color.White;
-                    }
-                    if (nq >= 500)
-                    {
-                        this.transaction_list.Items[i].SubItems[1].ForeColor = RGB(0xc000c0);
-                    }
-
+                    //为当前控件指定委托
+                    this.TransactionList.Invoke(new Reflist1(RefreshTransactionList), jo);
                 }
-                transaction_list.EnsureVisible(transaction_list.Items.Count - 1);
-            }
-        }
+                else
+                {
+                    TransactionList.BeginUpdate();
+                    TransactionList.Columns[4].Text = (++ref_list3_count).ToString();
+                    TransactionList.Items.Clear();
+                    for (int i = 0; i < ja.Count; i++)
+                    {
+                        ListViewItem item = new ListViewItem();
+                        item.SubItems[0].Text = ja[i]["价格"].ToString().Substring(0,
+                            ja[i]["价格"].ToString().IndexOf(".") + 3);
+                        int nq = int.Parse(ja[i]["现量"].ToString());
+                        item.SubItems.Add(nq.ToString());
+                        item.SubItems.Add(ja[i]["时间"].ToString());
 
-        private JArray str_to_jarray(string str)
-        {
-            if (str == null)
-                return null;
-            try
-            {
-                JObject jo1 = (JObject)JsonConvert.DeserializeObject(str);
-                if (jo1["data"] == null)
-                    return null;
-                JArray ja = (JArray)JsonConvert.DeserializeObject(jo1["data"].ToString());
-                return ja;
+                        int num1 = int.Parse(ja[i]["笔数"].ToString());
+                        if (num1 == 0)
+                        {
+                            num1 = 0;
+                        }
+                        else
+                            num1 = nq / num1;
+                        item.SubItems.Add(num1.ToString());
+
+                        if (ja[i]["买卖"].ToString() == "1")
+                        {
+                            item.SubItems[0].ForeColor = RGB(0x65E339);
+                            item.SubItems[1].ForeColor = RGB(0x65E339);
+                            item.SubItems[2].ForeColor = RGB(0x65E339);
+                            item.SubItems[3].ForeColor = Color.White;
+                        }
+                        else
+                        {
+                            item.SubItems[0].ForeColor = RGB(0x5C5CFF);
+                            item.SubItems[1].ForeColor = RGB(0x5C5CFF);
+                            item.SubItems[2].ForeColor = RGB(0x5C5CFF);
+                            item.SubItems[3].ForeColor = Color.White;
+                        }
+                        if (nq >= 500)
+                        {
+                            item.SubItems[1].ForeColor = RGB(0xc000c0);
+                        }
+                        TransactionList.Items.Add(item);
+                    }
+                    TransactionList.EnsureVisible(TransactionList.Items.Count - 1);
+                }
+                TransactionList.EndUpdate();
             }
             catch
             {
-                return null;
+                return;
             }
         }
 
-        private JArray str2_to_jarray(string str)
+        private JObject str_to_jobject(string str)
         {
-            if (str == null)
-                return null;
             try
             {
-                JObject jo1 = (JObject)JsonConvert.DeserializeObject(str);
-                if (jo1["data"] == null)
-                    return null;
-                JArray ja = (JArray)JsonConvert.DeserializeObject(jo1["data"].ToString());
-                return ja;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        private JArray str1_to_jarray(string str)
-        {
-            if (str == null)
-                return null;
-            try
-            {
-                JObject jo1 = (JObject)JsonConvert.DeserializeObject(str);
-                if (jo1["stocks"] == null)
-                    return null;
-                JArray ja = (JArray)JsonConvert.DeserializeObject(jo1["stocks"].ToString());
-                return ja;
+                JObject jo = (JObject)JsonConvert.DeserializeObject(str);
+                return jo;
             }
             catch
             {
@@ -162,85 +131,107 @@ namespace K8
         }
 
         private int ref_list1_count = 0;
-        private void refresh_list1(JArray ja)
+        private void RefreshQuoteList(JObject jo)
         {
-            if (ja == null || ja.Count ==0)
-                return;
-            if (this.QuoteList.InvokeRequired)
+            try
             {
-                //为当前控件指定委托
-                this.QuoteList.Invoke(new Reflist(refresh_list1), ja);
+                var ja = jo["quote10"];
+                if (this.QuoteList.InvokeRequired)
+                {
+                    //为当前控件指定委托
+                    this.QuoteList.Invoke(new Reflist1(RefreshQuoteList), jo);
+                }
+                else
+                {
+                    QuoteList.BeginUpdate();
+                    QuoteList.Columns[3].Text = (++ref_list1_count).ToString();
+                    double price = double.Parse(ja[0]["昨收"].ToString());
+                    string s = "";
+                    for (int i = 10; i >= 1; i--)
+                    {
+                        s = ja[0]["卖" + CH_NUM[i] + "价"].ToString();
+                        QuoteList.Items[10 - i].SubItems[1].Text = s.Substring(0, s.IndexOf(".") + 3);
+                        QuoteList.Items[10 - i].SubItems[2].Text = ja[0]["卖" + CH_NUM[i] + "量"].ToString();
+                        if (double.Parse(s) > price)
+                            QuoteList.Items[10 - i].SubItems[1].ForeColor = RGB(0x5C5CFF);//blue
+                        else if (double.Parse(s) < price)
+                            QuoteList.Items[10 - i].SubItems[1].ForeColor = RGB(0x65E339); //green
+                        else
+                            QuoteList.Items[10 - i].SubItems[1].ForeColor = Color.White;
+                        QuoteList.Items[10 - i].SubItems[2].ForeColor = Color.White;
+                    }
+                    for (int i = 1; i <= 10; i++)
+                    {
+                        s = ja[0]["买" + CH_NUM[i] + "价"].ToString();
+                        QuoteList.Items[10 + i].SubItems[1].Text = s.Substring(0, s.IndexOf(".") + 3);
+                        QuoteList.Items[10 + i].SubItems[2].Text = ja[0]["买" + CH_NUM[i] + "量"].ToString();
+                        if (double.Parse(s) > price)
+                            QuoteList.Items[10 + i].SubItems[1].ForeColor = RGB(0x5C5CFF);//blue
+                        else if (double.Parse(s) < price)
+                            QuoteList.Items[10 + i].SubItems[1].ForeColor = RGB(0x65E339);//green
+                        else
+                            QuoteList.Items[10 + i].SubItems[1].ForeColor = Color.White;
+                        QuoteList.Items[10 + i].SubItems[2].ForeColor = Color.White;
+                    }
+                }
+                QuoteList.EndUpdate();
             }
-            else
+            catch
             {
-                QuoteList.Columns[3].Text = (++ref_list1_count).ToString();
-                 double price = double.Parse(ja[0]["昨收"].ToString());
-                 string s = "";
-                 for (int i=10 ;i>=1;i--)
-                 {
- 	                s = ja[0]["卖"+CH_NUM[i]+"价"].ToString();
- 	                QuoteList.Items[10-i].SubItems[1].Text = s.Substring(0, s.IndexOf(".") + 3);
- 	                QuoteList.Items[10-i].SubItems[2].Text = ja[0]["卖"+CH_NUM[i]+"量"].ToString();
- 	                if (double.Parse(s) > price)
-    	                QuoteList.Items[10-i].SubItems[1].ForeColor = RGB(0x5C5CFF);//blue
- 	                else if (double.Parse(s) < price)
-    	                QuoteList.Items[10-i].SubItems[1].ForeColor = RGB(0x65E339); //green
- 	                else
-    	                QuoteList.Items[10-i].SubItems[1].ForeColor = Color.White;
-                 }
-                 for (int i=1; i <= 10; i++)
-                 {
-                     s = ja[0]["买" + CH_NUM[i]+"价"].ToString();
-                     QuoteList.Items[10 + i].SubItems[1].Text = s.Substring(0, s.IndexOf(".") + 3);
-                     QuoteList.Items[10 + i].SubItems[2].Text = ja[0]["买" + CH_NUM[i]+"量"].ToString();
-                     if (double.Parse(s) > price)
-                         QuoteList.Items[10 + i].SubItems[1].ForeColor = RGB(0x5C5CFF);//blue
-                     else if (double.Parse(s) < price)
-                         QuoteList.Items[10 + i].SubItems[1].ForeColor = RGB(0x65E339);//green
-                     else
-                         QuoteList.Items[10 + i].SubItems[1].ForeColor = Color.White;
-                 }
+                return;
             }
         }
 
         private int ref_list2_count = 0;
-        private void refresh_list2(JArray ja)
+        private void RefreshTransactionDetailList(JObject jo)
         {
-            if (ja == null  || ja.Count ==0)
-                return;
-            if (this.transaction_detail_list.InvokeRequired)
+            try
             {
-                //为当前控件指定委托
-                this.transaction_detail_list.Invoke(new Reflist(refresh_list2), ja);
-            }
-            else
-            {
-                transaction_detail_list.Columns[4].Text = (++ref_list2_count).ToString();
-                for (int i = 0; i < ja.Count; i++)
+                JArray ja = (JArray)jo["transaction_detail"];
+                if (this.TransactionDetailList.InvokeRequired)
                 {
-                    transaction_detail_list.Items[i].SubItems[0].Text = ja[i]["价格"].ToString().Substring(0,
-                        ja[i]["价格"].ToString().IndexOf(".") + 3);
-                    transaction_detail_list.Items[i].SubItems[1].Text = ja[i]["成交量"].ToString().Substring(0,
-                       ja[i]["成交量"].ToString().IndexOf("."));
-                    transaction_detail_list.Items[i].SubItems[2].Text = ja[i]["性质"].ToString();
-
-                    if (ja[i]["性质"].ToString() == "S")
-                    {
-                        transaction_detail_list.Items[i].SubItems[0].ForeColor = RGB(0x65E339);//green
-                        transaction_detail_list.Items[i].SubItems[1].ForeColor = RGB(0x65E339);
-                        transaction_detail_list.Items[i].SubItems[2].ForeColor = RGB(0x65E339);
-                        transaction_detail_list.Items[i].SubItems[3].ForeColor = RGB(0x65E339);
-                    }
-                    else
-                    {
-                        transaction_detail_list.Items[i].SubItems[0].ForeColor = RGB(0x5C5CFF); //blue
-                        transaction_detail_list.Items[i].SubItems[1].ForeColor = RGB(0x5C5CFF); 
-                        transaction_detail_list.Items[i].SubItems[2].ForeColor = RGB(0x5C5CFF); 
-                        transaction_detail_list.Items[i].SubItems[3].ForeColor = RGB(0x5C5CFF); 
-                    }
-                    transaction_detail_list.Items[i].SubItems[3].Text = ja[i]["成交时间"].ToString();
-                    transaction_detail_list.EnsureVisible(transaction_detail_list.Items.Count - 1);
+                    //为当前控件指定委托
+                    this.TransactionDetailList.Invoke(new Reflist1(RefreshTransactionDetailList), jo);
                 }
+                else
+                {
+                    TransactionDetailList.BeginUpdate();
+                    TransactionDetailList.Columns[4].Text = (++ref_list2_count).ToString();
+                    TransactionDetailList.Items.Clear();
+                    
+                    for (int i = 0; i < ja.Count; i++)
+                    {
+                        ListViewItem item = new ListViewItem();
+                        item.UseItemStyleForSubItems = false;
+                        item.SubItems[0].Text = ja[i]["价格"].ToString().Substring(0,
+                            ja[i]["价格"].ToString().IndexOf(".") + 3);
+                        item.SubItems.Add(ja[i]["成交量"].ToString().Substring(0,
+                           ja[i]["成交量"].ToString().IndexOf(".")));
+                        item.SubItems.Add(ja[i]["性质"].ToString());
+                        item.SubItems.Add(ja[i]["成交时间"].ToString());
+                        if (ja[i]["性质"].ToString() == "S")
+                        {
+                            item.SubItems[0].ForeColor = RGB(0x65E339);//green
+                            item.SubItems[1].ForeColor = RGB(0x65E339);
+                            item.SubItems[2].ForeColor = RGB(0x65E339);
+                            item.SubItems[3].ForeColor = RGB(0x65E339);
+                        }
+                        else
+                        {
+                            item.SubItems[0].ForeColor = RGB(0x5C5CFF); //blue
+                            item.SubItems[1].ForeColor = RGB(0x5C5CFF);
+                            item.SubItems[2].ForeColor = RGB(0x5C5CFF);
+                            item.SubItems[3].ForeColor = RGB(0x5C5CFF);
+                        }
+                        TransactionDetailList.Items.Add(item);
+                        TransactionDetailList.EnsureVisible(TransactionDetailList.Items.Count - 1);
+                    }
+                    TransactionDetailList.EndUpdate();
+                }
+            }
+            catch
+            {
+                return;
             }
         }
 
@@ -248,7 +239,7 @@ namespace K8
         {
             if (ja1 == null || ja1.Count == 0)
                 return;
-            
+
             double price = double.Parse(ja1[0]["昨收"].ToString());
             this.Text = ja1[0]["名称"].ToString();
             textBox7.Text = ja1[0]["现价"].ToString().Substring(0,
@@ -270,110 +261,7 @@ namespace K8
             double temp1 = price * 1.1;
             this.richTextBox1.Text = string.Format("{0:F2}", temp1);
             temp1 = price * 0.9;
-            this.richTextBox2.Text = string.Format("{0:F2}", temp1);           
-        }
-
-        private void add_to_transaction_detail_list(JArray ja)
-        {
-            if (ja == null || ja.Count == 0)
-                return;
-            if (this.transaction_detail_list.InvokeRequired)
-            {
-                //为当前控件指定委托
-                this.transaction_detail_list.Invoke(new Reflist(add_to_transaction_detail_list), ja);
-            }
-            else
-            {
-                transaction_detail_list.BeginUpdate();
-                for (int i = 0; i < ja.Count; i++)
-                {
-                    ListViewItem item1 = new ListViewItem();
-                    item1.UseItemStyleForSubItems = false;
-                    item1.SubItems[0].Text = ja[i]["价格"].ToString().Substring(0,
-                        ja[i]["价格"].ToString().IndexOf(".") + 3);
-                    item1.SubItems.Add(ja[i]["成交量"].ToString().Substring(0,
-                        ja[i]["成交量"].ToString().IndexOf(".")));
-                    item1.SubItems.Add(ja[i]["性质"].ToString());
-                    item1.SubItems.Add(ja[i]["成交时间"].ToString());
-                    if (ja[i]["性质"].ToString() == "S")
-                    {
-                        item1.SubItems[0].ForeColor = RGB(0x65E339);
-                        item1.SubItems[1].ForeColor = RGB(0x65E339);
-                        item1.SubItems[2].ForeColor = RGB(0x65E339);//green
-                        item1.SubItems[3].ForeColor = RGB(0x65E339);
-                    }
-                    else
-                    {
-                        item1.SubItems[0].ForeColor = RGB(0x5C5CFF);
-                        item1.SubItems[1].ForeColor = RGB(0x5C5CFF);
-                        item1.SubItems[2].ForeColor = RGB(0x5C5CFF);//blue
-                        item1.SubItems[3].ForeColor = RGB(0x5C5CFF);
-                    }
-                    //3、将数据集item1添加到ListView控件  
-                    transaction_detail_list.Items.Add(item1);
-                }
-                transaction_detail_list.EndUpdate();
-            }
-        }
-
-        private void add_to_quote_list(JArray ja)
-        {
-            if (ja == null || ja.Count == 0)
-                return;
-            if (this.QuoteList.InvokeRequired)
-            {
-                //为当前控件指定委托
-                this.QuoteList.Invoke(new Reflist(add_to_quote_list), ja);
-            }
-            else
-            {
-                QuoteList.BeginUpdate();
-                string[] str_price_arr ={"","一价","二价","三价","四价","五价","六价","七价",
-                                        "八价","九价","十价"};
-                string[] str_num_arr = { "","一量","二量","三量","四量","五量","六量","七量","八量"
-                                        ,"九量","十量"};
-                ListViewItem item=null;
-                double price = double.Parse(ja[0]["昨收"].ToString());
-                string s = "";
-                for (int i = 10; i >= 1; i--)
-                {
-                    item = new ListViewItem();
-                    item.UseItemStyleForSubItems = false;
-                    item.SubItems[0].Text = "卖" + str_price_arr[i].Substring(0,1);
-                    s = ja[0]["卖"+str_price_arr[i]].ToString();
-                    item.SubItems.Add(s.Substring(0, s.IndexOf(".") + 3));
-                    if (double.Parse(s) > price)
-                        item.SubItems[1].ForeColor = RGB(0x5C5CFF);
-                    else if (double.Parse(s) < price)
-                        item.SubItems[1].ForeColor = RGB(0x65E339);
-                    else
-                        item.SubItems[1].ForeColor = Color.White;
-                    item.SubItems.Add(ja[0]["卖"+str_num_arr[i]].ToString());
-                    item.SubItems[2].ForeColor = Color.White;
-                    QuoteList.Items.Add(item);
-                }
-                item = new ListViewItem();
-                item.BackColor = Color.Gray;
-                QuoteList.Items.Add(item);
-                for (int i = 1; i <= 10; i++)
-                {
-                    item = new ListViewItem();
-                    item.UseItemStyleForSubItems = false;
-                    item.SubItems[0].Text = "买"+str_price_arr[i].Substring(0,1);
-                    s = ja[0]["买"+str_price_arr[i]].ToString();
-                    item.SubItems.Add(s.Substring(0, s.IndexOf(".") + 3));
-                    if (double.Parse(s) > price)
-                        item.SubItems[1].ForeColor = RGB(0x5C5CFF);
-                    else if (double.Parse(s) < price)
-                        item.SubItems[1].ForeColor = RGB(0x65E339);
-                    else
-                        item.SubItems[1].ForeColor = Color.White;
-                    item.SubItems.Add(ja[0]["买"+str_price_arr[i]].ToString());
-                    item.SubItems[2].ForeColor = Color.White;
-                    QuoteList.Items.Add(item);
-                }
-                QuoteList.EndUpdate();
-            }
+            this.richTextBox2.Text = string.Format("{0:F2}", temp1);
         }
 
         private void add_to_transaction_list(JArray ja)
@@ -382,14 +270,14 @@ namespace K8
             if (ja == null || ja.Count == 0)
                 return;
 
-            if (this.transaction_list.InvokeRequired)
+            if (this.TransactionList.InvokeRequired)
             {
                 //为当前控件指定委托
-                this.transaction_list.Invoke(new Reflist(add_to_transaction_list), ja);
+                this.TransactionList.Invoke(new Reflist(add_to_transaction_list), ja);
             }
             else
             {
-                transaction_list.BeginUpdate();
+                TransactionList.BeginUpdate();
                 for (int i = 0; i < ja.Count; i++)
                 {
                     ListViewItem item1 = new ListViewItem();
@@ -425,67 +313,79 @@ namespace K8
                         item1.SubItems[1].ForeColor = RGB(0xc000c0);
                     }
                     //3、将数据集item1添加到ListView控件  
-                    transaction_list.Items.Add(item1);
+                    TransactionList.Items.Add(item1);
                 }
-                transaction_list.EndUpdate();
+                TransactionList.EndUpdate();
             }
+        }
+
+        private bool stop = false;
+        public void FetchQuote(string stock, bool once = true)
+        {
+            var client = new RestClient("http://" + ip_hangqi);
+            var request = new RestRequest("query", Method.GET);
+            request.AddParameter("catalogues", "quote10");
+            request.AddParameter("stocks", stock);
+
+            client.ExecuteAsync(request, response =>
+            {
+                var temp = str_to_jobject(response.Content);
+                //var temp = str1_to_jarray(response.Content);
+                RefreshQuoteList(temp);
+                //refresh_lefttop_controls(temp);
+                if (!once)
+                {
+                    Thread.Sleep(0);
+                    FetchQuote(stock, stop);
+                }
+            });
+        }
+
+        public void FetchTransactionDetail(string stock, bool once = true)
+        {
+            var client = new RestClient("http://" + ip_hangqi);
+            var request = new RestRequest("query", Method.GET);
+            request.AddParameter("catalogues", "transaction_detail");
+            request.AddParameter("stock", stock);
+
+            client.ExecuteAsync(request, response =>
+            {
+                JObject ja1 = str_to_jobject(response.Content);
+                RefreshTransactionDetailList(ja1);
+                if (!once)
+                {
+                    Thread.Sleep(0);
+                    FetchTransactionDetail(stock, stop);
+                }
+            });
+        }
+
+        public void FetchTransaction(string stock, bool once = true)
+        {
+            var client = new RestClient("http://" + ip_hangqi);
+            var request = new RestRequest("query", Method.GET);
+            request.AddParameter("catalogues", "transaction");
+            request.AddParameter("stock", stock);
+
+            client.ExecuteAsync(request, response =>
+            {
+                JObject ja1 = str_to_jobject(response.Content);
+                RefreshTransactionList(ja1);
+                if (!once)
+                {
+                    Thread.Sleep(0);
+                    FetchTransaction(stock, stop);
+                }
+            });
         }
 
         private void Run(object num)
         {
             string Num = num.ToString();
-            while (true)
             {
-                if (transaction_detail_list.Items.Count == 0)
-                {
-                    string str = GetRequestData("http://" + ip_hangqi + 
-                        "/query?catalogues=transaction_detail&stock=" + Num);
-                    JArray ja1 = str_to_jarray(str);
-                    add_to_transaction_detail_list(ja1);
-                }
-           
-                if(transaction_list.Items.Count == 0)
-                {
-                    string str2 = GetRequestData("http://" + ip_hangqi +
-                        "/query?catalogues=transaction&stock=" + Num);
-                    JArray ja1 = str2_to_jarray(str2);
-                    add_to_transaction_list(ja1);                
-                }
-                if (QuoteList.Items.Count == 0 )
-                {
-                    string str1 = GetRequestData("http://" + ip_hangqi +
-                        "/query?catalogues=quote10&stocks=" + Num);
-                    JArray ja1 = str1_to_jarray(str1);
-                    add_to_quote_list(ja1);
-                    refresh_lefttop_controls(ja1);   
-                   
-                }           
-          
-                 /*如果listview1不是首次显示的数据*/
-                if (QuoteList.Items.Count != 0)
-                {
-                    string str1 = GetRequestData("http://" + ip_hangqi +
-                       "/query?catalogues=quote10&stocks=" + Num);
-                    JArray ja1=str1_to_jarray(str1);
-                    refresh_list1(ja1);
-                    refresh_lefttop_controls(ja1);
-                }
-
-                if (transaction_detail_list.Items.Count != 0)
-                {
-                    string str = GetRequestData("http://" + ip_hangqi +
-                      "/query?catalogues=transaction_detail&stock=" + Num);
-                    JArray ja1 = str_to_jarray(str);
-                    refresh_list2(ja1);
-                }
-
-                if (transaction_list.Items.Count != 0)
-                {
-                    string str2 = GetRequestData("http://" + ip_hangqi +
-                       "/query?catalogues=transaction&stock=" + Num);
-                    JArray ja1 = str2_to_jarray(str2);
-                    refresh_list3(ja1);
-                }
+                FetchQuote(Num, false);
+                FetchTransactionDetail(Num, false);
+                FetchTransaction(Num, false);
             }
         }
 
@@ -522,6 +422,7 @@ namespace K8
                 textBox6.SelectAll();
             }
         }
+
         private void handle_shiftdown_msg()
         {
             if (textBox5.Focused)
@@ -554,7 +455,7 @@ namespace K8
                     return;
                 }
             }
- 
+
         }
 
         private void handle_escape_msg()
@@ -572,9 +473,6 @@ namespace K8
         {
             stockCodeInputBox.Focus();
             stockCodeInputBox.SelectAll();
-            QuoteList.Clear();
-            transaction_detail_list.Clear();
-            transaction_list.Clear();
             textBox7.Text = "";
             textBox11.Text = "";
             textBox9.Text = "";
@@ -584,28 +482,13 @@ namespace K8
             richTextBox3.Text = "";
             textBox3.Text = "";
 
-            this.transaction_detail_list.Columns.Add("Price", 45);
-            this.transaction_detail_list.Columns.Add("Size", 40);
-            this.transaction_detail_list.Columns.Add("D", 20);
-            this.transaction_detail_list.Columns.Add("Time", 60);
-            this.transaction_detail_list.Columns.Add("0", 30);
-
-            this.QuoteList.Columns.Add("ID", 45);
-            this.QuoteList.Columns.Add("Price", 45);
-            this.QuoteList.Columns.Add("Quantity", 45);
-            this.QuoteList.Columns.Add("0", 30);
-
-            this.transaction_list.Columns.Add("Price", 45);
-            this.transaction_list.Columns.Add("Size", 45);
-            this.transaction_list.Columns.Add("Time", 50);
-            this.transaction_list.Columns.Add("C", 30);
-            this.transaction_list.Columns.Add("0", 30);
-
-
-            if (thread != null && thread.IsAlive == true)
+            if (thread != null)
             {
+                stop = true;
                 thread.Abort();
+                thread = null;
             }
+
             string temp;
             stockcode = int.Parse(stockCodeInputBox.Text);
             temp = stockcode.ToString();
@@ -662,7 +545,7 @@ namespace K8
                      "&share=" + num;
                 Thread thread = new Thread(new ParameterizedThreadStart(post_msg_to_main_wnd));
                 thread.IsBackground = true;
-                thread.Start(str);       
+                thread.Start(str);
             }
             if (choice_f == 4)
             {
@@ -671,7 +554,7 @@ namespace K8
                 Thread thread = new Thread(new ParameterizedThreadStart(post_msg_to_main_wnd));
                 thread.IsBackground = true;
                 thread.Start(str);
-               
+
             }
             choice_f = 0;
             label4.Visible = false;
@@ -722,7 +605,7 @@ namespace K8
                 textBox5.Text = "";
             }
             textBox5.Focus();
-            // need deal
+            // TODO: 修改
             /*
             if (js_sell_nums[temp] != null)
                 textBox3.Text = js_sell_nums[temp].ToString();
@@ -866,33 +749,33 @@ namespace K8
         private void handle_f5_msg()
         {
             label4.Visible = true;
-                textBox6.Visible = true;
+            textBox6.Visible = true;
 
-                label6.Visible = true;
-                textBox5.Visible = true;
+            label6.Visible = true;
+            textBox5.Visible = true;
 
-                label3.Text = "公共池";
-                label5.Text = "";
-                textBox4.Visible = false;
+            label3.Text = "公共池";
+            label5.Text = "";
+            textBox4.Visible = false;
 
 
-                label4.Text = "卖出";
-                label4.ForeColor = Color.Blue;
+            label4.Text = "卖出";
+            label4.ForeColor = Color.Blue;
 
-                label6.Text = "股数";
-                label6.ForeColor = Color.Blue;
+            label6.Text = "股数";
+            label6.ForeColor = Color.Blue;
 
-                if (QuoteList.Items.Count > 0)
-                {
-                    textBox5.Text = QuoteList.Items[9].SubItems[1].Text;
-                    textBox6.Text = stocknum.ToString();
-                    textBox5.SelectAll();
-                }
-                else
-                {
-                    textBox5.Text = "";
-                }
-                textBox5.Focus();
+            if (QuoteList.Items.Count > 0)
+            {
+                textBox5.Text = QuoteList.Items[9].SubItems[1].Text;
+                textBox6.Text = stocknum.ToString();
+                textBox5.SelectAll();
+            }
+            else
+            {
+                textBox5.Text = "";
+            }
+            textBox5.Focus();
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -931,15 +814,15 @@ namespace K8
             }
             if (e.KeyCode == Keys.F3)
             {
-                handle_f3_msg();  
+                handle_f3_msg();
             }
             if (e.KeyCode == Keys.F4)
             {
-                handle_f4_msg();               
+                handle_f4_msg();
             }
             if (e.KeyCode == Keys.F5)
             {
-                handle_f5_msg();                
+                handle_f5_msg();
             }
         }
 
@@ -1019,19 +902,6 @@ namespace K8
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.transaction_detail_list.Columns.Add("Price", 45);
-            this.transaction_detail_list.Columns.Add("Size", 40);
-            this.transaction_detail_list.Columns.Add("D", 20);
-            this.transaction_detail_list.Columns.Add("Time", 60);
-
-            this.QuoteList.Columns.Add("ID", 50);
-            this.QuoteList.Columns.Add("Price", 60);
-            this.QuoteList.Columns.Add("Size", 65);
-
-            this.transaction_list.Columns.Add("Price", 45);
-            this.transaction_list.Columns.Add("Size", 45);
-            this.transaction_list.Columns.Add("Time", 50);
-            this.transaction_list.Columns.Add("N", 30);
             //Control.CheckForIllegalCrossThreadCalls = false;
         }
 

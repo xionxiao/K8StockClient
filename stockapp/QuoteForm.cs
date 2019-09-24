@@ -66,6 +66,7 @@ namespace K8
 
         /*更新第三个列表框控件*/
         private int ref_list3_count = 0;
+        private int top_item = 0;
         private void RefreshTransactionList(JObject jo)
         {
             try
@@ -122,7 +123,8 @@ namespace K8
                     }
 
                 }
-                TransactionList.EnsureVisible(TransactionList.Items.Count - 1);
+                TransactionList.EnsureVisible(top_item);
+                top_item = TransactionList.TopItem.Index;
                 TransactionList.EndUpdate();
             }
             catch
@@ -244,26 +246,26 @@ namespace K8
 
                 double price = double.Parse(ja[0]["昨收"].ToString());
                 this.Text = ja[0]["名称"].ToString();
-                textBox7.Text = ja[0]["现价"].ToString().Substring(0,
+                currentPriceTextBox.Text = ja[0]["现价"].ToString().Substring(0,
                             ja[0]["现价"].ToString().IndexOf(".") + 3);
-                double now_price = Double.Parse(textBox7.Text);
+                double now_price = Double.Parse(currentPriceTextBox.Text);
                 double rate = (now_price - price) / price;
                 if (rate > 0)
-                    richTextBox3.ForeColor = RGB(0x5C5CFF);
+                    riseRateTextBox.ForeColor = RGB(0x5C5CFF);
                 else
-                    richTextBox3.ForeColor = Color.Green;
-                richTextBox3.Text = string.Format("{0:0.00%}", rate);
+                    riseRateTextBox.ForeColor = Color.Green;
+                riseRateTextBox.Text = string.Format("{0:0.00%}", rate);
                 double amount = double.Parse(ja[0]["总金额"].ToString());
                 amount /= 10000;
                 textBox9.Text = string.Format("{0:N0}", amount) + " W";
-                textBox12.Text = ja[0]["开盘"].ToString().Substring(0,
+                openningTextBox.Text = ja[0]["开盘"].ToString().Substring(0,
                     ja[0]["开盘"].ToString().IndexOf(".") + 3);
-                textBox11.Text = ja[0]["昨收"].ToString().Substring(0,
+                closingTextBox.Text = ja[0]["昨收"].ToString().Substring(0,
                             ja[0]["昨收"].ToString().IndexOf(".") + 3);
                 double temp1 = price * 1.1;
-                this.richTextBox1.Text = string.Format("{0:F2}", temp1);
+                this.risingPriceTextBox.Text = string.Format("{0:F2}", temp1);
                 temp1 = price * 0.9;
-                this.richTextBox2.Text = string.Format("{0:F2}", temp1);
+                this.dropRateTextBox.Text = string.Format("{0:F2}", temp1);
             }
             catch
             {
@@ -285,7 +287,7 @@ namespace K8
                 refresh_lefttop_controls(temp);
                 if (!once)
                 {
-                    Thread.Sleep(0);
+                    Thread.Sleep(Settings.Default.QuoteRefreshDelay);
                     FetchQuote(false);
                 }
             });
@@ -304,7 +306,7 @@ namespace K8
                 RefreshTransactionDetailList(ja1);
                 if (!once)
                 {
-                    Thread.Sleep(0);
+                    Thread.Sleep(Settings.Default.TransactionDetailRefreshDelay);
                     FetchTransactionDetail(false);
                 }
             });
@@ -323,7 +325,7 @@ namespace K8
                 RefreshTransactionList(ja1);
                 if (!once)
                 {
-                    Thread.Sleep(0);
+                    Thread.Sleep(Settings.Default.TransactionRefreshDelay);
                     FetchTransaction(false);
                 }
             });
@@ -338,64 +340,64 @@ namespace K8
 
         private void handle_shiftup_msg()
         {
-            if (textBox5.Focused)
+            if (priceTextBox.Focused)
             {
                 try
                 {
-                    float price = float.Parse(textBox5.Text);
+                    float price = float.Parse(priceTextBox.Text);
                     price += 0.01F;
-                    textBox5.Text = price.ToString();
+                    priceTextBox.Text = price.ToString();
                 }
                 catch
                 {
                     return;
                 }
-                textBox5.Focus();
-                textBox5.SelectAll();
+                priceTextBox.Focus();
+                priceTextBox.SelectAll();
             }
-            if (textBox6.Focused)
+            if (quantityTextBox.Focused)
             {
                 try
                 {
-                    int num = int.Parse(textBox6.Text);
+                    int num = int.Parse(quantityTextBox.Text);
                     num += 100;
-                    textBox6.Text = num.ToString();
+                    quantityTextBox.Text = num.ToString();
                 }
                 catch
                 {
                     return;
                 }
-                textBox6.Focus();
-                textBox6.SelectAll();
+                quantityTextBox.Focus();
+                quantityTextBox.SelectAll();
             }
         }
 
         private void handle_shiftdown_msg()
         {
-            if (textBox5.Focused)
+            if (priceTextBox.Focused)
             {
                 try
                 {
-                    double price = double.Parse(textBox5.Text);
+                    double price = double.Parse(priceTextBox.Text);
                     if (price < 0.01)
                         return;
                     price -= 0.01;
-                    textBox5.Text = price.ToString();
+                    priceTextBox.Text = price.ToString();
                 }
                 catch
                 {
                     return;
                 }
             }
-            if (textBox6.Focused)
+            if (quantityTextBox.Focused)
             {
                 try
                 {
-                    int num = int.Parse(textBox6.Text);
+                    int num = int.Parse(quantityTextBox.Text);
                     if (num < 100)
                         return;
                     num -= 100;
-                    textBox6.Text = num.ToString();
+                    quantityTextBox.Text = num.ToString();
                 }
                 catch
                 {
@@ -408,29 +410,29 @@ namespace K8
         private void handle_escape_msg()
         {
             choice_f = 0;
-            label4.Visible = false;
-            textBox6.Visible = false;
-            textBox6.Text = "";
-            label6.Visible = false;
-            textBox5.Visible = false;
-            textBox5.Text = "";
+            buy_lable.Visible = false;
+            quantityTextBox.Visible = false;
+            quantityTextBox.Text = "";
+            quantity_label.Visible = false;
+            priceTextBox.Visible = false;
+            priceTextBox.Text = "";
         }
 
         private void start_recv_data()
         {
-            stockCodeInputBox.Focus();
-            stockCodeInputBox.SelectAll();
-            textBox7.Text = "";
-            textBox11.Text = "";
+            stockCodeTextBox.Focus();
+            stockCodeTextBox.SelectAll();
+            currentPriceTextBox.Text = "";
+            closingTextBox.Text = "";
             textBox9.Text = "";
-            textBox11.Text = "";
-            richTextBox1.Text = "";
-            richTextBox2.Text = "";
-            richTextBox3.Text = "";
+            closingTextBox.Text = "";
+            risingPriceTextBox.Text = "";
+            dropRateTextBox.Text = "";
+            riseRateTextBox.Text = "";
             textBox3.Text = "";
 
             string temp;
-            stockcode = int.Parse(stockCodeInputBox.Text);
+            stockcode = int.Parse(stockCodeTextBox.Text);
             temp = stockcode.ToString();
             if (stockcode > 999999)
             {
@@ -456,8 +458,8 @@ namespace K8
 
         private void post_order()
         {
-            float price = float.Parse(textBox5.Text);
-            int num = int.Parse(textBox6.Text);
+            float price = float.Parse(priceTextBox.Text);
+            int num = int.Parse(quantityTextBox.Text);
             if (mStockCode == null)
                 return;
             if (choice_f == 1)
@@ -494,12 +496,12 @@ namespace K8
                 thread.Start(str);
             }
             choice_f = 0;
-            label4.Visible = false;
-            textBox6.Visible = false;
-            textBox6.Text = "";
-            label6.Visible = false;
-            textBox5.Visible = false;
-            textBox5.Text = "";
+            buy_lable.Visible = false;
+            quantityTextBox.Visible = false;
+            quantityTextBox.Text = "";
+            quantity_label.Visible = false;
+            priceTextBox.Visible = false;
+            priceTextBox.Text = "";
         }
 
         private void handle_f1_msg()
@@ -513,35 +515,35 @@ namespace K8
             {
                 temp = stockcode.ToString();
             }
-            label4.Visible = true;
-            textBox6.Visible = true;
+            buy_lable.Visible = true;
+            quantityTextBox.Visible = true;
 
-            label6.Visible = true;
-            textBox5.Visible = true;
+            quantity_label.Visible = true;
+            priceTextBox.Visible = true;
 
             label3.Text = "F2池";
 
-            label4.Text = "买入";
-            label4.ForeColor = RGB(0x5C5CFF); ;
+            buy_lable.Text = "买入";
+            buy_lable.ForeColor = RGB(0x5C5CFF); ;
 
-            label6.Text = "股数";
-            label6.ForeColor = RGB(0x5C5CFF); ;
+            quantity_label.Text = "股数";
+            quantity_label.ForeColor = RGB(0x5C5CFF); ;
 
             if (QuoteList.Items.Count > 0)
             {
                 if (QuoteList.Items[11].SubItems[1].Text == "0.00")
-                    textBox5.Text = QuoteList.Items[9].SubItems[1].Text;
+                    priceTextBox.Text = QuoteList.Items[9].SubItems[1].Text;
                 else
-                    textBox5.Text = QuoteList.Items[11].SubItems[1].Text;
+                    priceTextBox.Text = QuoteList.Items[11].SubItems[1].Text;
 
-                textBox6.Text = stocknum.ToString();
-                textBox5.SelectAll();
+                quantityTextBox.Text = stocknum.ToString();
+                priceTextBox.SelectAll();
             }
             else
             {
-                textBox5.Text = "";
+                priceTextBox.Text = "";
             }
-            textBox5.Focus();
+            priceTextBox.Focus();
             choice_f = 1;
             // TODO: 修改
             /*
@@ -562,34 +564,34 @@ namespace K8
             {
                 temp = stockcode.ToString();
             }
-            label4.Visible = true;
-            textBox6.Visible = true;
+            buy_lable.Visible = true;
+            quantityTextBox.Visible = true;
 
-            label6.Visible = true;
-            textBox5.Visible = true;
+            quantity_label.Visible = true;
+            priceTextBox.Visible = true;
 
             label3.Text = "F2池";
             label5.Text = "";
             textBox4.Visible = false;
 
-            label4.Text = "卖出";
-            label4.ForeColor = RGB(0x65E339);
+            buy_lable.Text = "卖出";
+            buy_lable.ForeColor = RGB(0x65E339);
 
-            label6.Text = "股数";
-            label6.ForeColor = RGB(0x65E339);
+            quantity_label.Text = "股数";
+            quantity_label.ForeColor = RGB(0x65E339);
 
             if (QuoteList.Items.Count > 0)
             {
                 if (QuoteList.Items[9].SubItems[1].Text == "0.00")
-                    textBox5.Text = QuoteList.Items[11].SubItems[1].Text;
+                    priceTextBox.Text = QuoteList.Items[11].SubItems[1].Text;
                 else
-                    textBox5.Text = QuoteList.Items[9].SubItems[1].Text;
-                textBox6.Text = stocknum.ToString();
-                textBox5.SelectAll();
+                    priceTextBox.Text = QuoteList.Items[9].SubItems[1].Text;
+                quantityTextBox.Text = stocknum.ToString();
+                priceTextBox.SelectAll();
             }
             else
             {
-                textBox5.Text = "";
+                priceTextBox.Text = "";
             }
             /*
             if (js_sell_nums[temp] != null)
@@ -597,8 +599,8 @@ namespace K8
             else
                 textBox3.Text = (0).ToString();
              * */
-            textBox5.Focus();
-            textBox5.Focus();
+            priceTextBox.Focus();
+            priceTextBox.Focus();
             choice_f = 2;
         }
 
@@ -613,36 +615,36 @@ namespace K8
             {
                 temp = stockcode.ToString();
             }
-            label4.Visible = true;
-            textBox6.Visible = true;
+            buy_lable.Visible = true;
+            quantityTextBox.Visible = true;
 
-            label6.Visible = true;
-            textBox5.Visible = true;
+            quantity_label.Visible = true;
+            priceTextBox.Visible = true;
 
             label3.Text = "F3池：";
             label5.Text = "";
             textBox4.Visible = false;
 
-            label4.Text = "卖出";
-            label4.ForeColor = Color.Blue;
+            buy_lable.Text = "卖出";
+            buy_lable.ForeColor = Color.Blue;
 
-            label6.Text = "股数";
-            label6.ForeColor = Color.Blue;
+            quantity_label.Text = "股数";
+            quantity_label.ForeColor = Color.Blue;
 
             if (QuoteList.Items.Count > 0)
             {
                 if (QuoteList.Items[9].SubItems[1].Text == "0.00")
-                    textBox5.Text = QuoteList.Items[11].SubItems[1].Text;
+                    priceTextBox.Text = QuoteList.Items[11].SubItems[1].Text;
                 else
-                    textBox5.Text = QuoteList.Items[9].SubItems[1].Text;
-                textBox6.Text = stocknum.ToString();
-                textBox5.SelectAll();
+                    priceTextBox.Text = QuoteList.Items[9].SubItems[1].Text;
+                quantityTextBox.Text = stocknum.ToString();
+                priceTextBox.SelectAll();
             }
             else
             {
-                textBox5.Text = "";
+                priceTextBox.Text = "";
             }
-            textBox5.Focus();
+            priceTextBox.Focus();
             /*
             if (js_rongquan_nums[temp] != null)
                 textBox3.Text = js_rongquan_nums[temp].ToString();
@@ -654,69 +656,69 @@ namespace K8
 
         private void handle_f4_msg()
         {
-            label4.Visible = true;
-            textBox6.Visible = true;
+            buy_lable.Visible = true;
+            quantityTextBox.Visible = true;
 
-            label6.Visible = true;
-            textBox5.Visible = true;
+            quantity_label.Visible = true;
+            priceTextBox.Visible = true;
 
             label3.Text = "公共池";
             label5.Text = "";
             textBox4.Visible = false;
 
-            label4.Text = "卖出";
-            label4.ForeColor = Color.Blue;
+            buy_lable.Text = "卖出";
+            buy_lable.ForeColor = Color.Blue;
 
-            label6.Text = "股数";
-            label6.ForeColor = Color.Blue;
+            quantity_label.Text = "股数";
+            quantity_label.ForeColor = Color.Blue;
 
             if (QuoteList.Items.Count > 0)
             {
-                textBox5.Text = richTextBox1.Text;
-                textBox6.Text = stocknum.ToString();
-                textBox5.SelectAll();
+                priceTextBox.Text = risingPriceTextBox.Text;
+                quantityTextBox.Text = stocknum.ToString();
+                priceTextBox.SelectAll();
             }
             else
             {
-                textBox5.Text = "";
+                priceTextBox.Text = "";
             }
-            textBox5.Focus();
+            priceTextBox.Focus();
             choice_f = 4;
         }
 
         private void handle_f5_msg()
         {
-            label4.Visible = true;
-            textBox6.Visible = true;
+            buy_lable.Visible = true;
+            quantityTextBox.Visible = true;
 
-            label6.Visible = true;
-            textBox5.Visible = true;
+            quantity_label.Visible = true;
+            priceTextBox.Visible = true;
 
             label3.Text = "公共池";
             label5.Text = "";
             textBox4.Visible = false;
 
 
-            label4.Text = "卖出";
-            label4.ForeColor = Color.Blue;
+            buy_lable.Text = "卖出";
+            buy_lable.ForeColor = Color.Blue;
 
-            label6.Text = "股数";
-            label6.ForeColor = Color.Blue;
+            quantity_label.Text = "股数";
+            quantity_label.ForeColor = Color.Blue;
 
             if (QuoteList.Items.Count > 0)
             {
-                textBox5.Text = QuoteList.Items[9].SubItems[1].Text;
-                textBox6.Text = stocknum.ToString();
-                textBox5.SelectAll();
+                priceTextBox.Text = QuoteList.Items[9].SubItems[1].Text;
+                quantityTextBox.Text = stocknum.ToString();
+                priceTextBox.SelectAll();
             }
             else
             {
-                textBox5.Text = "";
+                priceTextBox.Text = "";
             }
-            textBox5.Focus();
+            priceTextBox.Focus();
         }
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        private void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Up)
             {
@@ -730,15 +732,15 @@ namespace K8
             {
                 handle_escape_msg();
             }
-            if (e.KeyCode == Keys.Enter && stockCodeInputBox.Focused)
+            if (e.KeyCode == Keys.Enter && stockCodeTextBox.Focused)
             {
                 start_recv_data();
             }
-            if (e.KeyCode == Keys.Enter && textBox6.Focused)
+            if (e.KeyCode == Keys.Enter && quantityTextBox.Focused)
             {
                 post_order();
             }
-            if (e.KeyCode == Keys.Enter && textBox5.Focused)
+            if (e.KeyCode == Keys.Enter && priceTextBox.Focused)
             {
                 post_order();
             }
@@ -764,7 +766,7 @@ namespace K8
             }
         }
 
-        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        private void OnMouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
@@ -838,67 +840,54 @@ namespace K8
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void OnFromLoad(object sender, EventArgs e)
         {
             //Control.CheckForIllegalCrossThreadCalls = false;
         }
 
-        private void textBox1_MouseClick(object sender, MouseEventArgs e)
+        private void stockCodeTextBox_OnMouseClick(object sender, MouseEventArgs e)
         {
-            stockCodeInputBox.Focus();
-            stockCodeInputBox.SelectAll();
+            stockCodeTextBox.Focus();
+            stockCodeTextBox.SelectAll();
         }
 
         //实现tab键的切换
-        protected override bool ProcessCmdKey(ref   Message msg, Keys keyData)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == Keys.Tab && textBox6.Focused)
+            if (keyData == Keys.Tab && quantityTextBox.Focused)
             {
-                textBox5.Focus();
+                priceTextBox.Focus();
                 return true;
             }
             return false;
         }
 
-        private void textBox5_MouseClick(object sender, MouseEventArgs e)
+        private void priceTextBox_OnMouseClick(object sender, MouseEventArgs e)
         {
-            textBox5.Focus();
-            textBox5.SelectAll();
+            priceTextBox.Focus();
+            priceTextBox.SelectAll();
         }
 
-        private void textBox6_MouseClick(object sender, MouseEventArgs e)
+        private void quantityTextBox_OnMouseClick(object sender, MouseEventArgs e)
         {
-            textBox6.Focus();
-            textBox6.SelectAll();
+            quantityTextBox.Focus();
+            quantityTextBox.SelectAll();
         }
 
-        private void Form1_Click(object sender, EventArgs e)
+        private void OnClick(object sender, EventArgs e)
         {
-            stockCodeInputBox.Focus();
+            stockCodeTextBox.Focus();
         }
 
-        /*实现在客户区点击时候自动聚焦到textBox1上面*/
+        /*实现在客户区点击时候自动聚焦到StocCodetextBox上面*/
         public const int WM_NCLBUTTONDOWN = 0x00A1;
         protected override void WndProc(ref Message m)
         {
             if (m.Msg == WM_NCLBUTTONDOWN)
             {
-                stockCodeInputBox.Focus();
+                stockCodeTextBox.Focus();
             }
             base.WndProc(ref m);
-        }
-
-        private void textBox6_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                int num = int.Parse(textBox6.Text);
-                show_num(num);
-            }
-            catch
-            {
-                return;
-            }
         }
 
         public void post_msg_to_main_wnd(object str)
@@ -911,28 +900,7 @@ namespace K8
             Win32API.SendMessage(main_wnd_handle, 0x63, 0, ref lp);
         }
 
-        /*将数字以 万 千 百 进行分割*/
-        private void show_num(int num)
-        {
-            string temp = "";
-            if (num >= 10000)
-            {
-                temp = temp + (num / 10000) + "万";
-                num = num - (num / 10000) * 10000;
-            }
-            if (num >= 1000)
-            {
-                temp = temp + (num / 1000) + "千";
-                num = num - (num / 1000) * 1000;
-            }
-            if (num >= 100)
-            {
-                temp = temp + (num / 100) + "百";
-                num = num - (num / 100) * 100;
-            }
-        }
-
-        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        private void OnFormClosed(object sender, FormClosedEventArgs e)
         {
             if (thread != null && thread.IsAlive == true)
             {

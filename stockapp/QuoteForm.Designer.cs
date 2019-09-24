@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖十",
             "",
@@ -130,50 +129,309 @@
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
+            this.VSpliter = new System.Windows.Forms.SplitContainer();
+            this.label9 = new System.Windows.Forms.Label();
+            this.riseRateTextBox = new System.Windows.Forms.TextBox();
+            this.dropRateTextBox = new System.Windows.Forms.TextBox();
+            this.risingPriceTextBox = new System.Windows.Forms.TextBox();
+            this.closingTextBox = new System.Windows.Forms.TextBox();
+            this.openningTextBox = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.currentPriceTextBox = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.quantityTextBox = new System.Windows.Forms.TextBox();
+            this.priceTextBox = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.quantity_label = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.buy_lable = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.stockCodeTextBox = new System.Windows.Forms.TextBox();
             this.QuoteList = new System.Windows.Forms.ListView();
             this.Q_Head = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Q_Price = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Q_Quantity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Q_Count = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.stockCodeInputBox = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.TransactionList = new System.Windows.Forms.ListView();
+            this.HSpliter = new System.Windows.Forms.SplitContainer();
             this.T_Price = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.T_Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.T_Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.T_C = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.T_Count = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.timer3 = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.textBox12 = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.TextBox();
-            this.richTextBox2 = new System.Windows.Forms.TextBox();
-            this.richTextBox3 = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.TransactionList = new System.Windows.Forms.ListView();
             this.TransactionDetailList = new System.Windows.Forms.ListView();
             this.TD_Price = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TD_Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TD_D = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TD_Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TD_Count = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            ((System.ComponentModel.ISupportInitialize)(this.VSpliter)).BeginInit();
+            this.VSpliter.Panel1.SuspendLayout();
+            this.VSpliter.Panel2.SuspendLayout();
+            this.VSpliter.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.HSpliter)).BeginInit();
+            this.HSpliter.Panel1.SuspendLayout();
+            this.HSpliter.Panel2.SuspendLayout();
+            this.HSpliter.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // VSpliter
+            // 
+            this.VSpliter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VSpliter.IsSplitterFixed = true;
+            this.VSpliter.Location = new System.Drawing.Point(0, 0);
+            this.VSpliter.Name = "VSpliter";
+            // 
+            // VSpliter.Panel1
+            // 
+            this.VSpliter.Panel1.Controls.Add(this.label9);
+            this.VSpliter.Panel1.Controls.Add(this.riseRateTextBox);
+            this.VSpliter.Panel1.Controls.Add(this.dropRateTextBox);
+            this.VSpliter.Panel1.Controls.Add(this.risingPriceTextBox);
+            this.VSpliter.Panel1.Controls.Add(this.closingTextBox);
+            this.VSpliter.Panel1.Controls.Add(this.openningTextBox);
+            this.VSpliter.Panel1.Controls.Add(this.label10);
+            this.VSpliter.Panel1.Controls.Add(this.label11);
+            this.VSpliter.Panel1.Controls.Add(this.textBox9);
+            this.VSpliter.Panel1.Controls.Add(this.currentPriceTextBox);
+            this.VSpliter.Panel1.Controls.Add(this.label8);
+            this.VSpliter.Panel1.Controls.Add(this.label7);
+            this.VSpliter.Panel1.Controls.Add(this.label2);
+            this.VSpliter.Panel1.Controls.Add(this.label1);
+            this.VSpliter.Panel1.Controls.Add(this.quantityTextBox);
+            this.VSpliter.Panel1.Controls.Add(this.priceTextBox);
+            this.VSpliter.Panel1.Controls.Add(this.textBox4);
+            this.VSpliter.Panel1.Controls.Add(this.textBox3);
+            this.VSpliter.Panel1.Controls.Add(this.quantity_label);
+            this.VSpliter.Panel1.Controls.Add(this.label5);
+            this.VSpliter.Panel1.Controls.Add(this.buy_lable);
+            this.VSpliter.Panel1.Controls.Add(this.label3);
+            this.VSpliter.Panel1.Controls.Add(this.stockCodeTextBox);
+            this.VSpliter.Panel1.Controls.Add(this.QuoteList);
+            this.VSpliter.Panel1MinSize = 185;
+            // 
+            // VSpliter.Panel2
+            // 
+            this.VSpliter.Panel2.Controls.Add(this.HSpliter);
+            this.VSpliter.Size = new System.Drawing.Size(372, 476);
+            this.VSpliter.SplitterDistance = 185;
+            this.VSpliter.SplitterWidth = 1;
+            this.VSpliter.TabIndex = 0;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label9.Location = new System.Drawing.Point(2, 57);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(31, 12);
+            this.label9.TabIndex = 71;
+            this.label9.Text = "涨幅";
+            // 
+            // riseRateTextBox
+            // 
+            this.riseRateTextBox.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.riseRateTextBox.Location = new System.Drawing.Point(37, 53);
+            this.riseRateTextBox.Name = "riseRateTextBox";
+            this.riseRateTextBox.ReadOnly = true;
+            this.riseRateTextBox.Size = new System.Drawing.Size(52, 21);
+            this.riseRateTextBox.TabIndex = 70;
+            // 
+            // dropRateTextBox
+            // 
+            this.dropRateTextBox.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.dropRateTextBox.ForeColor = System.Drawing.Color.Green;
+            this.dropRateTextBox.Location = new System.Drawing.Point(129, 53);
+            this.dropRateTextBox.Name = "dropRateTextBox";
+            this.dropRateTextBox.ReadOnly = true;
+            this.dropRateTextBox.Size = new System.Drawing.Size(52, 21);
+            this.dropRateTextBox.TabIndex = 69;
+            // 
+            // risingPriceTextBox
+            // 
+            this.risingPriceTextBox.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.risingPriceTextBox.ForeColor = System.Drawing.Color.Red;
+            this.risingPriceTextBox.Location = new System.Drawing.Point(129, 30);
+            this.risingPriceTextBox.Name = "risingPriceTextBox";
+            this.risingPriceTextBox.ReadOnly = true;
+            this.risingPriceTextBox.Size = new System.Drawing.Size(52, 21);
+            this.risingPriceTextBox.TabIndex = 68;
+            // 
+            // closingTextBox
+            // 
+            this.closingTextBox.Location = new System.Drawing.Point(129, 76);
+            this.closingTextBox.Name = "closingTextBox";
+            this.closingTextBox.ReadOnly = true;
+            this.closingTextBox.Size = new System.Drawing.Size(52, 21);
+            this.closingTextBox.TabIndex = 67;
+            // 
+            // openningTextBox
+            // 
+            this.openningTextBox.Location = new System.Drawing.Point(37, 76);
+            this.openningTextBox.Name = "openningTextBox";
+            this.openningTextBox.ReadOnly = true;
+            this.openningTextBox.Size = new System.Drawing.Size(52, 21);
+            this.openningTextBox.TabIndex = 66;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label10.Location = new System.Drawing.Point(2, 80);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(31, 12);
+            this.label10.TabIndex = 65;
+            this.label10.Text = "今开";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label11.Location = new System.Drawing.Point(95, 80);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(31, 12);
+            this.label11.TabIndex = 64;
+            this.label11.Text = "昨收";
+            // 
+            // textBox9
+            // 
+            this.textBox9.Location = new System.Drawing.Point(98, 5);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.ReadOnly = true;
+            this.textBox9.Size = new System.Drawing.Size(83, 21);
+            this.textBox9.TabIndex = 63;
+            // 
+            // currentPriceTextBox
+            // 
+            this.currentPriceTextBox.Location = new System.Drawing.Point(37, 30);
+            this.currentPriceTextBox.MaxLength = 5;
+            this.currentPriceTextBox.Name = "currentPriceTextBox";
+            this.currentPriceTextBox.ReadOnly = true;
+            this.currentPriceTextBox.Size = new System.Drawing.Size(52, 21);
+            this.currentPriceTextBox.TabIndex = 62;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label8.Location = new System.Drawing.Point(61, 9);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(31, 12);
+            this.label8.TabIndex = 61;
+            this.label8.Text = "金额";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label7.Location = new System.Drawing.Point(95, 57);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(31, 12);
+            this.label7.TabIndex = 60;
+            this.label7.Text = "跌停";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label2.Location = new System.Drawing.Point(2, 34);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(31, 12);
+            this.label2.TabIndex = 59;
+            this.label2.Text = "现价";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Location = new System.Drawing.Point(95, 34);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(31, 12);
+            this.label1.TabIndex = 58;
+            this.label1.Text = "涨停";
+            // 
+            // quantityTextBox
+            // 
+            this.quantityTextBox.Location = new System.Drawing.Point(124, 425);
+            this.quantityTextBox.Name = "quantityTextBox";
+            this.quantityTextBox.Size = new System.Drawing.Size(52, 21);
+            this.quantityTextBox.TabIndex = 56;
+            // 
+            // priceTextBox
+            // 
+            this.priceTextBox.Location = new System.Drawing.Point(34, 425);
+            this.priceTextBox.Name = "priceTextBox";
+            this.priceTextBox.Size = new System.Drawing.Size(52, 21);
+            this.priceTextBox.TabIndex = 55;
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(124, 452);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.ReadOnly = true;
+            this.textBox4.Size = new System.Drawing.Size(52, 21);
+            this.textBox4.TabIndex = 54;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(34, 452);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.ReadOnly = true;
+            this.textBox3.Size = new System.Drawing.Size(52, 21);
+            this.textBox3.TabIndex = 53;
+            // 
+            // quantity_label
+            // 
+            this.quantity_label.AutoSize = true;
+            this.quantity_label.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.quantity_label.Location = new System.Drawing.Point(92, 429);
+            this.quantity_label.Name = "quantity_label";
+            this.quantity_label.Size = new System.Drawing.Size(31, 12);
+            this.quantity_label.TabIndex = 52;
+            this.quantity_label.Text = "数量";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label5.Location = new System.Drawing.Point(92, 456);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(32, 12);
+            this.label5.TabIndex = 51;
+            this.label5.Text = "F3池";
+            // 
+            // buy_lable
+            // 
+            this.buy_lable.AutoSize = true;
+            this.buy_lable.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.buy_lable.Location = new System.Drawing.Point(2, 429);
+            this.buy_lable.Name = "buy_lable";
+            this.buy_lable.Size = new System.Drawing.Size(31, 12);
+            this.buy_lable.TabIndex = 50;
+            this.buy_lable.Text = "买入";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label3.Location = new System.Drawing.Point(2, 456);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(32, 12);
+            this.label3.TabIndex = 49;
+            this.label3.Text = "F2池";
+            // 
+            // stockCodeInputBox
+            // 
+            this.stockCodeTextBox.Location = new System.Drawing.Point(2, 5);
+            this.stockCodeTextBox.Name = "stockCodeInputBox";
+            this.stockCodeTextBox.Size = new System.Drawing.Size(55, 21);
+            this.stockCodeTextBox.TabIndex = 47;
             // 
             // QuoteList
             // 
@@ -226,10 +484,11 @@
             listViewItem19,
             listViewItem20,
             listViewItem21});
-            this.QuoteList.Location = new System.Drawing.Point(-1, 100);
+            this.QuoteList.Location = new System.Drawing.Point(1, 100);
+            this.QuoteList.MinimumSize = new System.Drawing.Size(185, 320);
             this.QuoteList.Name = "QuoteList";
-            this.QuoteList.Size = new System.Drawing.Size(182, 407);
-            this.QuoteList.TabIndex = 0;
+            this.QuoteList.Size = new System.Drawing.Size(185, 320);
+            this.QuoteList.TabIndex = 48;
             this.QuoteList.UseCompatibleStateImageBehavior = false;
             this.QuoteList.View = System.Windows.Forms.View.Details;
             // 
@@ -253,104 +512,24 @@
             this.Q_Count.Text = "0";
             this.Q_Count.Width = 40;
             // 
-            // stockCodeInputBox
+            // HSpliter
             // 
-            this.stockCodeInputBox.Location = new System.Drawing.Point(4, 1);
-            this.stockCodeInputBox.Name = "stockCodeInputBox";
-            this.stockCodeInputBox.Size = new System.Drawing.Size(53, 21);
-            this.stockCodeInputBox.TabIndex = 0;
-            this.stockCodeInputBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBox1_MouseClick);
+            this.HSpliter.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.HSpliter.Location = new System.Drawing.Point(0, 0);
+            this.HSpliter.Name = "HSpliter";
+            this.HSpliter.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // label3
+            // HSpliter.Panel1
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(2, 544);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(32, 12);
-            this.label3.TabIndex = 19;
-            this.label3.Text = "F2池";
+            this.HSpliter.Panel1.Controls.Add(this.TransactionDetailList);
             // 
-            // label4
+            // HSpliter.Panel2
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.Location = new System.Drawing.Point(2, 517);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(31, 12);
-            this.label4.TabIndex = 20;
-            this.label4.Text = "买入";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.Location = new System.Drawing.Point(92, 543);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(32, 12);
-            this.label5.TabIndex = 21;
-            this.label5.Text = "F3池";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.Location = new System.Drawing.Point(92, 517);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(31, 12);
-            this.label6.TabIndex = 22;
-            this.label6.Text = "数量";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(34, 540);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(57, 21);
-            this.textBox3.TabIndex = 23;
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(124, 540);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(57, 21);
-            this.textBox4.TabIndex = 24;
-            // 
-            // textBox5
-            // 
-            this.textBox5.Location = new System.Drawing.Point(34, 513);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(57, 21);
-            this.textBox5.TabIndex = 25;
-            this.textBox5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBox5_MouseClick);
-            // 
-            // textBox6
-            // 
-            this.textBox6.Location = new System.Drawing.Point(124, 513);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(57, 21);
-            this.textBox6.TabIndex = 26;
-            this.textBox6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBox6_MouseClick);
-            this.textBox6.TextChanged += new System.EventHandler(this.textBox6_TextChanged);
-            // 
-            // TransactionList
-            // 
-            this.TransactionList.BackColor = System.Drawing.Color.Black;
-            this.TransactionList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.T_Price,
-            this.T_Size,
-            this.T_Time,
-            this.T_C,
-            this.T_Count});
-            this.TransactionList.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.TransactionList.ForeColor = System.Drawing.Color.Gray;
-            this.TransactionList.Location = new System.Drawing.Point(183, 229);
-            this.TransactionList.Name = "TransactionList";
-            this.TransactionList.Size = new System.Drawing.Size(185, 231);
-            this.TransactionList.TabIndex = 27;
-            this.TransactionList.UseCompatibleStateImageBehavior = false;
-            this.TransactionList.View = System.Windows.Forms.View.Details;
+            this.HSpliter.Panel2.Controls.Add(this.TransactionList);
+            this.HSpliter.Size = new System.Drawing.Size(186, 476);
+            this.HSpliter.SplitterDistance = 240;
+            this.HSpliter.SplitterWidth = 1;
+            this.HSpliter.TabIndex = 0;
             // 
             // T_Price
             // 
@@ -379,137 +558,23 @@
             this.T_Count.Text = "0";
             this.T_Count.Width = 40;
             // 
-            // label1
+            // TransactionList
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(91, 30);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 12);
-            this.label1.TabIndex = 28;
-            this.label1.Text = "涨停";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(2, 31);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 12);
-            this.label2.TabIndex = 29;
-            this.label2.Text = "现价";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.Location = new System.Drawing.Point(91, 53);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(31, 12);
-            this.label7.TabIndex = 30;
-            this.label7.Text = "跌停";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label8.Location = new System.Drawing.Point(60, 5);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(31, 12);
-            this.label8.TabIndex = 31;
-            this.label8.Text = "金额";
-            // 
-            // textBox7
-            // 
-            this.textBox7.Location = new System.Drawing.Point(33, 27);
-            this.textBox7.MaxLength = 5;
-            this.textBox7.Name = "textBox7";
-            this.textBox7.ReadOnly = true;
-            this.textBox7.Size = new System.Drawing.Size(52, 21);
-            this.textBox7.TabIndex = 34;
-            // 
-            // textBox9
-            // 
-            this.textBox9.Location = new System.Drawing.Point(94, 1);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.ReadOnly = true;
-            this.textBox9.Size = new System.Drawing.Size(83, 21);
-            this.textBox9.TabIndex = 36;
-            // 
-            // textBox11
-            // 
-            this.textBox11.Location = new System.Drawing.Point(125, 73);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.ReadOnly = true;
-            this.textBox11.Size = new System.Drawing.Size(52, 21);
-            this.textBox11.TabIndex = 41;
-            // 
-            // textBox12
-            // 
-            this.textBox12.Location = new System.Drawing.Point(33, 73);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.ReadOnly = true;
-            this.textBox12.Size = new System.Drawing.Size(52, 21);
-            this.textBox12.TabIndex = 40;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label10.Location = new System.Drawing.Point(2, 77);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(31, 12);
-            this.label10.TabIndex = 39;
-            this.label10.Text = "今开";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label11.Location = new System.Drawing.Point(91, 77);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(31, 12);
-            this.label11.TabIndex = 38;
-            this.label11.Text = "昨收";
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.richTextBox1.ForeColor = System.Drawing.Color.Red;
-            this.richTextBox1.Location = new System.Drawing.Point(125, 26);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(52, 21);
-            this.richTextBox1.TabIndex = 42;
-            // 
-            // richTextBox2
-            // 
-            this.richTextBox2.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.richTextBox2.ForeColor = System.Drawing.Color.Green;
-            this.richTextBox2.Location = new System.Drawing.Point(125, 49);
-            this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.ReadOnly = true;
-            this.richTextBox2.Size = new System.Drawing.Size(52, 21);
-            this.richTextBox2.TabIndex = 43;
-            // 
-            // richTextBox3
-            // 
-            this.richTextBox3.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.richTextBox3.Location = new System.Drawing.Point(33, 50);
-            this.richTextBox3.Name = "richTextBox3";
-            this.richTextBox3.ReadOnly = true;
-            this.richTextBox3.Size = new System.Drawing.Size(52, 21);
-            this.richTextBox3.TabIndex = 44;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label9.Location = new System.Drawing.Point(2, 54);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(31, 12);
-            this.label9.TabIndex = 45;
-            this.label9.Text = "涨幅";
+            this.TransactionList.BackColor = System.Drawing.Color.Black;
+            this.TransactionList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.T_Price,
+            this.T_Size,
+            this.T_Time,
+            this.T_C,
+            this.T_Count});
+            this.TransactionList.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.TransactionList.ForeColor = System.Drawing.Color.Gray;
+            this.TransactionList.Location = new System.Drawing.Point(0, 0);
+            this.TransactionList.Name = "TransactionList";
+            this.TransactionList.Size = new System.Drawing.Size(185, 235);
+            this.TransactionList.TabIndex = 75;
+            this.TransactionList.UseCompatibleStateImageBehavior = false;
+            this.TransactionList.View = System.Windows.Forms.View.Details;
             // 
             // TransactionDetailList
             // 
@@ -522,10 +587,10 @@
             this.TD_Count});
             this.TransactionDetailList.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.TransactionDetailList.ForeColor = System.Drawing.Color.Gray;
-            this.TransactionDetailList.Location = new System.Drawing.Point(184, 1);
+            this.TransactionDetailList.Location = new System.Drawing.Point(1, 1);
             this.TransactionDetailList.Name = "TransactionDetailList";
-            this.TransactionDetailList.Size = new System.Drawing.Size(184, 222);
-            this.TransactionDetailList.TabIndex = 46;
+            this.TransactionDetailList.Size = new System.Drawing.Size(185, 236);
+            this.TransactionDetailList.TabIndex = 77;
             this.TransactionDetailList.UseCompatibleStateImageBehavior = false;
             this.TransactionDetailList.View = System.Windows.Forms.View.Details;
             // 
@@ -557,93 +622,76 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(370, 568);
-            this.Controls.Add(this.TransactionDetailList);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.richTextBox3);
-            this.Controls.Add(this.richTextBox2);
-            this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.textBox11);
-            this.Controls.Add(this.textBox12);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.textBox9);
-            this.Controls.Add(this.textBox7);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.TransactionList);
-            this.Controls.Add(this.textBox6);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.stockCodeInputBox);
-            this.Controls.Add(this.QuoteList);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.ClientSize = new System.Drawing.Size(372, 476);
+            this.Controls.Add(this.VSpliter);
             this.KeyPreview = true;
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(380, 600);
+            this.MinimumSize = new System.Drawing.Size(195, 450);
             this.Name = "QuoteForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.Click += new System.EventHandler(this.Form1_Click);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OnFormClosed);
+            this.Load += new System.EventHandler(this.OnFromLoad);
+            this.Click += new System.EventHandler(this.OnClick);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
+            this.VSpliter.Panel1.ResumeLayout(false);
+            this.VSpliter.Panel1.PerformLayout();
+            this.VSpliter.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.VSpliter)).EndInit();
+            this.VSpliter.ResumeLayout(false);
+            this.HSpliter.Panel1.ResumeLayout(false);
+            this.HSpliter.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.HSpliter)).EndInit();
+            this.HSpliter.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ListView QuoteList;
-        private System.Windows.Forms.TextBox stockCodeInputBox;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Timer timer2;
-        private System.Windows.Forms.ListView TransactionList;
-        private System.Windows.Forms.Timer timer3;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.SplitContainer VSpliter;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox riseRateTextBox;
+        private System.Windows.Forms.TextBox dropRateTextBox;
+        private System.Windows.Forms.TextBox risingPriceTextBox;
+        private System.Windows.Forms.TextBox closingTextBox;
+        private System.Windows.Forms.TextBox openningTextBox;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox richTextBox1;
-        private System.Windows.Forms.TextBox richTextBox2;
-        private System.Windows.Forms.TextBox richTextBox3;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ListView TransactionDetailList;
+        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox currentPriceTextBox;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox quantityTextBox;
+        private System.Windows.Forms.TextBox priceTextBox;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label quantity_label;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label buy_lable;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox stockCodeTextBox;
+        private System.Windows.Forms.ListView QuoteList;
         private System.Windows.Forms.ColumnHeader Q_Head;
         private System.Windows.Forms.ColumnHeader Q_Price;
         private System.Windows.Forms.ColumnHeader Q_Quantity;
         public System.Windows.Forms.ColumnHeader Q_Count;
+        private System.Windows.Forms.SplitContainer HSpliter;
+        private System.Windows.Forms.ListView TransactionDetailList;
         private System.Windows.Forms.ColumnHeader TD_Price;
         private System.Windows.Forms.ColumnHeader TD_Size;
         private System.Windows.Forms.ColumnHeader TD_D;
         private System.Windows.Forms.ColumnHeader TD_Time;
-        private System.Windows.Forms.ColumnHeader T_Price;
-        private System.Windows.Forms.ColumnHeader T_Time;
-        private System.Windows.Forms.ColumnHeader T_Size;
-        private System.Windows.Forms.ColumnHeader T_C;
         public System.Windows.Forms.ColumnHeader TD_Count;
+        private System.Windows.Forms.ListView TransactionList;
+        private System.Windows.Forms.ColumnHeader T_Price;
+        private System.Windows.Forms.ColumnHeader T_Size;
+        private System.Windows.Forms.ColumnHeader T_Time;
+        private System.Windows.Forms.ColumnHeader T_C;
         public System.Windows.Forms.ColumnHeader T_Count;
+
     }
 }
 

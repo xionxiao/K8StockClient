@@ -221,7 +221,7 @@ namespace K8
                 DataSet.gPositionList = temp;
                 if (once == false)
                 {
-                    Thread.Sleep(Settings.Default.PositionRefreshTime);
+                    Thread.Sleep(Settings.Default.PositionRefreshDelay);
                     FetchPosition(false);
                 }
             });
@@ -239,7 +239,7 @@ namespace K8
                 DataSet.gStockPool = temp;
                 if (once == false)
                 {
-                    Thread.Sleep(Settings.Default.StockPoolRefreshTime);
+                    Thread.Sleep(Settings.Default.StockPoolRefreshDelay);
                     FetchStockPool(false);
                 }
             });
@@ -258,7 +258,7 @@ namespace K8
                 DataSet.gOrderList = temp;
                 if (once == false)
                 {
-                    Thread.Sleep(Settings.Default.OrdersListRefreshTime);
+                    Thread.Sleep(Settings.Default.OrdersListRefreshDelay);
                     FetchOrdersList(false);
                 }
             });
@@ -276,7 +276,7 @@ namespace K8
                 DataSet.gDeals = temp;
                 if (once == false)
                 {
-                    Thread.Sleep(Settings.Default.DealsRefreshTime);
+                    Thread.Sleep(Settings.Default.DealsRefreshDelay);
                     FetchDeals(false);
                 }
             });

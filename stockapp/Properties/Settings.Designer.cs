@@ -50,48 +50,84 @@ namespace K8.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1000")]
-        public int OrdersListRefreshTime {
+        public int OrdersListRefreshDelay {
             get {
-                return ((int)(this["OrdersListRefreshTime"]));
+                return ((int)(this["OrdersListRefreshDelay"]));
             }
             set {
-                this["OrdersListRefreshTime"] = value;
+                this["OrdersListRefreshDelay"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1000")]
-        public int DealsRefreshTime {
+        public int DealsRefreshDelay {
             get {
-                return ((int)(this["DealsRefreshTime"]));
+                return ((int)(this["DealsRefreshDelay"]));
             }
             set {
-                this["DealsRefreshTime"] = value;
+                this["DealsRefreshDelay"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1000")]
-        public int PositionRefreshTime {
+        public int PositionRefreshDelay {
             get {
-                return ((int)(this["PositionRefreshTime"]));
+                return ((int)(this["PositionRefreshDelay"]));
             }
             set {
-                this["PositionRefreshTime"] = value;
+                this["PositionRefreshDelay"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1000")]
-        public int StockPoolRefreshTime {
+        public int StockPoolRefreshDelay {
             get {
-                return ((int)(this["StockPoolRefreshTime"]));
+                return ((int)(this["StockPoolRefreshDelay"]));
             }
             set {
-                this["StockPoolRefreshTime"] = value;
+                this["StockPoolRefreshDelay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        public int QuoteRefreshDelay {
+            get {
+                return ((int)(this["QuoteRefreshDelay"]));
+            }
+            set {
+                this["QuoteRefreshDelay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        public int TransactionDetailRefreshDelay {
+            get {
+                return ((int)(this["TransactionDetailRefreshDelay"]));
+            }
+            set {
+                this["TransactionDetailRefreshDelay"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        public int TransactionRefreshDelay {
+            get {
+                return ((int)(this["TransactionRefreshDelay"]));
+            }
+            set {
+                this["TransactionRefreshDelay"] = value;
             }
         }
     }

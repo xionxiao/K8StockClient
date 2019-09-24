@@ -8,17 +8,26 @@
     <Setting Name="TradeServerIP" Type="System.String" Scope="User">
       <Value Profile="(Default)">127.0.0.1:8888</Value>
     </Setting>
-    <Setting Name="OrdersListRefreshTime" Type="System.Int32" Scope="User">
+    <Setting Name="OrdersListRefreshDelay" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1000</Value>
     </Setting>
-    <Setting Name="DealsRefreshTime" Type="System.Int32" Scope="User">
+    <Setting Name="DealsRefreshDelay" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1000</Value>
     </Setting>
-    <Setting Name="PositionRefreshTime" Type="System.Int32" Scope="User">
+    <Setting Name="PositionRefreshDelay" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1000</Value>
     </Setting>
-    <Setting Name="StockPoolRefreshTime" Type="System.Int32" Scope="User">
+    <Setting Name="StockPoolRefreshDelay" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="QuoteRefreshDelay" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">500</Value>
+    </Setting>
+    <Setting Name="TransactionDetailRefreshDelay" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">500</Value>
+    </Setting>
+    <Setting Name="TransactionRefreshDelay" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">500</Value>
     </Setting>
   </Settings>
 </SettingsFile>

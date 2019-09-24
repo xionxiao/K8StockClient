@@ -142,6 +142,7 @@
             // OrderList
             // 
             this.OrderList.BackColor = System.Drawing.Color.Black;
+            this.OrderList.CheckBoxes = true;
             this.OrderList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.OrderList.ForeColor = System.Drawing.Color.LightGray;
             this.OrderList.FullRowSelect = true;
@@ -168,6 +169,7 @@
             // PositionList
             // 
             this.PositionList.BackColor = System.Drawing.Color.Black;
+            this.PositionList.CheckBoxes = true;
             this.PositionList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PositionList.ForeColor = System.Drawing.Color.LightGray;
             this.PositionList.Location = new System.Drawing.Point(3, 17);

@@ -26,14 +26,14 @@ namespace K8
     {
         private int stockcode = 0;
         private int stocknum = 100;
+        private string mStockCode = null;
         private string ip_hangqi;
         private string ip_jiaoyi;
         private int choice_f = 0;           /*区别f1 f2 f3*/
-        private Thread thread;
+        private Thread thread = null;
         private IntPtr main_wnd_handle;     /*主窗口句柄*/
         private Form parent;
-        delegate void Reflist(JArray ja);   /*声明委托*/
-        delegate void Reflist1(JObject ja);   /*声明委托*/
+        delegate void Reflist(JObject ja);   /*声明委托*/
         private string[] CH_NUM = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十" };
 
         public QuoteForm(Form fm)
@@ -51,6 +51,19 @@ namespace K8
             TransactionList.DoubleBuffering(true);
         }
 
+        private JObject str_to_jobject(string str)
+        {
+            try
+            {
+                JObject jo = (JObject)JsonConvert.DeserializeObject(str);
+                return jo;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         /*更新第三个列表框控件*/
         private int ref_list3_count = 0;
         private void RefreshTransactionList(JObject jo)
@@ -62,7 +75,7 @@ namespace K8
                 if (this.TransactionList.InvokeRequired)
                 {
                     //为当前控件指定委托
-                    this.TransactionList.Invoke(new Reflist1(RefreshTransactionList), jo);
+                    this.TransactionList.Invoke(new Reflist(RefreshTransactionList), jo);
                 }
                 else
                 {
@@ -107,26 +120,14 @@ namespace K8
                         }
                         TransactionList.Items.Add(item);
                     }
-                    TransactionList.EnsureVisible(TransactionList.Items.Count - 1);
+
                 }
+                TransactionList.EnsureVisible(TransactionList.Items.Count - 1);
                 TransactionList.EndUpdate();
             }
             catch
             {
                 return;
-            }
-        }
-
-        private JObject str_to_jobject(string str)
-        {
-            try
-            {
-                JObject jo = (JObject)JsonConvert.DeserializeObject(str);
-                return jo;
-            }
-            catch
-            {
-                return null;
             }
         }
 
@@ -139,7 +140,7 @@ namespace K8
                 if (this.QuoteList.InvokeRequired)
                 {
                     //为当前控件指定委托
-                    this.QuoteList.Invoke(new Reflist1(RefreshQuoteList), jo);
+                    this.QuoteList.Invoke(new Reflist(RefreshQuoteList), jo);
                 }
                 else
                 {
@@ -191,14 +192,14 @@ namespace K8
                 if (this.TransactionDetailList.InvokeRequired)
                 {
                     //为当前控件指定委托
-                    this.TransactionDetailList.Invoke(new Reflist1(RefreshTransactionDetailList), jo);
+                    this.TransactionDetailList.Invoke(new Reflist(RefreshTransactionDetailList), jo);
                 }
                 else
                 {
                     TransactionDetailList.BeginUpdate();
                     TransactionDetailList.Columns[4].Text = (++ref_list2_count).ToString();
                     TransactionDetailList.Items.Clear();
-                    
+
                     for (int i = 0; i < ja.Count; i++)
                     {
                         ListViewItem item = new ListViewItem();
@@ -224,8 +225,8 @@ namespace K8
                             item.SubItems[3].ForeColor = RGB(0x5C5CFF);
                         }
                         TransactionDetailList.Items.Add(item);
-                        TransactionDetailList.EnsureVisible(TransactionDetailList.Items.Count - 1);
                     }
+                    TransactionDetailList.EnsureVisible(TransactionDetailList.Items.Count - 1);
                     TransactionDetailList.EndUpdate();
                 }
             }
@@ -235,118 +236,67 @@ namespace K8
             }
         }
 
-        private void refresh_lefttop_controls(JArray ja1)
+        private void refresh_lefttop_controls(JObject jo)
         {
-            if (ja1 == null || ja1.Count == 0)
-                return;
-
-            double price = double.Parse(ja1[0]["昨收"].ToString());
-            this.Text = ja1[0]["名称"].ToString();
-            textBox7.Text = ja1[0]["现价"].ToString().Substring(0,
-                        ja1[0]["现价"].ToString().IndexOf(".") + 3);
-            double now_price = Double.Parse(textBox7.Text);
-            double rate = (now_price - price) / price;
-            if (rate > 0)
-                richTextBox3.ForeColor = RGB(0x5C5CFF);
-            else
-                richTextBox3.ForeColor = Color.Green;
-            richTextBox3.Text = string.Format("{0:0.00%}", rate);
-            double amount = double.Parse(ja1[0]["总金额"].ToString());
-            amount /= 10000;
-            textBox9.Text = string.Format("{0:N0}", amount) + " W";
-            textBox12.Text = ja1[0]["开盘"].ToString().Substring(0,
-                ja1[0]["开盘"].ToString().IndexOf(".") + 3);
-            textBox11.Text = ja1[0]["昨收"].ToString().Substring(0,
-                        ja1[0]["昨收"].ToString().IndexOf(".") + 3);
-            double temp1 = price * 1.1;
-            this.richTextBox1.Text = string.Format("{0:F2}", temp1);
-            temp1 = price * 0.9;
-            this.richTextBox2.Text = string.Format("{0:F2}", temp1);
-        }
-
-        private void add_to_transaction_list(JArray ja)
-        {
-
-            if (ja == null || ja.Count == 0)
-                return;
-
-            if (this.TransactionList.InvokeRequired)
+            try
             {
-                //为当前控件指定委托
-                this.TransactionList.Invoke(new Reflist(add_to_transaction_list), ja);
+                var ja = jo["quote10"];
+
+                double price = double.Parse(ja[0]["昨收"].ToString());
+                this.Text = ja[0]["名称"].ToString();
+                textBox7.Text = ja[0]["现价"].ToString().Substring(0,
+                            ja[0]["现价"].ToString().IndexOf(".") + 3);
+                double now_price = Double.Parse(textBox7.Text);
+                double rate = (now_price - price) / price;
+                if (rate > 0)
+                    richTextBox3.ForeColor = RGB(0x5C5CFF);
+                else
+                    richTextBox3.ForeColor = Color.Green;
+                richTextBox3.Text = string.Format("{0:0.00%}", rate);
+                double amount = double.Parse(ja[0]["总金额"].ToString());
+                amount /= 10000;
+                textBox9.Text = string.Format("{0:N0}", amount) + " W";
+                textBox12.Text = ja[0]["开盘"].ToString().Substring(0,
+                    ja[0]["开盘"].ToString().IndexOf(".") + 3);
+                textBox11.Text = ja[0]["昨收"].ToString().Substring(0,
+                            ja[0]["昨收"].ToString().IndexOf(".") + 3);
+                double temp1 = price * 1.1;
+                this.richTextBox1.Text = string.Format("{0:F2}", temp1);
+                temp1 = price * 0.9;
+                this.richTextBox2.Text = string.Format("{0:F2}", temp1);
             }
-            else
+            catch
             {
-                TransactionList.BeginUpdate();
-                for (int i = 0; i < ja.Count; i++)
-                {
-                    ListViewItem item1 = new ListViewItem();
-
-                    item1.UseItemStyleForSubItems = false;
-
-                    item1.SubItems[0].Text = ja[i]["价格"].ToString().Substring(0,
-                        ja[i]["价格"].ToString().IndexOf(".") + 3);
-                    int nq = int.Parse(ja[i]["现量"].ToString());
-
-                    item1.SubItems.Add(nq.ToString());
-
-                    item1.SubItems.Add(ja[i]["时间"].ToString());
-
-                    item1.SubItems.Add(ja[i]["笔数"].ToString());
-
-                    if (ja[i]["买卖"].ToString() == "1")
-                    {
-                        item1.SubItems[0].ForeColor = RGB(0x65E339);
-                        item1.SubItems[1].ForeColor = RGB(0x65E339);
-                        item1.SubItems[2].ForeColor = RGB(0x65E339);
-                        item1.SubItems[3].ForeColor = Color.White;
-                    }
-                    else
-                    {
-                        item1.SubItems[0].ForeColor = RGB(0x5C5CFF);
-                        item1.SubItems[1].ForeColor = RGB(0x5C5CFF);
-                        item1.SubItems[2].ForeColor = RGB(0x5C5CFF);
-                        item1.SubItems[3].ForeColor = Color.White;
-                    }
-                    if (nq >= 500)
-                    {
-                        item1.SubItems[1].ForeColor = RGB(0xc000c0);
-                    }
-                    //3、将数据集item1添加到ListView控件  
-                    TransactionList.Items.Add(item1);
-                }
-                TransactionList.EndUpdate();
+                return;
             }
         }
 
-        private bool stop = false;
-        public void FetchQuote(string stock, bool once = true)
+        public void FetchQuote(bool once = true)
         {
             var client = new RestClient("http://" + ip_hangqi);
             var request = new RestRequest("query", Method.GET);
             request.AddParameter("catalogues", "quote10");
-            request.AddParameter("stocks", stock);
+            request.AddParameter("stocks", mStockCode);
 
             client.ExecuteAsync(request, response =>
             {
                 var temp = str_to_jobject(response.Content);
-                //var temp = str1_to_jarray(response.Content);
                 RefreshQuoteList(temp);
-                //refresh_lefttop_controls(temp);
+                refresh_lefttop_controls(temp);
                 if (!once)
                 {
                     Thread.Sleep(0);
-                    FetchQuote(stock, stop);
+                    FetchQuote(false);
                 }
             });
         }
 
-        public void FetchTransactionDetail(string stock, bool once = true)
+        public void FetchTransactionDetail(bool once = true)
         {
             var client = new RestClient("http://" + ip_hangqi);
             var request = new RestRequest("query", Method.GET);
             request.AddParameter("catalogues", "transaction_detail");
-            request.AddParameter("stock", stock);
+            request.AddParameter("stock", mStockCode);
 
             client.ExecuteAsync(request, response =>
             {
@@ -355,17 +305,17 @@ namespace K8
                 if (!once)
                 {
                     Thread.Sleep(0);
-                    FetchTransactionDetail(stock, stop);
+                    FetchTransactionDetail(false);
                 }
             });
         }
 
-        public void FetchTransaction(string stock, bool once = true)
+        public void FetchTransaction(bool once = true)
         {
             var client = new RestClient("http://" + ip_hangqi);
             var request = new RestRequest("query", Method.GET);
             request.AddParameter("catalogues", "transaction");
-            request.AddParameter("stock", stock);
+            request.AddParameter("stock", mStockCode);
 
             client.ExecuteAsync(request, response =>
             {
@@ -374,19 +324,16 @@ namespace K8
                 if (!once)
                 {
                     Thread.Sleep(0);
-                    FetchTransaction(stock, stop);
+                    FetchTransaction(false);
                 }
             });
         }
 
         private void Run(object num)
         {
-            string Num = num.ToString();
-            {
-                FetchQuote(Num, false);
-                FetchTransactionDetail(Num, false);
-                FetchTransaction(Num, false);
-            }
+            FetchQuote(false);
+            FetchTransactionDetail(false);
+            FetchTransaction(false);
         }
 
         private void handle_shiftup_msg()
@@ -482,13 +429,6 @@ namespace K8
             richTextBox3.Text = "";
             textBox3.Text = "";
 
-            if (thread != null)
-            {
-                stop = true;
-                thread.Abort();
-                thread = null;
-            }
-
             string temp;
             stockcode = int.Parse(stockCodeInputBox.Text);
             temp = stockcode.ToString();
@@ -503,28 +443,26 @@ namespace K8
             {
                 temp = string.Format("{0:D6}", stockcode);
             }
-            //创建一个线程
-            thread = new Thread(new ParameterizedThreadStart(Run));
-            thread.IsBackground = true;
-            thread.Start(temp);
+            mStockCode = temp;
+
+            if (thread == null)
+            {
+                //创建一个线程
+                thread = new Thread(Run);
+                thread.IsBackground = true;
+                thread.Start();
+            }
         }
 
         private void post_order()
         {
             float price = float.Parse(textBox5.Text);
             int num = int.Parse(textBox6.Text);
-            string temp = "";
-            if (stockcode < 100000)
-            {
-                temp = string.Format("{0:D6}", stockcode);
-            }
-            else
-            {
-                temp = stockcode.ToString();
-            }
+            if (mStockCode == null)
+                return;
             if (choice_f == 1)
             {
-                string str = "http://" + ip_jiaoyi + "/buy?stock=" + temp + "&price=" + price +
+                string str = "http://" + ip_jiaoyi + "/buy?stock=" + mStockCode + "&price=" + price +
                  "&share=" + num;
 
                 Thread thread = new Thread(new ParameterizedThreadStart(post_msg_to_main_wnd));
@@ -533,7 +471,7 @@ namespace K8
             }
             if (choice_f == 2)
             {
-                string str = "http://" + ip_jiaoyi + "/sell?stock=" + temp + "&price=" + price +
+                string str = "http://" + ip_jiaoyi + "/sell?stock=" + mStockCode + "&price=" + price +
                  "&share=" + num;
                 Thread thread = new Thread(new ParameterizedThreadStart(post_msg_to_main_wnd));
                 thread.IsBackground = true;
@@ -541,7 +479,7 @@ namespace K8
             }
             if (choice_f == 3)
             {
-                string str = "http://" + ip_jiaoyi + "/short?type=frompool&stock=" + temp + "&price=" + price +
+                string str = "http://" + ip_jiaoyi + "/short?type=frompool&stock=" + mStockCode + "&price=" + price +
                      "&share=" + num;
                 Thread thread = new Thread(new ParameterizedThreadStart(post_msg_to_main_wnd));
                 thread.IsBackground = true;
@@ -549,12 +487,11 @@ namespace K8
             }
             if (choice_f == 4)
             {
-                string str = "http://" + ip_jiaoyi + "/short?type=direct&stock=" + temp +
+                string str = "http://" + ip_jiaoyi + "/short?type=direct&stock=" + mStockCode +
                     "&share=" + num + "&price=" + price;
                 Thread thread = new Thread(new ParameterizedThreadStart(post_msg_to_main_wnd));
                 thread.IsBackground = true;
                 thread.Start(str);
-
             }
             choice_f = 0;
             label4.Visible = false;
@@ -605,6 +542,7 @@ namespace K8
                 textBox5.Text = "";
             }
             textBox5.Focus();
+            choice_f = 1;
             // TODO: 修改
             /*
             if (js_sell_nums[temp] != null)

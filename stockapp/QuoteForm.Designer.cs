@@ -29,103 +29,103 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem85 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖十",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem86 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖九",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem87 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖八",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem88 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖七",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem89 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖六",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem90 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖五",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem91 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖四",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem92 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖三",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem93 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖二",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem94 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖一",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem95 = new System.Windows.Forms.ListViewItem("");
-            System.Windows.Forms.ListViewItem listViewItem96 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
             "买一",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem97 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
             "买二",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem98 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
             "买三",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem99 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
             "买四",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem100 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
             "买五",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem101 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
             "买六",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem102 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
             "买七",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem103 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem(new string[] {
             "买八",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem104 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem(new string[] {
             "买九",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem105 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
             "买十",
             "",
             "",
@@ -147,6 +147,11 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.TransactionList = new System.Windows.Forms.ListView();
+            this.T_Price = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.T_Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.T_Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.T_C = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.T_Count = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.timer3 = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -168,11 +173,6 @@
             this.TD_D = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TD_Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.TD_Count = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.T_Price = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.T_Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.T_Size = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.T_C = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.T_Count = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // QuoteList
@@ -184,51 +184,51 @@
             this.Q_Quantity,
             this.Q_Count});
             this.QuoteList.ForeColor = System.Drawing.Color.Gray;
-            listViewItem85.UseItemStyleForSubItems = false;
-            listViewItem86.UseItemStyleForSubItems = false;
-            listViewItem87.UseItemStyleForSubItems = false;
-            listViewItem88.UseItemStyleForSubItems = false;
-            listViewItem89.UseItemStyleForSubItems = false;
-            listViewItem90.UseItemStyleForSubItems = false;
-            listViewItem91.UseItemStyleForSubItems = false;
-            listViewItem92.UseItemStyleForSubItems = false;
-            listViewItem93.UseItemStyleForSubItems = false;
-            listViewItem94.UseItemStyleForSubItems = false;
-            listViewItem96.UseItemStyleForSubItems = false;
-            listViewItem97.UseItemStyleForSubItems = false;
-            listViewItem98.UseItemStyleForSubItems = false;
-            listViewItem99.UseItemStyleForSubItems = false;
-            listViewItem100.UseItemStyleForSubItems = false;
-            listViewItem101.UseItemStyleForSubItems = false;
-            listViewItem102.UseItemStyleForSubItems = false;
-            listViewItem103.UseItemStyleForSubItems = false;
-            listViewItem104.UseItemStyleForSubItems = false;
-            listViewItem105.UseItemStyleForSubItems = false;
+            listViewItem1.UseItemStyleForSubItems = false;
+            listViewItem2.UseItemStyleForSubItems = false;
+            listViewItem3.UseItemStyleForSubItems = false;
+            listViewItem4.UseItemStyleForSubItems = false;
+            listViewItem5.UseItemStyleForSubItems = false;
+            listViewItem6.UseItemStyleForSubItems = false;
+            listViewItem7.UseItemStyleForSubItems = false;
+            listViewItem8.UseItemStyleForSubItems = false;
+            listViewItem9.UseItemStyleForSubItems = false;
+            listViewItem10.UseItemStyleForSubItems = false;
+            listViewItem12.UseItemStyleForSubItems = false;
+            listViewItem13.UseItemStyleForSubItems = false;
+            listViewItem14.UseItemStyleForSubItems = false;
+            listViewItem15.UseItemStyleForSubItems = false;
+            listViewItem16.UseItemStyleForSubItems = false;
+            listViewItem17.UseItemStyleForSubItems = false;
+            listViewItem18.UseItemStyleForSubItems = false;
+            listViewItem19.UseItemStyleForSubItems = false;
+            listViewItem20.UseItemStyleForSubItems = false;
+            listViewItem21.UseItemStyleForSubItems = false;
             this.QuoteList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem85,
-            listViewItem86,
-            listViewItem87,
-            listViewItem88,
-            listViewItem89,
-            listViewItem90,
-            listViewItem91,
-            listViewItem92,
-            listViewItem93,
-            listViewItem94,
-            listViewItem95,
-            listViewItem96,
-            listViewItem97,
-            listViewItem98,
-            listViewItem99,
-            listViewItem100,
-            listViewItem101,
-            listViewItem102,
-            listViewItem103,
-            listViewItem104,
-            listViewItem105});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4,
+            listViewItem5,
+            listViewItem6,
+            listViewItem7,
+            listViewItem8,
+            listViewItem9,
+            listViewItem10,
+            listViewItem11,
+            listViewItem12,
+            listViewItem13,
+            listViewItem14,
+            listViewItem15,
+            listViewItem16,
+            listViewItem17,
+            listViewItem18,
+            listViewItem19,
+            listViewItem20,
+            listViewItem21});
             this.QuoteList.Location = new System.Drawing.Point(-1, 100);
             this.QuoteList.Name = "QuoteList";
-            this.QuoteList.Size = new System.Drawing.Size(182, 300);
+            this.QuoteList.Size = new System.Drawing.Size(182, 407);
             this.QuoteList.TabIndex = 0;
             this.QuoteList.UseCompatibleStateImageBehavior = false;
             this.QuoteList.View = System.Windows.Forms.View.Details;
@@ -246,11 +246,12 @@
             // Q_Quantity
             // 
             this.Q_Quantity.Text = "Quantity";
+            this.Q_Quantity.Width = 45;
             // 
             // Q_Count
             // 
             this.Q_Count.Text = "0";
-            this.Q_Count.Width = 0;
+            this.Q_Count.Width = 40;
             // 
             // stockCodeInputBox
             // 
@@ -264,7 +265,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(2, 438);
+            this.label3.Location = new System.Drawing.Point(2, 544);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 12);
             this.label3.TabIndex = 19;
@@ -274,7 +275,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.Location = new System.Drawing.Point(2, 411);
+            this.label4.Location = new System.Drawing.Point(2, 517);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(31, 12);
             this.label4.TabIndex = 20;
@@ -284,7 +285,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.Location = new System.Drawing.Point(92, 437);
+            this.label5.Location = new System.Drawing.Point(92, 543);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(32, 12);
             this.label5.TabIndex = 21;
@@ -294,7 +295,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.Location = new System.Drawing.Point(92, 411);
+            this.label6.Location = new System.Drawing.Point(92, 517);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(31, 12);
             this.label6.TabIndex = 22;
@@ -302,7 +303,7 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(34, 434);
+            this.textBox3.Location = new System.Drawing.Point(34, 540);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
             this.textBox3.Size = new System.Drawing.Size(57, 21);
@@ -310,7 +311,7 @@
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(124, 434);
+            this.textBox4.Location = new System.Drawing.Point(124, 540);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
             this.textBox4.Size = new System.Drawing.Size(57, 21);
@@ -318,7 +319,7 @@
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(34, 407);
+            this.textBox5.Location = new System.Drawing.Point(34, 513);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(57, 21);
             this.textBox5.TabIndex = 25;
@@ -326,7 +327,7 @@
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(124, 407);
+            this.textBox6.Location = new System.Drawing.Point(124, 513);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(57, 21);
             this.textBox6.TabIndex = 26;
@@ -350,6 +351,33 @@
             this.TransactionList.TabIndex = 27;
             this.TransactionList.UseCompatibleStateImageBehavior = false;
             this.TransactionList.View = System.Windows.Forms.View.Details;
+            // 
+            // T_Price
+            // 
+            this.T_Price.Text = "Price";
+            this.T_Price.Width = 40;
+            // 
+            // T_Size
+            // 
+            this.T_Size.DisplayIndex = 2;
+            this.T_Size.Text = "Size";
+            this.T_Size.Width = 32;
+            // 
+            // T_Time
+            // 
+            this.T_Time.DisplayIndex = 1;
+            this.T_Time.Text = "Time";
+            this.T_Time.Width = 42;
+            // 
+            // T_C
+            // 
+            this.T_C.Text = "C";
+            this.T_C.Width = 30;
+            // 
+            // T_Count
+            // 
+            this.T_Count.Text = "0";
+            this.T_Count.Width = 40;
             // 
             // label1
             // 
@@ -504,7 +532,7 @@
             // TD_Price
             // 
             this.TD_Price.Text = "Price";
-            this.TD_Price.Width = 48;
+            this.TD_Price.Width = 40;
             // 
             // TD_Size
             // 
@@ -519,41 +547,17 @@
             // TD_Time
             // 
             this.TD_Time.Text = "Time";
-            this.TD_Time.Width = 80;
             // 
             // TD_Count
             // 
             this.TD_Count.Text = "0";
-            this.TD_Count.Width = 0;
-            // 
-            // T_Price
-            // 
-            this.T_Price.Text = "Price";
-            // 
-            // T_Time
-            // 
-            this.T_Time.DisplayIndex = 1;
-            this.T_Time.Text = "Time";
-            // 
-            // T_Size
-            // 
-            this.T_Size.DisplayIndex = 2;
-            this.T_Size.Text = "Size";
-            // 
-            // T_C
-            // 
-            this.T_C.Text = "C";
-            // 
-            // T_Count
-            // 
-            this.T_Count.Text = "0";
-            this.T_Count.Width = 0;
+            this.TD_Count.Width = 40;
             // 
             // QuoteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(370, 465);
+            this.ClientSize = new System.Drawing.Size(370, 568);
             this.Controls.Add(this.TransactionDetailList);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.richTextBox3);

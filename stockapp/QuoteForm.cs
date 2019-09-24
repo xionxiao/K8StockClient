@@ -66,7 +66,6 @@ namespace K8
 
         /*更新第三个列表框控件*/
         private int ref_list3_count = 0;
-        private int top_item = 0;
         private void RefreshTransactionList(JObject jo)
         {
             try
@@ -123,8 +122,7 @@ namespace K8
                     }
 
                 }
-                TransactionList.EnsureVisible(top_item);
-                top_item = TransactionList.TopItem.Index;
+                TransactionList.EnsureVisible(TransactionList.Items.Count-1);
                 TransactionList.EndUpdate();
             }
             catch
@@ -429,7 +427,7 @@ namespace K8
             risingPriceTextBox.Text = "";
             dropRateTextBox.Text = "";
             riseRateTextBox.Text = "";
-            textBox3.Text = "";
+            F2PoolTextBox.Text = "";
 
             string temp;
             stockcode = int.Parse(stockCodeTextBox.Text);
@@ -545,12 +543,6 @@ namespace K8
             }
             priceTextBox.Focus();
             choice_f = 1;
-            // TODO: 修改
-            /*
-            if (js_sell_nums[temp] != null)
-                textBox3.Text = js_sell_nums[temp].ToString();
-            choice_f = 1;
-             * */
         }
 
         private void handle_f2_msg()
@@ -572,7 +564,7 @@ namespace K8
 
             label3.Text = "F2池";
             label5.Text = "";
-            textBox4.Visible = false;
+            F3PoolTextBox.Visible = false;
 
             buy_lable.Text = "卖出";
             buy_lable.ForeColor = RGB(0x65E339);
@@ -592,13 +584,7 @@ namespace K8
             else
             {
                 priceTextBox.Text = "";
-            }
-            /*
-            if (js_sell_nums[temp] != null)
-                textBox3.Text = js_sell_nums[temp].ToString();
-            else
-                textBox3.Text = (0).ToString();
-             * */
+            } 
             priceTextBox.Focus();
             priceTextBox.Focus();
             choice_f = 2;
@@ -623,7 +609,7 @@ namespace K8
 
             label3.Text = "F3池：";
             label5.Text = "";
-            textBox4.Visible = false;
+            F3PoolTextBox.Visible = false;
 
             buy_lable.Text = "卖出";
             buy_lable.ForeColor = Color.Blue;
@@ -645,12 +631,6 @@ namespace K8
                 priceTextBox.Text = "";
             }
             priceTextBox.Focus();
-            /*
-            if (js_rongquan_nums[temp] != null)
-                textBox3.Text = js_rongquan_nums[temp].ToString();
-            else
-                textBox3.Text = (0).ToString();
-             * */
             choice_f = 3;
         }
 
@@ -664,7 +644,7 @@ namespace K8
 
             label3.Text = "公共池";
             label5.Text = "";
-            textBox4.Visible = false;
+            F3PoolTextBox.Visible = false;
 
             buy_lable.Text = "卖出";
             buy_lable.ForeColor = Color.Blue;
@@ -696,7 +676,7 @@ namespace K8
 
             label3.Text = "公共池";
             label5.Text = "";
-            textBox4.Visible = false;
+            F3PoolTextBox.Visible = false;
 
 
             buy_lable.Text = "卖出";

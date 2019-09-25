@@ -32,7 +32,6 @@ namespace K8
         private void BaojiaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             QuoteForm f1 = new QuoteForm(this);
-            f1.TopMost = true;
             f1.Show();
         }
 

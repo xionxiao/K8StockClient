@@ -122,7 +122,7 @@ namespace K8
                     }
 
                 }
-                TransactionList.EnsureVisible(TransactionList.Items.Count-1);
+                TransactionList.EnsureVisible(TransactionList.Items.Count - 1);
                 TransactionList.EndUpdate();
             }
             catch
@@ -584,7 +584,7 @@ namespace K8
             else
             {
                 priceTextBox.Text = "";
-            } 
+            }
             priceTextBox.Focus();
             priceTextBox.Focus();
             choice_f = 2;
@@ -860,12 +860,29 @@ namespace K8
         }
 
         /*实现在客户区点击时候自动聚焦到StocCodetextBox上面*/
-        public const int WM_NCLBUTTONDOWN = 0x00A1;
+        public const int WM_NCLBUTTONDOWN = 0x00A1;   /* 单击标题栏消息 */
+        public const int WN_NCLBUTTONDBLCLK = 0x00A3;  /* 双击标题栏消息 */
+        public const int WN_NCRBUTTONDOWN = 0x00A4;    /* 右键单击 */
         protected override void WndProc(ref Message m)
         {
             if (m.Msg == WM_NCLBUTTONDOWN)
             {
                 stockCodeTextBox.Focus();
+            }
+            if (m.Msg == WN_NCLBUTTONDBLCLK)
+            {
+                this.TopMost = !this.TopMost;
+            }
+            if (m.Msg == WN_NCRBUTTONDOWN)
+            {
+                m.WParam = IntPtr.Zero;
+                QuantitySettingForm f2 = new QuantitySettingForm(stocknum);
+                DialogResult res = f2.ShowDialog();
+                if (res == DialogResult.Cancel)
+                {
+                    stocknum = f2.m_DefaultNum;
+                }
+                return;
             }
             base.WndProc(ref m);
         }

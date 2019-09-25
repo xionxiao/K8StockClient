@@ -78,7 +78,8 @@
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem(new string[] {
+            ""}, -1, System.Drawing.Color.Empty, System.Drawing.Color.Gray, null);
             System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem(new string[] {
             "买一",
             "",
@@ -219,7 +220,7 @@
             // VSpliter.Panel2
             // 
             this.VSpliter.Panel2.Controls.Add(this.HSpliter);
-            this.VSpliter.Size = new System.Drawing.Size(372, 476);
+            this.VSpliter.Size = new System.Drawing.Size(372, 566);
             this.VSpliter.SplitterDistance = 185;
             this.VSpliter.SplitterWidth = 1;
             this.VSpliter.TabIndex = 0;
@@ -358,21 +359,21 @@
             // 
             // quantityTextBox
             // 
-            this.quantityTextBox.Location = new System.Drawing.Point(124, 425);
+            this.quantityTextBox.Location = new System.Drawing.Point(124, 515);
             this.quantityTextBox.Name = "quantityTextBox";
             this.quantityTextBox.Size = new System.Drawing.Size(52, 21);
             this.quantityTextBox.TabIndex = 56;
             // 
             // priceTextBox
             // 
-            this.priceTextBox.Location = new System.Drawing.Point(34, 425);
+            this.priceTextBox.Location = new System.Drawing.Point(34, 515);
             this.priceTextBox.Name = "priceTextBox";
             this.priceTextBox.Size = new System.Drawing.Size(52, 21);
             this.priceTextBox.TabIndex = 55;
             // 
             // F3PoolTextBox
             // 
-            this.F3PoolTextBox.Location = new System.Drawing.Point(124, 452);
+            this.F3PoolTextBox.Location = new System.Drawing.Point(124, 542);
             this.F3PoolTextBox.Name = "F3PoolTextBox";
             this.F3PoolTextBox.ReadOnly = true;
             this.F3PoolTextBox.Size = new System.Drawing.Size(52, 21);
@@ -380,7 +381,7 @@
             // 
             // F2PoolTextBox
             // 
-            this.F2PoolTextBox.Location = new System.Drawing.Point(34, 452);
+            this.F2PoolTextBox.Location = new System.Drawing.Point(34, 542);
             this.F2PoolTextBox.Name = "F2PoolTextBox";
             this.F2PoolTextBox.ReadOnly = true;
             this.F2PoolTextBox.Size = new System.Drawing.Size(52, 21);
@@ -390,7 +391,7 @@
             // 
             this.quantity_label.AutoSize = true;
             this.quantity_label.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.quantity_label.Location = new System.Drawing.Point(92, 429);
+            this.quantity_label.Location = new System.Drawing.Point(92, 519);
             this.quantity_label.Name = "quantity_label";
             this.quantity_label.Size = new System.Drawing.Size(31, 12);
             this.quantity_label.TabIndex = 52;
@@ -400,7 +401,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.Location = new System.Drawing.Point(92, 456);
+            this.label5.Location = new System.Drawing.Point(92, 546);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(32, 12);
             this.label5.TabIndex = 51;
@@ -410,7 +411,7 @@
             // 
             this.buy_lable.AutoSize = true;
             this.buy_lable.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.buy_lable.Location = new System.Drawing.Point(2, 429);
+            this.buy_lable.Location = new System.Drawing.Point(2, 519);
             this.buy_lable.Name = "buy_lable";
             this.buy_lable.Size = new System.Drawing.Size(31, 12);
             this.buy_lable.TabIndex = 50;
@@ -420,7 +421,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(2, 456);
+            this.label3.Location = new System.Drawing.Point(2, 546);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(32, 12);
             this.label3.TabIndex = 49;
@@ -485,9 +486,9 @@
             listViewItem41,
             listViewItem42});
             this.QuoteList.Location = new System.Drawing.Point(1, 100);
-            this.QuoteList.MinimumSize = new System.Drawing.Size(185, 320);
+            this.QuoteList.MinimumSize = new System.Drawing.Size(185, 410);
             this.QuoteList.Name = "QuoteList";
-            this.QuoteList.Size = new System.Drawing.Size(185, 320);
+            this.QuoteList.Size = new System.Drawing.Size(185, 410);
             this.QuoteList.TabIndex = 48;
             this.QuoteList.UseCompatibleStateImageBehavior = false;
             this.QuoteList.View = System.Windows.Forms.View.Details;
@@ -526,8 +527,8 @@
             // HSpliter.Panel2
             // 
             this.HSpliter.Panel2.Controls.Add(this.TransactionList);
-            this.HSpliter.Size = new System.Drawing.Size(186, 476);
-            this.HSpliter.SplitterDistance = 240;
+            this.HSpliter.Size = new System.Drawing.Size(186, 566);
+            this.HSpliter.SplitterDistance = 285;
             this.HSpliter.SplitterWidth = 1;
             this.HSpliter.TabIndex = 0;
             // 
@@ -544,7 +545,7 @@
             this.TransactionDetailList.ForeColor = System.Drawing.Color.Gray;
             this.TransactionDetailList.Location = new System.Drawing.Point(1, 1);
             this.TransactionDetailList.Name = "TransactionDetailList";
-            this.TransactionDetailList.Size = new System.Drawing.Size(185, 236);
+            this.TransactionDetailList.Size = new System.Drawing.Size(185, 281);
             this.TransactionDetailList.TabIndex = 77;
             this.TransactionDetailList.UseCompatibleStateImageBehavior = false;
             this.TransactionDetailList.View = System.Windows.Forms.View.Details;
@@ -586,7 +587,7 @@
             this.TransactionList.ForeColor = System.Drawing.Color.Gray;
             this.TransactionList.Location = new System.Drawing.Point(0, 0);
             this.TransactionList.Name = "TransactionList";
-            this.TransactionList.Size = new System.Drawing.Size(185, 235);
+            this.TransactionList.Size = new System.Drawing.Size(185, 277);
             this.TransactionList.TabIndex = 75;
             this.TransactionList.UseCompatibleStateImageBehavior = false;
             this.TransactionList.View = System.Windows.Forms.View.Details;
@@ -622,12 +623,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(372, 476);
+            this.ClientSize = new System.Drawing.Size(372, 566);
             this.Controls.Add(this.VSpliter);
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(380, 600);
-            this.MinimumSize = new System.Drawing.Size(195, 450);
+            this.MinimumSize = new System.Drawing.Size(195, 500);
             this.Name = "QuoteForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OnFormClosed);
             this.Load += new System.EventHandler(this.OnFromLoad);

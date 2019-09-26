@@ -26,6 +26,7 @@ namespace K8
     {
         private int stockcode = 0;
         private int stocknum = 100;
+        private int itemCount = 30;
         private string mStockCode = null;
         private string ip_hangqi;
         private string ip_jiaoyi;
@@ -49,6 +50,18 @@ namespace K8
             QuoteList.DoubleBuffering(true);
             TransactionDetailList.DoubleBuffering(true);
             TransactionList.DoubleBuffering(true);
+
+            InitializeTransactionList();
+        }
+
+        private void InitializeTransactionList()
+        {
+            for (int i = 0; i < itemCount; ++i)
+            {
+                ListViewItem item = new ListViewItem();
+                item.UseItemStyleForSubItems = false;
+                TransactionDetailList.Items.Add(item);
+            }
         }
 
         private JObject str_to_jobject(string str)
@@ -196,44 +209,50 @@ namespace K8
                 }
                 else
                 {
-                    TransactionDetailList.BeginUpdate();
-                    TransactionDetailList.Columns[4].Text = (++ref_list2_count).ToString();
-                    TransactionDetailList.Items.Clear();
-
-                    for (int i = 0; i < ja.Count; i++)
-                    {
-                        ListViewItem item = new ListViewItem();
-                        item.UseItemStyleForSubItems = false;
-                        item.SubItems[0].Text = ja[i]["价格"].ToString().Substring(0,
-                            ja[i]["价格"].ToString().IndexOf(".") + 3);
-                        item.SubItems.Add(ja[i]["成交量"].ToString().Substring(0,
-                           ja[i]["成交量"].ToString().IndexOf(".")));
-                        item.SubItems.Add(ja[i]["性质"].ToString());
-                        item.SubItems.Add(ja[i]["成交时间"].ToString());
-                        if (ja[i]["性质"].ToString() == "S")
-                        {
-                            item.SubItems[0].ForeColor = RGB(0x65E339);//green
-                            item.SubItems[1].ForeColor = RGB(0x65E339);
-                            item.SubItems[2].ForeColor = RGB(0x65E339);
-                            item.SubItems[3].ForeColor = RGB(0x65E339);
-                        }
-                        else
-                        {
-                            item.SubItems[0].ForeColor = RGB(0x5C5CFF); //blue
-                            item.SubItems[1].ForeColor = RGB(0x5C5CFF);
-                            item.SubItems[2].ForeColor = RGB(0x5C5CFF);
-                            item.SubItems[3].ForeColor = RGB(0x5C5CFF);
-                        }
-                        TransactionDetailList.Items.Add(item);
-                    }
-                    TransactionDetailList.EnsureVisible(TransactionDetailList.Items.Count - 1);
-                    TransactionDetailList.EndUpdate();
+                    UpdateTransactionDetails(ja);
                 }
             }
             catch
             {
                 return;
             }
+        }
+
+        private void UpdateTransactionDetails(JArray ja)
+        {
+            TransactionDetailList.BeginUpdate();
+            TransactionDetailList.Columns[4].Text = (++ref_list2_count).ToString();
+            //TransactionDetailList.Items.Clear();
+
+            Debug.Assert(ja.Count <= itemCount);
+            for (int i = 0; i < ja.Count; i++)
+            {
+                ListViewItem item = TransactionDetailList.Items[i];
+                //item.UseItemStyleForSubItems = false;
+                item.SubItems[0].Text = ja[i]["价格"].ToString().Substring(0,
+                    ja[i]["价格"].ToString().IndexOf(".") + 3);
+                item.SubItems.Add(ja[i]["成交量"].ToString().Substring(0,
+                   ja[i]["成交量"].ToString().IndexOf(".")));
+                item.SubItems.Add(ja[i]["性质"].ToString());
+                item.SubItems.Add(ja[i]["成交时间"].ToString());
+                if (ja[i]["性质"].ToString() == "S")
+                {
+                    item.SubItems[0].ForeColor = RGB(0x65E339);//green
+                    item.SubItems[1].ForeColor = RGB(0x65E339);
+                    item.SubItems[2].ForeColor = RGB(0x65E339);
+                    item.SubItems[3].ForeColor = RGB(0x65E339);
+                }
+                else
+                {
+                    item.SubItems[0].ForeColor = RGB(0x5C5CFF); //blue
+                    item.SubItems[1].ForeColor = RGB(0x5C5CFF);
+                    item.SubItems[2].ForeColor = RGB(0x5C5CFF);
+                    item.SubItems[3].ForeColor = RGB(0x5C5CFF);
+                }
+                //TransactionDetailList.Items.Add(item);
+            }
+            //TransactionDetailList.EnsureVisible(TransactionDetailList.Items.Count - 1);
+            TransactionDetailList.EndUpdate();
         }
 
         private void refresh_lefttop_controls(JObject jo)

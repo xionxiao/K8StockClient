@@ -97,7 +97,7 @@ namespace K8.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int QuoteRefreshDelay {
             get {
                 return ((int)(this["QuoteRefreshDelay"]));
@@ -109,7 +109,7 @@ namespace K8.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int TransactionDetailRefreshDelay {
             get {
                 return ((int)(this["TransactionDetailRefreshDelay"]));
@@ -121,7 +121,7 @@ namespace K8.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int TransactionRefreshDelay {
             get {
                 return ((int)(this["TransactionRefreshDelay"]));

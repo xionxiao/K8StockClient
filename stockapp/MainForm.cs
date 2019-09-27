@@ -397,31 +397,6 @@ namespace K8
             }
             base.WndProc(ref m);
         }
-
-        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void groupBox3_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void OrderList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void OutPutBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 
     public static class ControlExtensions

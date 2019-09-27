@@ -28,104 +28,106 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem22 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖十",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem23 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖九",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem24 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖八",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem25 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖七",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem26 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖六",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem27 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem6 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖五",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem28 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem7 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖四",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem29 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem8 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖三",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem30 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem9 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖二",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem31 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem10 = new System.Windows.Forms.ListViewItem(new string[] {
             "卖一",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134))));
-            System.Windows.Forms.ListViewItem listViewItem32 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem11 = new System.Windows.Forms.ListViewItem(new string[] {
             ""}, -1, System.Drawing.Color.Empty, System.Drawing.Color.Gray, null);
-            System.Windows.Forms.ListViewItem listViewItem33 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem12 = new System.Windows.Forms.ListViewItem(new string[] {
             "买一",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem34 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem13 = new System.Windows.Forms.ListViewItem(new string[] {
             "买二",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem35 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem14 = new System.Windows.Forms.ListViewItem(new string[] {
             "买三",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem36 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem15 = new System.Windows.Forms.ListViewItem(new string[] {
             "买四",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem37 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem16 = new System.Windows.Forms.ListViewItem(new string[] {
             "买五",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem38 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
             "买六",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem39 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem18 = new System.Windows.Forms.ListViewItem(new string[] {
             "买七",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem40 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem19 = new System.Windows.Forms.ListViewItem(new string[] {
             "买八",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem41 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem20 = new System.Windows.Forms.ListViewItem(new string[] {
             "买九",
             "",
             "",
             ""}, -1, System.Drawing.Color.White, System.Drawing.Color.Empty, null);
-            System.Windows.Forms.ListViewItem listViewItem42 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem21 = new System.Windows.Forms.ListViewItem(new string[] {
             "买十",
             "",
             "",
@@ -443,48 +445,55 @@
             this.Q_Quantity,
             this.Q_Count});
             this.QuoteList.ForeColor = System.Drawing.Color.Gray;
-            listViewItem22.UseItemStyleForSubItems = false;
-            listViewItem23.UseItemStyleForSubItems = false;
-            listViewItem24.UseItemStyleForSubItems = false;
-            listViewItem25.UseItemStyleForSubItems = false;
-            listViewItem26.UseItemStyleForSubItems = false;
-            listViewItem27.UseItemStyleForSubItems = false;
-            listViewItem28.UseItemStyleForSubItems = false;
-            listViewItem29.UseItemStyleForSubItems = false;
-            listViewItem30.UseItemStyleForSubItems = false;
-            listViewItem31.UseItemStyleForSubItems = false;
-            listViewItem33.UseItemStyleForSubItems = false;
-            listViewItem34.UseItemStyleForSubItems = false;
-            listViewItem35.UseItemStyleForSubItems = false;
-            listViewItem36.UseItemStyleForSubItems = false;
-            listViewItem37.UseItemStyleForSubItems = false;
-            listViewItem38.UseItemStyleForSubItems = false;
-            listViewItem39.UseItemStyleForSubItems = false;
-            listViewItem40.UseItemStyleForSubItems = false;
-            listViewItem41.UseItemStyleForSubItems = false;
-            listViewItem42.UseItemStyleForSubItems = false;
+            listViewGroup1.Header = "";
+            listViewGroup1.Name = "sellViewGroup";
+            listViewGroup2.Header = "ListViewGroup";
+            listViewGroup2.Name = "buyViewGroup";
+            this.QuoteList.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup1,
+            listViewGroup2});
+            listViewItem1.UseItemStyleForSubItems = false;
+            listViewItem2.UseItemStyleForSubItems = false;
+            listViewItem3.UseItemStyleForSubItems = false;
+            listViewItem4.UseItemStyleForSubItems = false;
+            listViewItem5.UseItemStyleForSubItems = false;
+            listViewItem6.UseItemStyleForSubItems = false;
+            listViewItem7.UseItemStyleForSubItems = false;
+            listViewItem8.UseItemStyleForSubItems = false;
+            listViewItem9.UseItemStyleForSubItems = false;
+            listViewItem10.UseItemStyleForSubItems = false;
+            listViewItem12.UseItemStyleForSubItems = false;
+            listViewItem13.UseItemStyleForSubItems = false;
+            listViewItem14.UseItemStyleForSubItems = false;
+            listViewItem15.UseItemStyleForSubItems = false;
+            listViewItem16.UseItemStyleForSubItems = false;
+            listViewItem17.UseItemStyleForSubItems = false;
+            listViewItem18.UseItemStyleForSubItems = false;
+            listViewItem19.UseItemStyleForSubItems = false;
+            listViewItem20.UseItemStyleForSubItems = false;
+            listViewItem21.UseItemStyleForSubItems = false;
             this.QuoteList.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem22,
-            listViewItem23,
-            listViewItem24,
-            listViewItem25,
-            listViewItem26,
-            listViewItem27,
-            listViewItem28,
-            listViewItem29,
-            listViewItem30,
-            listViewItem31,
-            listViewItem32,
-            listViewItem33,
-            listViewItem34,
-            listViewItem35,
-            listViewItem36,
-            listViewItem37,
-            listViewItem38,
-            listViewItem39,
-            listViewItem40,
-            listViewItem41,
-            listViewItem42});
+            listViewItem1,
+            listViewItem2,
+            listViewItem3,
+            listViewItem4,
+            listViewItem5,
+            listViewItem6,
+            listViewItem7,
+            listViewItem8,
+            listViewItem9,
+            listViewItem10,
+            listViewItem11,
+            listViewItem12,
+            listViewItem13,
+            listViewItem14,
+            listViewItem15,
+            listViewItem16,
+            listViewItem17,
+            listViewItem18,
+            listViewItem19,
+            listViewItem20,
+            listViewItem21});
             this.QuoteList.Location = new System.Drawing.Point(1, 100);
             this.QuoteList.MinimumSize = new System.Drawing.Size(185, 410);
             this.QuoteList.Name = "QuoteList";

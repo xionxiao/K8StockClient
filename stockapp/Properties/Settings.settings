@@ -21,13 +21,13 @@
       <Value Profile="(Default)">1000</Value>
     </Setting>
     <Setting Name="QuoteRefreshDelay" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">500</Value>
+      <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="TransactionDetailRefreshDelay" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">500</Value>
+      <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="TransactionRefreshDelay" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">500</Value>
+      <Value Profile="(Default)">100</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -17,25 +17,26 @@ namespace K8
             InitializeComponent();
         }
 
-        private void Form4_Load(object sender, EventArgs e)
+        private void Form_Load(object sender, EventArgs e)
         {
             this.textBox1.Text = Settings.Default.MarketServerIP;
             this.textBox2.Text = Settings.Default.TradeServerIP;
         }
 
-        private void Form4_KeyDown(object sender, KeyEventArgs e)
+        private void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {  
+                Settings.Default.MarketServerIP = this.textBox1.Text;
+                Settings.Default.TradeServerIP = this.textBox2.Text;
+                Settings.Default.Save();
+                Settings.Default.Upgrade();
                 this.Close();
             }
         }
 
         private void Form4_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Settings.Default.MarketServerIP = this.textBox1.Text;
-            Settings.Default.TradeServerIP = this.textBox2.Text;
-            Settings.Default.Save();
         }
     }
 }

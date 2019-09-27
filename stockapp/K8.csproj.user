@@ -12,6 +12,6 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
   <PropertyGroup>
-    <ReferencePath>C:\Documents and Settings\xiaohui\桌面\K8StockClient\stockapp\..\packages\Newtonsoft.Json.7.0.1\lib\net40\;C:\Documents and Settings\xiaohui\桌面\K8StockClient\stockapp\..\packages\RestSharp.104.1\</ReferencePath>
+    <ReferencePath>D:\K8StockClient\stockapp\..\packages\Newtonsoft.Json.7.0.1\lib\net40\;D:\K8StockClient\stockapp\..\packages\RestSharp.104.1\</ReferencePath>
   </PropertyGroup>
 </Project>

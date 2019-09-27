@@ -212,7 +212,7 @@ namespace K8
                         item.SubItems.Add(ja[i]["成交时间"].ToString());
                         if (ja[i]["性质"].ToString() == "S")
                         {
-                            item.SubItems[0].ForeColor = RGB(0x65E339);//green
+                            item.SubItems[0].ForeColor = RGB(0x65E339); //green
                             item.SubItems[1].ForeColor = RGB(0x65E339);
                             item.SubItems[2].ForeColor = RGB(0x65E339);
                             item.SubItems[3].ForeColor = RGB(0x65E339);
@@ -241,7 +241,6 @@ namespace K8
             try
             {
                 var ja = jo["quote10"];
-
                 double price = double.Parse(ja[0]["昨收"].ToString());
                 this.Text = ja[0]["名称"].ToString();
                 currentPriceTextBox.Text = ja[0]["现价"].ToString().Substring(0,
@@ -757,8 +756,6 @@ namespace K8
                     stocknum = f2.m_DefaultNum;
                     return;
                 }
-
-                //   MessageBox.Show(f2.m_DefaultNum.ToString());
             }
         }
 

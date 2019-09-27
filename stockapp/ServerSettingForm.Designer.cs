@@ -103,8 +103,8 @@
             this.Text = "服务器地址设置";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form4_FormClosing);
-            this.Load += new System.EventHandler(this.Form4_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form4_KeyDown);
+            this.Load += new System.EventHandler(this.Form_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

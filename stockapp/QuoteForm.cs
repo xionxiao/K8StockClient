@@ -27,28 +27,69 @@ namespace K8
         private int stockcode = 0;
         private int stocknum = 100;
         private string mStockCode = null;
-        private string ip_hangqi;
-        private string ip_jiaoyi;
+        private string mMarketIP;
+        private string mTradeIP;
         private int choice_f = 0;           /*区别f1 f2 f3*/
-        private Thread thread = null;
-        private IntPtr main_wnd_handle;     /*主窗口句柄*/
-        private Form parent;
+        private Thread mThread = null;
+        private IntPtr mMainFormWndHandle;     /*主窗口句柄*/
+        private Form mMainForm;
         delegate void Reflist(JObject ja);   /*声明委托*/
         private string[] CH_NUM = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十" };
 
         public QuoteForm(Form fm)
         {
-            InitializeComponent();
+            this.mMarketIP = Properties.Settings.Default.MarketServerIP;
+            this.mTradeIP = Properties.Settings.Default.TradeServerIP;
+            mMainForm = fm;
+            mMainFormWndHandle = fm.Handle;
 
-            this.ip_hangqi = Properties.Settings.Default.MarketServerIP;
-            this.ip_jiaoyi = Properties.Settings.Default.TradeServerIP;
-            parent = fm;
-            main_wnd_handle = fm.Handle;
+            InitializeComponent();
 
             /*开启双缓冲*/
             QuoteList.DoubleBuffering(true);
             TransactionDetailList.DoubleBuffering(true);
             TransactionList.DoubleBuffering(true);
+
+            this.AutoScaleMode = AutoScaleMode.None;
+            this.QuoteList.Columns.Add("", 40);
+            this.QuoteList.Columns.Add("价格", 50);
+            this.QuoteList.Columns.Add("数量", 50);
+            this.QuoteList.Columns.Add("0", 70);
+            ListViewItem item = new ListViewItem();
+            for (int i = 0; i < 10; i++)
+            {
+                item = new ListViewItem("卖"+CH_NUM[10-i]);
+                item.ForeColor = Color.White;
+                item.UseItemStyleForSubItems = false;
+                item.SubItems.Add(new ListViewItem.ListViewSubItem());
+                item.SubItems.Add(new ListViewItem.ListViewSubItem());
+                this.QuoteList.Items.Add(item);
+            }
+            item = new ListViewItem();
+            item.BackColor = Color.Gray;
+            this.QuoteList.Items.Add(item);
+            for (int i = 1; i <= 10; i++)
+            {
+                item = new ListViewItem("买" + CH_NUM[i]);
+                item.ForeColor = Color.White;
+                item.UseItemStyleForSubItems = false;
+                item.SubItems.Add(new ListViewItem.ListViewSubItem());
+                item.SubItems.Add(new ListViewItem.ListViewSubItem());
+                this.QuoteList.Items.Add(item);
+            }
+
+            this.TransactionDetailList.Columns.Add("价格", 40);
+            this.TransactionDetailList.Columns.Add("数量", 40);
+            this.TransactionDetailList.Columns.Add("D", 24);
+            this.TransactionDetailList.Columns.Add("时间", 70);
+            this.TransactionDetailList.Columns.Add("", 10);
+
+            this.TransactionList.Columns.Add("价格", 48);
+            this.TransactionList.Columns.Add("数量", 48);
+            this.TransactionList.Columns.Add("时间", 48);
+            this.TransactionList.Columns.Add("C", 24);
+            this.TransactionList.Columns.Add("", 10);
+            
         }
 
         private JObject str_to_jobject(string str)
@@ -254,7 +295,7 @@ namespace K8
                 riseRateTextBox.Text = string.Format("{0:0.00%}", rate);
                 double amount = double.Parse(ja[0]["总金额"].ToString());
                 amount /= 10000;
-                textBox9.Text = string.Format("{0:N0}", amount) + " W";
+                moneyTextBox.Text = string.Format("{0:N0}", amount) + " W";
                 openningTextBox.Text = ja[0]["开盘"].ToString().Substring(0,
                     ja[0]["开盘"].ToString().IndexOf(".") + 3);
                 closingTextBox.Text = ja[0]["昨收"].ToString().Substring(0,
@@ -272,7 +313,7 @@ namespace K8
 
         public void FetchQuote(bool once = true)
         {
-            var client = new RestClient("http://" + ip_hangqi);
+            var client = new RestClient("http://" + mMarketIP);
             var request = new RestRequest("query", Method.GET);
             request.AddParameter("catalogues", "quote10");
             request.AddParameter("stocks", mStockCode);
@@ -292,7 +333,7 @@ namespace K8
 
         public void FetchTransactionDetail(bool once = true)
         {
-            var client = new RestClient("http://" + ip_hangqi);
+            var client = new RestClient("http://" + mMarketIP);
             var request = new RestRequest("query", Method.GET);
             request.AddParameter("catalogues", "transaction_detail");
             request.AddParameter("stock", mStockCode);
@@ -311,7 +352,7 @@ namespace K8
 
         public void FetchTransaction(bool once = true)
         {
-            var client = new RestClient("http://" + ip_hangqi);
+            var client = new RestClient("http://" + mMarketIP);
             var request = new RestRequest("query", Method.GET);
             request.AddParameter("catalogues", "transaction");
             request.AddParameter("stock", mStockCode);
@@ -407,10 +448,10 @@ namespace K8
         private void handle_escape_msg()
         {
             choice_f = 0;
-            buy_lable.Visible = false;
+            lable_buy.Visible = false;
             quantityTextBox.Visible = false;
             quantityTextBox.Text = "";
-            quantity_label.Visible = false;
+            label_amount.Visible = false;
             priceTextBox.Visible = false;
             priceTextBox.Text = "";
         }
@@ -421,7 +462,7 @@ namespace K8
             stockCodeTextBox.SelectAll();
             currentPriceTextBox.Text = "";
             closingTextBox.Text = "";
-            textBox9.Text = "";
+            moneyTextBox.Text = "";
             closingTextBox.Text = "";
             risingPriceTextBox.Text = "";
             dropRateTextBox.Text = "";
@@ -444,12 +485,12 @@ namespace K8
             }
             mStockCode = temp;
 
-            if (thread == null)
+            if (mThread == null)
             {
                 //创建一个线程
-                thread = new Thread(Run);
-                thread.IsBackground = true;
-                thread.Start();
+                mThread = new Thread(Run);
+                mThread.IsBackground = true;
+                mThread.Start();
             }
         }
 
@@ -461,7 +502,7 @@ namespace K8
                 return;
             if (choice_f == 1)
             {
-                string str = "http://" + ip_jiaoyi + "/buy?stock=" + mStockCode + "&price=" + price +
+                string str = "http://" + mTradeIP + "/buy?stock=" + mStockCode + "&price=" + price +
                  "&share=" + num;
 
                 Thread thread = new Thread(new ParameterizedThreadStart(post_msg_to_main_wnd));
@@ -470,7 +511,7 @@ namespace K8
             }
             if (choice_f == 2)
             {
-                string str = "http://" + ip_jiaoyi + "/sell?stock=" + mStockCode + "&price=" + price +
+                string str = "http://" + mTradeIP + "/sell?stock=" + mStockCode + "&price=" + price +
                  "&share=" + num;
                 Thread thread = new Thread(new ParameterizedThreadStart(post_msg_to_main_wnd));
                 thread.IsBackground = true;
@@ -478,7 +519,7 @@ namespace K8
             }
             if (choice_f == 3)
             {
-                string str = "http://" + ip_jiaoyi + "/short?type=frompool&stock=" + mStockCode + "&price=" + price +
+                string str = "http://" + mTradeIP + "/short?type=frompool&stock=" + mStockCode + "&price=" + price +
                      "&share=" + num;
                 Thread thread = new Thread(new ParameterizedThreadStart(post_msg_to_main_wnd));
                 thread.IsBackground = true;
@@ -486,17 +527,17 @@ namespace K8
             }
             if (choice_f == 4)
             {
-                string str = "http://" + ip_jiaoyi + "/short?type=direct&stock=" + mStockCode +
+                string str = "http://" + mTradeIP + "/short?type=direct&stock=" + mStockCode +
                     "&share=" + num + "&price=" + price;
                 Thread thread = new Thread(new ParameterizedThreadStart(post_msg_to_main_wnd));
                 thread.IsBackground = true;
                 thread.Start(str);
             }
             choice_f = 0;
-            buy_lable.Visible = false;
+            lable_buy.Visible = false;
             quantityTextBox.Visible = false;
             quantityTextBox.Text = "";
-            quantity_label.Visible = false;
+            label_amount.Visible = false;
             priceTextBox.Visible = false;
             priceTextBox.Text = "";
         }
@@ -512,19 +553,19 @@ namespace K8
             {
                 temp = stockcode.ToString();
             }
-            buy_lable.Visible = true;
+            lable_buy.Visible = true;
             quantityTextBox.Visible = true;
 
-            quantity_label.Visible = true;
+            label_amount.Visible = true;
             priceTextBox.Visible = true;
 
-            label3.Text = "F2池";
+            label_F2.Text = "F2池";
 
-            buy_lable.Text = "买入";
-            buy_lable.ForeColor = RGB(0x5C5CFF); ;
+            lable_buy.Text = "买入";
+            lable_buy.ForeColor = RGB(0x5C5CFF); ;
 
-            quantity_label.Text = "股数";
-            quantity_label.ForeColor = RGB(0x5C5CFF); ;
+            label_amount.Text = "股数";
+            label_amount.ForeColor = RGB(0x5C5CFF); ;
 
             if (QuoteList.Items.Count > 0)
             {
@@ -555,21 +596,21 @@ namespace K8
             {
                 temp = stockcode.ToString();
             }
-            buy_lable.Visible = true;
+            lable_buy.Visible = true;
             quantityTextBox.Visible = true;
 
-            quantity_label.Visible = true;
+            label_amount.Visible = true;
             priceTextBox.Visible = true;
 
-            label3.Text = "F2池";
-            label5.Text = "";
+            label_F2.Text = "F2池";
+            label_F3.Text = "";
             F3PoolTextBox.Visible = false;
 
-            buy_lable.Text = "卖出";
-            buy_lable.ForeColor = RGB(0x65E339);
+            lable_buy.Text = "卖出";
+            lable_buy.ForeColor = RGB(0x65E339);
 
-            quantity_label.Text = "股数";
-            quantity_label.ForeColor = RGB(0x65E339);
+            label_amount.Text = "股数";
+            label_amount.ForeColor = RGB(0x65E339);
 
             if (QuoteList.Items.Count > 0)
             {
@@ -600,21 +641,21 @@ namespace K8
             {
                 temp = stockcode.ToString();
             }
-            buy_lable.Visible = true;
+            lable_buy.Visible = true;
             quantityTextBox.Visible = true;
 
-            quantity_label.Visible = true;
+            label_amount.Visible = true;
             priceTextBox.Visible = true;
 
-            label3.Text = "F3池：";
-            label5.Text = "";
+            label_F2.Text = "F3池：";
+            label_F3.Text = "";
             F3PoolTextBox.Visible = false;
 
-            buy_lable.Text = "卖出";
-            buy_lable.ForeColor = Color.Blue;
+            lable_buy.Text = "卖出";
+            lable_buy.ForeColor = Color.Blue;
 
-            quantity_label.Text = "股数";
-            quantity_label.ForeColor = Color.Blue;
+            label_amount.Text = "股数";
+            label_amount.ForeColor = Color.Blue;
 
             if (QuoteList.Items.Count > 0)
             {
@@ -635,21 +676,21 @@ namespace K8
 
         private void handle_f4_msg()
         {
-            buy_lable.Visible = true;
+            lable_buy.Visible = true;
             quantityTextBox.Visible = true;
 
-            quantity_label.Visible = true;
+            label_amount.Visible = true;
             priceTextBox.Visible = true;
 
-            label3.Text = "公共池";
-            label5.Text = "";
+            label_F2.Text = "公共池";
+            label_F3.Text = "";
             F3PoolTextBox.Visible = false;
 
-            buy_lable.Text = "卖出";
-            buy_lable.ForeColor = Color.Blue;
+            lable_buy.Text = "卖出";
+            lable_buy.ForeColor = Color.Blue;
 
-            quantity_label.Text = "股数";
-            quantity_label.ForeColor = Color.Blue;
+            label_amount.Text = "股数";
+            label_amount.ForeColor = Color.Blue;
 
             if (QuoteList.Items.Count > 0)
             {
@@ -667,22 +708,22 @@ namespace K8
 
         private void handle_f5_msg()
         {
-            buy_lable.Visible = true;
+            lable_buy.Visible = true;
             quantityTextBox.Visible = true;
 
-            quantity_label.Visible = true;
+            label_amount.Visible = true;
             priceTextBox.Visible = true;
 
-            label3.Text = "公共池";
-            label5.Text = "";
+            label_F2.Text = "公共池";
+            label_F3.Text = "";
             F3PoolTextBox.Visible = false;
 
 
-            buy_lable.Text = "卖出";
-            buy_lable.ForeColor = Color.Blue;
+            lable_buy.Text = "卖出";
+            lable_buy.ForeColor = Color.Blue;
 
-            quantity_label.Text = "股数";
-            quantity_label.ForeColor = Color.Blue;
+            label_amount.Text = "股数";
+            label_amount.ForeColor = Color.Blue;
 
             if (QuoteList.Items.Count > 0)
             {
@@ -891,14 +932,14 @@ namespace K8
             Win32API.My_lParam lp = new Win32API.My_lParam();
             lp.i = 3;
             lp.s = str2;
-            Win32API.SendMessage(main_wnd_handle, 0x63, 0, ref lp);
+            Win32API.SendMessage(mMainFormWndHandle, 0x63, 0, ref lp);
         }
 
         private void OnFormClosed(object sender, FormClosedEventArgs e)
         {
-            if (thread != null && thread.IsAlive == true)
+            if (mThread != null && mThread.IsAlive == true)
             {
-                thread.Abort();
+                mThread.Abort();
             }
         }
     }

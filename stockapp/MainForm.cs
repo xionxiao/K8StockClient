@@ -76,6 +76,8 @@ namespace K8
         private int refresh_ol_count = 0;
         private void refresh_OrderList(JArray ja)
         {
+            if (ja == null || ja.Count == 0)
+                return;
             try
             {
                 //是否为创建控件的线程，不是为true
@@ -139,30 +141,37 @@ namespace K8
             }
             else
             {
-                PositionList.BeginUpdate();
-                PositionList.Items.Clear();
-                PositionList.Columns[4].Text = refresh_pl_count.ToString();
-                refresh_pl_count++;
-                foreach (JProperty jp in ja.Properties())
+                try
                 {
-                    ListViewItem item1 = new ListViewItem();
-                    item1.SubItems[0].Text = ja[jp.Name]["证券代码"].ToString();
-                    item1.SubItems.Add(ja[jp.Name]["证券名称"].ToString());
-                    item1.SubItems.Add(ja[jp.Name]["买卖标志"].ToString());
-                    item1.SubItems.Add(ja[jp.Name]["成交数量"].ToString());
+                    PositionList.Items.Clear();
+                    PositionList.BeginUpdate();
+                    PositionList.Columns[4].Text = refresh_pl_count.ToString();
+                    refresh_pl_count++;
+                    foreach (JProperty jp in ja.Properties())
+                    {
+                        ListViewItem item1 = new ListViewItem();
+                        item1.SubItems[0].Text = ja[jp.Name]["证券代码"].ToString();
+                        item1.SubItems.Add(ja[jp.Name]["证券名称"].ToString());
+                        item1.SubItems.Add(ja[jp.Name]["买卖标志"].ToString());
+                        item1.SubItems.Add(ja[jp.Name]["成交数量"].ToString());
 
-                    if (ja[jp.Name]["买卖标志"].ToString().Contains("买入"))
-                    {
-                        item1.ForeColor = Color.Red;
+                        if (ja[jp.Name]["买卖标志"].ToString().Contains("买入"))
+                        {
+                            item1.ForeColor = Color.Red;
+                        }
+                        else if (ja[jp.Name]["买卖标志"].ToString().Contains("卖出"))
+                        {
+                            item1.ForeColor = QuoteForm.RGB(0x65E339); ;
+                        }
+                        PositionList.Items.Add(item1);
                     }
-                    else if (ja[jp.Name]["买卖标志"].ToString().Contains("卖出"))
-                    {
-                        item1.ForeColor = QuoteForm.RGB(0x65E339); ;
-                    }
-                    PositionList.Items.Add(item1);
+                    PositionList.EndUpdate();
                 }
-                PositionList.EndUpdate();
-            }
+                catch
+                {
+                    return;
+                }
+            } 
         }
 
         private JArray str_to_jarray(string field, string source_str)

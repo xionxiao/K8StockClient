@@ -190,6 +190,7 @@
             // 
             this.OutPutBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.OutPutBox.FormattingEnabled = true;
+            this.OutPutBox.HorizontalScrollbar = true;
             this.OutPutBox.ItemHeight = 12;
             this.OutPutBox.Location = new System.Drawing.Point(3, 17);
             this.OutPutBox.Name = "OutPutBox";

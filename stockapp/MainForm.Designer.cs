@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.mainMenu = new System.Windows.Forms.MenuStrip();
-            this.报价ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.QuoteMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.SettingsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.QuitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -59,34 +59,34 @@
             this.mainMenu.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.mainMenu.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.报价ToolStripMenuItem,
-            this.设置ToolStripMenuItem,
-            this.退出ToolStripMenuItem});
+            this.QuoteMenu,
+            this.SettingsMenu,
+            this.QuitToolStripMenuItem});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Size = new System.Drawing.Size(694, 24);
             this.mainMenu.TabIndex = 3;
             this.mainMenu.Text = "menuStrip1";
             // 
-            // 报价ToolStripMenuItem
+            // QuoteMenu
             // 
-            this.报价ToolStripMenuItem.Name = "报价ToolStripMenuItem";
-            this.报价ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.报价ToolStripMenuItem.Text = "报价";
-            this.报价ToolStripMenuItem.Click += new System.EventHandler(this.BaojiaToolStripMenuItem_Click);
+            this.QuoteMenu.Name = "QuoteMenu";
+            this.QuoteMenu.Size = new System.Drawing.Size(43, 20);
+            this.QuoteMenu.Text = "报价";
+            this.QuoteMenu.Click += new System.EventHandler(this.QouteMenuItem_Click);
             // 
-            // 设置ToolStripMenuItem
+            // SettingsMenu
             // 
-            this.设置ToolStripMenuItem.Name = "设置ToolStripMenuItem";
-            this.设置ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.设置ToolStripMenuItem.Text = "设置";
-            this.设置ToolStripMenuItem.Click += new System.EventHandler(this.SetToolStripMenuItem_Click);
+            this.SettingsMenu.Name = "SettingsMenu";
+            this.SettingsMenu.Size = new System.Drawing.Size(43, 20);
+            this.SettingsMenu.Text = "设置";
+            this.SettingsMenu.Click += new System.EventHandler(this.SettingMenuItem_Click);
             // 
-            // 退出ToolStripMenuItem
+            // QuitToolStripMenuItem
             // 
-            this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.退出ToolStripMenuItem.Text = "退出";
+            this.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem";
+            this.QuitToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
+            this.QuitToolStripMenuItem.Text = "退出";
             // 
             // splitContainer1
             // 
@@ -144,11 +144,16 @@
             this.OrderList.ForeColor = System.Drawing.Color.LightGray;
             this.OrderList.FullRowSelect = true;
             this.OrderList.Location = new System.Drawing.Point(3, 17);
+            this.OrderList.MultiSelect = false;
             this.OrderList.Name = "OrderList";
             this.OrderList.Size = new System.Drawing.Size(688, 179);
             this.OrderList.TabIndex = 0;
             this.OrderList.UseCompatibleStateImageBehavior = false;
             this.OrderList.View = System.Windows.Forms.View.Details;
+            this.OrderList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OrderList_Check);
+            this.OrderList.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.OrderList_CheckedIndexChanged);
+            this.OrderList.SelectedIndexChanged += new System.EventHandler(this.OrderList_SelectedIndexChanged);
+            this.OrderList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OrderList_KeyDown);
             // 
             // groupBox2
             // 
@@ -165,7 +170,6 @@
             // PositionList
             // 
             this.PositionList.BackColor = System.Drawing.Color.Black;
-            this.PositionList.CheckBoxes = true;
             this.PositionList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PositionList.ForeColor = System.Drawing.Color.LightGray;
             this.PositionList.Location = new System.Drawing.Point(3, 17);
@@ -211,7 +215,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "股票管理";
             this.Load += new System.EventHandler(this.MainFormInit);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form3_KeyDown);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -235,9 +238,9 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip mainMenu;
-        private System.Windows.Forms.ToolStripMenuItem 报价ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 设置ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem QuoteMenu;
+        private System.Windows.Forms.ToolStripMenuItem SettingsMenu;
+        private System.Windows.Forms.ToolStripMenuItem QuitToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.GroupBox groupBox1;

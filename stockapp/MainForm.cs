@@ -21,7 +21,8 @@ namespace K8
     {
         private string mTradeServer = "http://" + Settings.Default.TradeServerIP;
         private string ordernum = "";
-        delegate void Reflist_JArray(JArray ja);
+        private OrderListDataSet mOrderListDataSet = new OrderListDataSet();
+        delegate void Reflist_JArray();
         delegate void Reflist_JObject(JObject jo);
 
         public MainForm()
@@ -29,16 +30,89 @@ namespace K8
             InitializeComponent();
         }
 
-        private void BaojiaToolStripMenuItem_Click(object sender, EventArgs e)
+        private void QouteMenuItem_Click(object sender, EventArgs e)
         {
             QuoteForm f1 = new QuoteForm(this);
             f1.Show();
         }
 
-        private void SetToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SettingMenuItem_Click(object sender, EventArgs e)
         {
             ServerSettingForm f4 = new ServerSettingForm();
             f4.ShowDialog();
+        }
+
+        public class OrderListDataItem
+        {
+            public string mOrderTime;
+            public string mStockCode;
+            public string mStockName;
+            public double mOrderPrice;
+            public int mOrderSize;
+            public string mOrderDirect;    // 买卖方向
+            public string mOrderId;     // 委托编号
+            public string mOrderStatus; // 订单状态
+
+            private void init(JObject jobject)
+            {
+                this.mOrderTime = jobject["委托时间"].ToString();//Convert.ToDateTime(jobject["委托时间"].ToString());
+                this.mStockCode = jobject["证券代码"].ToString();
+                this.mStockName = jobject["证券名称"].ToString();
+                this.mOrderPrice = Convert.ToDouble(jobject["委托价格"].ToString());
+                this.mOrderSize = Convert.ToInt32(jobject["委托数量"].ToString());
+                this.mOrderDirect = jobject["买卖标志"].ToString();
+                this.mOrderId = jobject["合同编号"].ToString();
+                this.mOrderStatus = jobject["状态说明"].ToString();
+            }
+
+            public OrderListDataItem(JObject jobject)
+            {
+                init(jobject);
+            }
+
+            public OrderListDataItem(String str)
+            {
+                JObject jobject = (JObject)JsonConvert.DeserializeObject(str);
+                init(jobject);
+            }
+        }
+
+        public class OrderListDataSet
+        {
+            public HashSet<String> checked_ids = new HashSet<string>();
+            public String selected_id = null;
+            private Dictionary<String, OrderListDataItem> mOrderListDataSet = new Dictionary<string,OrderListDataItem>();
+            
+            public void addItem(OrderListDataItem item)
+            {
+                if(!mOrderListDataSet.ContainsKey(item.mOrderId))
+                {
+                    mOrderListDataSet.Add(item.mOrderId, item);
+                }
+            }
+
+            public OrderListDataItem getItem(String id)
+            {
+                return mOrderListDataSet[id];
+            }
+
+            public OrderListDataItem getItem(int index)
+            {
+                List<String> list = new List<String>(mOrderListDataSet.Keys);
+                return mOrderListDataSet[list[index]];
+            }
+
+            public OrderListDataItem[] getItems()
+            {
+                var array = new OrderListDataItem[mOrderListDataSet.Count];
+                int i = 0;
+                foreach (var k in mOrderListDataSet.Keys)
+                {
+                    array[i] = mOrderListDataSet[k];
+                    i++;
+                }
+                return array;
+            }
         }
 
         private void MainFormInit(object sender, EventArgs e)
@@ -74,17 +148,15 @@ namespace K8
         }
 
         private int refresh_ol_count = 0;
-        private void refresh_OrderList(JArray ja)
+        private void refresh_OrderList()
         {
-            if (ja == null || ja.Count == 0)
-                return;
             try
             {
                 //是否为创建控件的线程，不是为true
                 if (this.OrderList.InvokeRequired)
                 {
                     //为当前控件指定委托
-                    this.OrderList.Invoke(new Reflist_JArray(refresh_OrderList), ja);
+                    this.OrderList.Invoke(new Reflist_JArray(refresh_OrderList));
                 }
                 else
                 {
@@ -92,31 +164,38 @@ namespace K8
                     OrderList.Items.Clear();
                     refresh_ol_count++;
                     OrderList.Columns[8].Text = refresh_ol_count.ToString();
-                    for (int i = 0; i < ja.Count; i++)
+                    var data_item = mOrderListDataSet.getItems();
+                    for (int i = 0; i < data_item.Length; i++)
                     {
-                        ListViewItem item = new ListViewItem();
-                        item.SubItems[0].Text = ja[i]["委托时间"].ToString();
-                        item.SubItems.Add(ja[i]["证券代码"].ToString());
-                        item.SubItems.Add(ja[i]["证券名称"].ToString());
-                        item.SubItems.Add(ja[i]["委托价格"].ToString());
-                        item.SubItems.Add(ja[i]["委托数量"].ToString());
-                        item.SubItems.Add(ja[i]["买卖标志"].ToString());
-                        if (ja[i]["买卖标志"].ToString().Equals("买入担保品"))
+
+                        ListViewItem view_item = new ListViewItem();
+                        view_item.SubItems[0].Text = data_item[i].mOrderTime.ToString();
+                        view_item.SubItems.Add(data_item[i].mStockCode);
+                        view_item.SubItems.Add(data_item[i].mStockName);
+                        view_item.SubItems.Add(data_item[i].mOrderPrice.ToString());
+                        view_item.SubItems.Add(data_item[i].mOrderSize.ToString());
+                        view_item.SubItems.Add(data_item[i].mOrderDirect);
+                        if (data_item[i].mOrderDirect.Equals("买入担保品"))
                         {
-                            item.ForeColor = Color.Red;
+                            view_item.ForeColor = Color.Red;
                         }
-                        else if (ja[i]["买卖标志"].ToString().Equals("卖出担保品"))
+                        else if (data_item[i].mOrderDirect.Equals("卖出担保品")
+                            || data_item[i].mOrderDirect.Equals("融券卖出"))
                         {
-                            item.ForeColor = QuoteForm.RGB(0x65E339);
+                            view_item.ForeColor = QuoteForm.RGB(0x65E339);
                         }
 
-                        item.SubItems.Add(ja[i]["合同编号"].ToString());
-                        if (ordernum.Equals(ja[i]["合同编号"].ToString()))
+                        view_item.SubItems.Add(data_item[i].mOrderId);
+                        view_item.SubItems.Add(data_item[i].mOrderStatus);
+                        if (data_item[i].mOrderId.Equals(mOrderListDataSet.selected_id))
                         {
-                            item.BackColor = Color.Blue;
+                            view_item.Selected = true;
                         }
-                        item.SubItems.Add(ja[i]["状态说明"].ToString());
-                        OrderList.Items.Add(item);
+                        if (mOrderListDataSet.checked_ids.Contains(data_item[i].mOrderId))
+                        {
+                            view_item.Checked = true;
+                        }
+                        OrderList.Items.Add(view_item);
                     }
                     //OrderList.EnsureVisible(OrderList.Items.Count - 1);
                     OrderList.EndUpdate();
@@ -262,8 +341,10 @@ namespace K8
             client.ExecuteAsync(request, response =>
             {
                 var temp = str_to_jarray("orderlist", response.Content);
-                refresh_OrderList(temp);
-                DataSet.gOrderList = temp;
+                for (int i=0; i<temp.Count; i++) {
+                    mOrderListDataSet.addItem(new OrderListDataItem((JObject)temp[i]));
+                }
+                refresh_OrderList();
                 if (once == false)
                 {
                     Thread.Sleep(Settings.Default.OrdersListRefreshDelay);
@@ -354,15 +435,13 @@ namespace K8
             return jo;
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private void OrderList_KeyDown(object sender, KeyEventArgs e)
         {
-
-            if (OrderList.SelectedIndices.Count != 0)
-                ordernum = OrderList.SelectedItems[0].SubItems[6].Text;
-        }
-
-        private void Form3_KeyDown(object sender, KeyEventArgs e)
-        {
+            if (e.KeyCode == Keys.Space)
+            {
+                OrderList.FocusedItem.Checked = !OrderList.FocusedItem.Checked;
+                e.Handled = e.SuppressKeyPress = true;
+            }
             if (e.KeyCode == Keys.Escape)
             {
                 string stock = "";
@@ -383,7 +462,7 @@ namespace K8
             string temp = mTradeServer + "/query?catalogues=orderlist";
             string str = QuoteForm.GetRequestData(temp);
             JArray ja = str_to_jarray("orderlist", str);
-            refresh_OrderList(ja);
+            refresh_OrderList();
 
             temp = mTradeServer + "/query?catalogues=deals";
             string str1 = QuoteForm.GetRequestData(temp);
@@ -405,6 +484,37 @@ namespace K8
                     break;
             }
             base.WndProc(ref m);
+        }
+
+        private void OrderList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (OrderList.SelectedItems.Count != 0)
+            {
+                OrderList.SelectedItems[0].Focused = true;
+                mOrderListDataSet.selected_id = OrderList.SelectedItems[0].SubItems[6].Text;
+            }
+        }
+
+        private void OrderList_CheckedIndexChanged(object sender, EventArgs e)
+        {
+            /*
+            for (int i = 0; i < OrderList.CheckedItems.Count; i++)
+            {
+                mOrderListDataSet.checked_ids.Add(OrderList.CheckedItems[i].SubItems[6].Text);
+            }
+             * */
+        }
+
+        private void OrderList_Check(object sender, ItemCheckEventArgs e)
+        {
+            if (e.CurrentValue == CheckState.Checked)
+            {
+                mOrderListDataSet.checked_ids.Remove(OrderList.Items[e.Index].SubItems[6].Text);
+            }
+            else if (e.CurrentValue == CheckState.Unchecked)
+            {
+                mOrderListDataSet.checked_ids.Add(OrderList.Items[e.Index].SubItems[6].Text);
+            }
         }
     }
 

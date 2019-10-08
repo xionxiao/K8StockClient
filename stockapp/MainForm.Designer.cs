@@ -37,7 +37,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.OrderList = new System.Windows.Forms.ListView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.PositionList = new System.Windows.Forms.ListView();
+            this.DayPositionList = new System.Windows.Forms.ListView();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.OutPutBox = new System.Windows.Forms.ListBox();
             this.mainMenu.SuspendLayout();
@@ -158,7 +158,7 @@
             // groupBox2
             // 
             this.groupBox2.AutoSize = true;
-            this.groupBox2.Controls.Add(this.PositionList);
+            this.groupBox2.Controls.Add(this.DayPositionList);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
@@ -169,15 +169,15 @@
             // 
             // PositionList
             // 
-            this.PositionList.BackColor = System.Drawing.Color.Black;
-            this.PositionList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PositionList.ForeColor = System.Drawing.Color.LightGray;
-            this.PositionList.Location = new System.Drawing.Point(3, 17);
-            this.PositionList.Name = "PositionList";
-            this.PositionList.Size = new System.Drawing.Size(688, 176);
-            this.PositionList.TabIndex = 0;
-            this.PositionList.UseCompatibleStateImageBehavior = false;
-            this.PositionList.View = System.Windows.Forms.View.Details;
+            this.DayPositionList.BackColor = System.Drawing.Color.Black;
+            this.DayPositionList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DayPositionList.ForeColor = System.Drawing.Color.LightGray;
+            this.DayPositionList.Location = new System.Drawing.Point(3, 17);
+            this.DayPositionList.Name = "PositionList";
+            this.DayPositionList.Size = new System.Drawing.Size(688, 176);
+            this.DayPositionList.TabIndex = 0;
+            this.DayPositionList.UseCompatibleStateImageBehavior = false;
+            this.DayPositionList.View = System.Windows.Forms.View.Details;
             // 
             // groupBox3
             // 
@@ -246,7 +246,7 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ListView OrderList;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ListView PositionList;
+        private System.Windows.Forms.ListView DayPositionList;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ListBox OutPutBox;
     }

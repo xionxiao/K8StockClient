@@ -30,33 +30,33 @@
         {
             this.HSpliter = new System.Windows.Forms.SplitContainer();
             this.VSpliter = new System.Windows.Forms.SplitContainer();
-            this.label4 = new System.Windows.Forms.Label();
-            this.riseRateTextBox = new System.Windows.Forms.TextBox();
-            this.dropRateTextBox = new System.Windows.Forms.TextBox();
-            this.risingPriceTextBox = new System.Windows.Forms.TextBox();
-            this.closingTextBox = new System.Windows.Forms.TextBox();
-            this.openningTextBox = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.moneyTextBox = new System.Windows.Forms.TextBox();
-            this.currentPriceTextBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.stockCodeTextBox = new System.Windows.Forms.TextBox();
+            this.lab_rising_rate = new System.Windows.Forms.Label();
+            this.txb_rise_rate = new System.Windows.Forms.RichTextBox();
+            this.txb_limit_price = new System.Windows.Forms.RichTextBox();
+            this.txb_rising_price = new System.Windows.Forms.RichTextBox();
+            this.txb_closing_price = new System.Windows.Forms.RichTextBox();
+            this.txb_openning_price = new System.Windows.Forms.RichTextBox();
+            this.lab_openning_price = new System.Windows.Forms.Label();
+            this.lab_closing_price = new System.Windows.Forms.Label();
+            this.txb_money = new System.Windows.Forms.TextBox();
+            this.txb_current_price = new System.Windows.Forms.RichTextBox();
+            this.lab_money = new System.Windows.Forms.Label();
+            this.lab_limit_price = new System.Windows.Forms.Label();
+            this.lab_current_price = new System.Windows.Forms.Label();
+            this.lab_rising_price = new System.Windows.Forms.Label();
+            this.txb_stockcode = new System.Windows.Forms.TextBox();
             this.QuoteList = new System.Windows.Forms.ListView();
             this.SubVSpliter = new System.Windows.Forms.SplitContainer();
             this.TransactionDetailList = new System.Windows.Forms.ListView();
             this.TransactionList = new System.Windows.Forms.ListView();
-            this.textbox_f3_pool = new System.Windows.Forms.TextBox();
-            this.textbox_f2_pool = new System.Windows.Forms.TextBox();
+            this.txb_f3_pool = new System.Windows.Forms.TextBox();
+            this.txb_f2_pool = new System.Windows.Forms.TextBox();
             this.label_f3 = new System.Windows.Forms.Label();
             this.label_f2 = new System.Windows.Forms.Label();
-            this.textbox_amount = new System.Windows.Forms.TextBox();
-            this.textbox_price = new System.Windows.Forms.TextBox();
+            this.txb_amount = new System.Windows.Forms.TextBox();
+            this.txb_price = new System.Windows.Forms.TextBox();
             this.label_amount = new System.Windows.Forms.Label();
-            this.lable_buy = new System.Windows.Forms.Label();
+            this.label_price = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.HSpliter)).BeginInit();
             this.HSpliter.Panel1.SuspendLayout();
             this.HSpliter.Panel2.SuspendLayout();
@@ -86,15 +86,15 @@
             // 
             // HSpliter.Panel2
             // 
-            this.HSpliter.Panel2.Controls.Add(this.textbox_f3_pool);
-            this.HSpliter.Panel2.Controls.Add(this.textbox_f2_pool);
+            this.HSpliter.Panel2.Controls.Add(this.txb_f3_pool);
+            this.HSpliter.Panel2.Controls.Add(this.txb_f2_pool);
             this.HSpliter.Panel2.Controls.Add(this.label_f3);
             this.HSpliter.Panel2.Controls.Add(this.label_f2);
-            this.HSpliter.Panel2.Controls.Add(this.textbox_amount);
-            this.HSpliter.Panel2.Controls.Add(this.textbox_price);
+            this.HSpliter.Panel2.Controls.Add(this.txb_amount);
+            this.HSpliter.Panel2.Controls.Add(this.txb_price);
             this.HSpliter.Panel2.Controls.Add(this.label_amount);
-            this.HSpliter.Panel2.Controls.Add(this.lable_buy);
-            this.HSpliter.Size = new System.Drawing.Size(380, 506);
+            this.HSpliter.Panel2.Controls.Add(this.label_price);
+            this.HSpliter.Size = new System.Drawing.Size(372, 506);
             this.HSpliter.SplitterDistance = 477;
             this.HSpliter.SplitterWidth = 1;
             this.HSpliter.TabIndex = 0;
@@ -109,180 +109,217 @@
             // 
             // VSpliter.Panel1
             // 
-            this.VSpliter.Panel1.Controls.Add(this.label4);
-            this.VSpliter.Panel1.Controls.Add(this.riseRateTextBox);
-            this.VSpliter.Panel1.Controls.Add(this.dropRateTextBox);
-            this.VSpliter.Panel1.Controls.Add(this.risingPriceTextBox);
-            this.VSpliter.Panel1.Controls.Add(this.closingTextBox);
-            this.VSpliter.Panel1.Controls.Add(this.openningTextBox);
-            this.VSpliter.Panel1.Controls.Add(this.label6);
-            this.VSpliter.Panel1.Controls.Add(this.label7);
-            this.VSpliter.Panel1.Controls.Add(this.moneyTextBox);
-            this.VSpliter.Panel1.Controls.Add(this.currentPriceTextBox);
-            this.VSpliter.Panel1.Controls.Add(this.label1);
-            this.VSpliter.Panel1.Controls.Add(this.label5);
-            this.VSpliter.Panel1.Controls.Add(this.label2);
-            this.VSpliter.Panel1.Controls.Add(this.label3);
-            this.VSpliter.Panel1.Controls.Add(this.stockCodeTextBox);
+            this.VSpliter.Panel1.Controls.Add(this.lab_rising_rate);
+            this.VSpliter.Panel1.Controls.Add(this.txb_rise_rate);
+            this.VSpliter.Panel1.Controls.Add(this.txb_limit_price);
+            this.VSpliter.Panel1.Controls.Add(this.txb_rising_price);
+            this.VSpliter.Panel1.Controls.Add(this.txb_closing_price);
+            this.VSpliter.Panel1.Controls.Add(this.txb_openning_price);
+            this.VSpliter.Panel1.Controls.Add(this.lab_openning_price);
+            this.VSpliter.Panel1.Controls.Add(this.lab_closing_price);
+            this.VSpliter.Panel1.Controls.Add(this.txb_money);
+            this.VSpliter.Panel1.Controls.Add(this.txb_current_price);
+            this.VSpliter.Panel1.Controls.Add(this.lab_money);
+            this.VSpliter.Panel1.Controls.Add(this.lab_limit_price);
+            this.VSpliter.Panel1.Controls.Add(this.lab_current_price);
+            this.VSpliter.Panel1.Controls.Add(this.lab_rising_price);
+            this.VSpliter.Panel1.Controls.Add(this.txb_stockcode);
             this.VSpliter.Panel1.Controls.Add(this.QuoteList);
             // 
             // VSpliter.Panel2
             // 
             this.VSpliter.Panel2.Controls.Add(this.SubVSpliter);
-            this.VSpliter.Size = new System.Drawing.Size(380, 477);
-            this.VSpliter.SplitterDistance = 185;
+            this.VSpliter.Size = new System.Drawing.Size(372, 477);
+            this.VSpliter.SplitterDistance = 180;
             this.VSpliter.SplitterWidth = 1;
             this.VSpliter.TabIndex = 0;
             // 
-            // label4
+            // lab_rising_rate
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.Location = new System.Drawing.Point(1, 57);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(31, 12);
-            this.label4.TabIndex = 87;
-            this.label4.Text = "涨幅";
+            this.lab_rising_rate.AutoSize = true;
+            this.lab_rising_rate.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lab_rising_rate.Location = new System.Drawing.Point(1, 57);
+            this.lab_rising_rate.Name = "lab_rising_rate";
+            this.lab_rising_rate.Size = new System.Drawing.Size(31, 12);
+            this.lab_rising_rate.TabIndex = 87;
+            this.lab_rising_rate.Text = "涨幅";
             // 
-            // riseRateTextBox
+            // txb_rise_rate
             // 
-            this.riseRateTextBox.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.riseRateTextBox.Location = new System.Drawing.Point(36, 53);
-            this.riseRateTextBox.Name = "riseRateTextBox";
-            this.riseRateTextBox.ReadOnly = true;
-            this.riseRateTextBox.Size = new System.Drawing.Size(52, 21);
-            this.riseRateTextBox.TabIndex = 86;
+            this.txb_rise_rate.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txb_rise_rate.Location = new System.Drawing.Point(36, 53);
+            this.txb_rise_rate.Multiline = false;
+            this.txb_rise_rate.Name = "txb_rise_rate";
+            this.txb_rise_rate.ReadOnly = true;
+            this.txb_rise_rate.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txb_rise_rate.Size = new System.Drawing.Size(52, 21);
+            this.txb_rise_rate.TabIndex = 86;
+            this.txb_rise_rate.TabStop = false;
+            this.txb_rise_rate.Text = "";
+            this.txb_rise_rate.WordWrap = false;
             // 
-            // dropRateTextBox
+            // txb_limit_price
             // 
-            this.dropRateTextBox.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.dropRateTextBox.ForeColor = System.Drawing.Color.Green;
-            this.dropRateTextBox.Location = new System.Drawing.Point(128, 53);
-            this.dropRateTextBox.Name = "dropRateTextBox";
-            this.dropRateTextBox.ReadOnly = true;
-            this.dropRateTextBox.Size = new System.Drawing.Size(52, 21);
-            this.dropRateTextBox.TabIndex = 85;
+            this.txb_limit_price.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txb_limit_price.ForeColor = System.Drawing.Color.Green;
+            this.txb_limit_price.Location = new System.Drawing.Point(126, 53);
+            this.txb_limit_price.Multiline = false;
+            this.txb_limit_price.Name = "txb_limit_price";
+            this.txb_limit_price.ReadOnly = true;
+            this.txb_limit_price.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txb_limit_price.Size = new System.Drawing.Size(52, 21);
+            this.txb_limit_price.TabIndex = 85;
+            this.txb_limit_price.TabStop = false;
+            this.txb_limit_price.Text = "";
+            this.txb_limit_price.WordWrap = false;
             // 
-            // risingPriceTextBox
+            // txb_rising_price
             // 
-            this.risingPriceTextBox.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.risingPriceTextBox.ForeColor = System.Drawing.Color.Red;
-            this.risingPriceTextBox.Location = new System.Drawing.Point(128, 30);
-            this.risingPriceTextBox.Name = "risingPriceTextBox";
-            this.risingPriceTextBox.ReadOnly = true;
-            this.risingPriceTextBox.Size = new System.Drawing.Size(52, 21);
-            this.risingPriceTextBox.TabIndex = 84;
+            this.txb_rising_price.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txb_rising_price.ForeColor = System.Drawing.Color.Red;
+            this.txb_rising_price.Location = new System.Drawing.Point(126, 30);
+            this.txb_rising_price.Multiline = false;
+            this.txb_rising_price.Name = "txb_rising_price";
+            this.txb_rising_price.ReadOnly = true;
+            this.txb_rising_price.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txb_rising_price.Size = new System.Drawing.Size(52, 21);
+            this.txb_rising_price.TabIndex = 84;
+            this.txb_rising_price.TabStop = false;
+            this.txb_rising_price.Text = "";
+            this.txb_rising_price.WordWrap = false;
             // 
-            // closingTextBox
+            // txb_closing_price
             // 
-            this.closingTextBox.Location = new System.Drawing.Point(128, 76);
-            this.closingTextBox.Name = "closingTextBox";
-            this.closingTextBox.ReadOnly = true;
-            this.closingTextBox.Size = new System.Drawing.Size(52, 21);
-            this.closingTextBox.TabIndex = 83;
+            this.txb_closing_price.Location = new System.Drawing.Point(126, 76);
+            this.txb_closing_price.Multiline = false;
+            this.txb_closing_price.Name = "txb_closing_price";
+            this.txb_closing_price.ReadOnly = true;
+            this.txb_closing_price.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txb_closing_price.Size = new System.Drawing.Size(52, 21);
+            this.txb_closing_price.TabIndex = 83;
+            this.txb_closing_price.TabStop = false;
+            this.txb_closing_price.Text = "";
+            this.txb_closing_price.WordWrap = false;
             // 
-            // openningTextBox
+            // txb_openning_price
             // 
-            this.openningTextBox.Location = new System.Drawing.Point(36, 76);
-            this.openningTextBox.Name = "openningTextBox";
-            this.openningTextBox.ReadOnly = true;
-            this.openningTextBox.Size = new System.Drawing.Size(52, 21);
-            this.openningTextBox.TabIndex = 82;
+            this.txb_openning_price.Location = new System.Drawing.Point(36, 76);
+            this.txb_openning_price.Multiline = false;
+            this.txb_openning_price.Name = "txb_openning_price";
+            this.txb_openning_price.ReadOnly = true;
+            this.txb_openning_price.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txb_openning_price.Size = new System.Drawing.Size(52, 21);
+            this.txb_openning_price.TabIndex = 82;
+            this.txb_openning_price.TabStop = false;
+            this.txb_openning_price.Text = "";
+            this.txb_openning_price.WordWrap = false;
             // 
-            // label6
+            // lab_openning_price
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.Location = new System.Drawing.Point(1, 80);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(31, 12);
-            this.label6.TabIndex = 81;
-            this.label6.Text = "今开";
+            this.lab_openning_price.AutoSize = true;
+            this.lab_openning_price.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lab_openning_price.Location = new System.Drawing.Point(1, 80);
+            this.lab_openning_price.Name = "lab_openning_price";
+            this.lab_openning_price.Size = new System.Drawing.Size(31, 12);
+            this.lab_openning_price.TabIndex = 81;
+            this.lab_openning_price.Text = "今开";
             // 
-            // label7
+            // lab_closing_price
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.Location = new System.Drawing.Point(94, 80);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(31, 12);
-            this.label7.TabIndex = 80;
-            this.label7.Text = "昨收";
+            this.lab_closing_price.AutoSize = true;
+            this.lab_closing_price.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lab_closing_price.Location = new System.Drawing.Point(93, 80);
+            this.lab_closing_price.Name = "lab_closing_price";
+            this.lab_closing_price.Size = new System.Drawing.Size(31, 12);
+            this.lab_closing_price.TabIndex = 80;
+            this.lab_closing_price.Text = "昨收";
             // 
-            // moneyTextBox
+            // txb_money
             // 
-            this.moneyTextBox.Location = new System.Drawing.Point(97, 5);
-            this.moneyTextBox.Name = "moneyTextBox";
-            this.moneyTextBox.ReadOnly = true;
-            this.moneyTextBox.Size = new System.Drawing.Size(83, 21);
-            this.moneyTextBox.TabIndex = 79;
+            this.txb_money.Location = new System.Drawing.Point(95, 5);
+            this.txb_money.Multiline = false;
+            this.txb_money.Name = "txb_money";
+            this.txb_money.ReadOnly = true;
+            this.txb_money.Size = new System.Drawing.Size(83, 21);
+            this.txb_money.TabIndex = 79;
+            this.txb_money.Text = "";
+            this.txb_money.WordWrap = false;
             // 
-            // currentPriceTextBox
+            // txb_current_price
             // 
-            this.currentPriceTextBox.Location = new System.Drawing.Point(36, 30);
-            this.currentPriceTextBox.MaxLength = 5;
-            this.currentPriceTextBox.Name = "currentPriceTextBox";
-            this.currentPriceTextBox.ReadOnly = true;
-            this.currentPriceTextBox.Size = new System.Drawing.Size(52, 21);
-            this.currentPriceTextBox.TabIndex = 78;
+            this.txb_current_price.Location = new System.Drawing.Point(36, 30);
+            this.txb_current_price.MaxLength = 5;
+            this.txb_current_price.Multiline = false;
+            this.txb_current_price.Name = "txb_current_price";
+            this.txb_current_price.ReadOnly = true;
+            this.txb_current_price.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.txb_current_price.Size = new System.Drawing.Size(52, 21);
+            this.txb_current_price.TabIndex = 78;
+            this.txb_current_price.TabStop = false;
+            this.txb_current_price.Text = "";
+            this.txb_current_price.WordWrap = false;
             // 
-            // label1
+            // lab_money
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label1.Location = new System.Drawing.Point(60, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 12);
-            this.label1.TabIndex = 77;
-            this.label1.Text = "金额";
+            this.lab_money.AutoSize = true;
+            this.lab_money.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lab_money.Location = new System.Drawing.Point(59, 9);
+            this.lab_money.Name = "lab_money";
+            this.lab_money.Size = new System.Drawing.Size(31, 12);
+            this.lab_money.TabIndex = 77;
+            this.lab_money.Text = "金额";
             // 
-            // label5
+            // lab_limit_price
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.Location = new System.Drawing.Point(94, 57);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(31, 12);
-            this.label5.TabIndex = 76;
-            this.label5.Text = "跌停";
+            this.lab_limit_price.AutoSize = true;
+            this.lab_limit_price.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lab_limit_price.Location = new System.Drawing.Point(93, 57);
+            this.lab_limit_price.Name = "lab_limit_price";
+            this.lab_limit_price.Size = new System.Drawing.Size(31, 12);
+            this.lab_limit_price.TabIndex = 76;
+            this.lab_limit_price.Text = "跌停";
             // 
-            // label2
+            // lab_current_price
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(1, 34);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 12);
-            this.label2.TabIndex = 75;
-            this.label2.Text = "现价";
+            this.lab_current_price.AutoSize = true;
+            this.lab_current_price.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lab_current_price.Location = new System.Drawing.Point(1, 34);
+            this.lab_current_price.Name = "lab_current_price";
+            this.lab_current_price.Size = new System.Drawing.Size(31, 12);
+            this.lab_current_price.TabIndex = 75;
+            this.lab_current_price.Text = "现价";
             // 
-            // label3
+            // lab_rising_price
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(94, 34);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(31, 12);
-            this.label3.TabIndex = 74;
-            this.label3.Text = "涨停";
+            this.lab_rising_price.AutoSize = true;
+            this.lab_rising_price.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lab_rising_price.Location = new System.Drawing.Point(93, 34);
+            this.lab_rising_price.Name = "lab_rising_price";
+            this.lab_rising_price.Size = new System.Drawing.Size(31, 12);
+            this.lab_rising_price.TabIndex = 74;
+            this.lab_rising_price.Text = "涨停";
             // 
-            // stockCodeTextBox
+            // txb_stockcode
             // 
-            this.stockCodeTextBox.Location = new System.Drawing.Point(1, 5);
-            this.stockCodeTextBox.Name = "stockCodeTextBox";
-            this.stockCodeTextBox.Size = new System.Drawing.Size(55, 21);
-            this.stockCodeTextBox.TabIndex = 72;
+            this.txb_stockcode.Location = new System.Drawing.Point(1, 5);
+            this.txb_stockcode.Multiline = false;
+            this.txb_stockcode.Name = "txb_stockcode";
+            this.txb_stockcode.Size = new System.Drawing.Size(55, 21);
+            this.txb_stockcode.TabIndex = 1;
+            this.txb_stockcode.Text = "";
+            this.txb_stockcode.WordWrap = false;
             // 
             // QuoteList
             // 
             this.QuoteList.BackColor = System.Drawing.Color.Black;
             this.QuoteList.ForeColor = System.Drawing.Color.Gray;
             this.QuoteList.Location = new System.Drawing.Point(0, 100);
-            this.QuoteList.MinimumSize = new System.Drawing.Size(185, 380);
+            this.QuoteList.MinimumSize = new System.Drawing.Size(180, 380);
             this.QuoteList.Name = "QuoteList";
             this.QuoteList.Scrollable = false;
-            this.QuoteList.Size = new System.Drawing.Size(185, 380);
+            this.QuoteList.Size = new System.Drawing.Size(180, 380);
             this.QuoteList.TabIndex = 73;
+            this.QuoteList.TabStop = false;
             this.QuoteList.UseCompatibleStateImageBehavior = false;
             this.QuoteList.View = System.Windows.Forms.View.Details;
             // 
@@ -300,7 +337,7 @@
             // SubVSpliter.Panel2
             // 
             this.SubVSpliter.Panel2.Controls.Add(this.TransactionList);
-            this.SubVSpliter.Size = new System.Drawing.Size(194, 477);
+            this.SubVSpliter.Size = new System.Drawing.Size(191, 477);
             this.SubVSpliter.SplitterDistance = 238;
             this.SubVSpliter.TabIndex = 0;
             // 
@@ -310,8 +347,9 @@
             this.TransactionDetailList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TransactionDetailList.Location = new System.Drawing.Point(0, 0);
             this.TransactionDetailList.Name = "TransactionDetailList";
-            this.TransactionDetailList.Size = new System.Drawing.Size(194, 238);
+            this.TransactionDetailList.Size = new System.Drawing.Size(191, 238);
             this.TransactionDetailList.TabIndex = 1;
+            this.TransactionDetailList.TabStop = false;
             this.TransactionDetailList.UseCompatibleStateImageBehavior = false;
             this.TransactionDetailList.View = System.Windows.Forms.View.Details;
             // 
@@ -321,32 +359,39 @@
             this.TransactionList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TransactionList.Location = new System.Drawing.Point(0, 0);
             this.TransactionList.Name = "TransactionList";
-            this.TransactionList.Size = new System.Drawing.Size(194, 235);
+            this.TransactionList.Size = new System.Drawing.Size(191, 235);
             this.TransactionList.TabIndex = 1;
+            this.TransactionList.TabStop = false;
             this.TransactionList.UseCompatibleStateImageBehavior = false;
             this.TransactionList.View = System.Windows.Forms.View.Details;
             // 
-            // textbox_f3_pool
+            // txb_f3_pool
             // 
-            this.textbox_f3_pool.Location = new System.Drawing.Point(325, 2);
-            this.textbox_f3_pool.Name = "textbox_f3_pool";
-            this.textbox_f3_pool.ReadOnly = true;
-            this.textbox_f3_pool.Size = new System.Drawing.Size(52, 21);
-            this.textbox_f3_pool.TabIndex = 64;
+            this.txb_f3_pool.Location = new System.Drawing.Point(317, 2);
+            this.txb_f3_pool.Multiline = false;
+            this.txb_f3_pool.Name = "txb_f3_pool";
+            this.txb_f3_pool.ReadOnly = true;
+            this.txb_f3_pool.Size = new System.Drawing.Size(52, 21);
+            this.txb_f3_pool.TabIndex = 64;
+            this.txb_f3_pool.Text = "";
+            this.txb_f3_pool.WordWrap = false;
             // 
-            // textbox_f2_pool
+            // txb_f2_pool
             // 
-            this.textbox_f2_pool.Location = new System.Drawing.Point(225, 2);
-            this.textbox_f2_pool.Name = "textbox_f2_pool";
-            this.textbox_f2_pool.ReadOnly = true;
-            this.textbox_f2_pool.Size = new System.Drawing.Size(52, 21);
-            this.textbox_f2_pool.TabIndex = 64;
+            this.txb_f2_pool.Location = new System.Drawing.Point(219, 2);
+            this.txb_f2_pool.Multiline = false;
+            this.txb_f2_pool.Name = "txb_f2_pool";
+            this.txb_f2_pool.ReadOnly = true;
+            this.txb_f2_pool.Size = new System.Drawing.Size(52, 21);
+            this.txb_f2_pool.TabIndex = 64;
+            this.txb_f2_pool.Text = "";
+            this.txb_f2_pool.WordWrap = false;
             // 
             // label_f3
             // 
             this.label_f3.AutoSize = true;
             this.label_f3.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label_f3.Location = new System.Drawing.Point(285, 6);
+            this.label_f3.Location = new System.Drawing.Point(277, 6);
             this.label_f3.Name = "label_f3";
             this.label_f3.Size = new System.Drawing.Size(32, 12);
             this.label_f3.TabIndex = 62;
@@ -356,25 +401,31 @@
             // 
             this.label_f2.AutoSize = true;
             this.label_f2.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label_f2.Location = new System.Drawing.Point(185, 6);
+            this.label_f2.Location = new System.Drawing.Point(183, 6);
             this.label_f2.Name = "label_f2";
             this.label_f2.Size = new System.Drawing.Size(32, 12);
             this.label_f2.TabIndex = 61;
             this.label_f2.Text = "F2池";
             // 
-            // textbox_amount
+            // txb_amount
             // 
-            this.textbox_amount.Location = new System.Drawing.Point(124, 2);
-            this.textbox_amount.Name = "textbox_amount";
-            this.textbox_amount.Size = new System.Drawing.Size(52, 21);
-            this.textbox_amount.TabIndex = 60;
+            this.txb_amount.Location = new System.Drawing.Point(124, 2);
+            this.txb_amount.Multiline = false;
+            this.txb_amount.Name = "txb_amount";
+            this.txb_amount.Size = new System.Drawing.Size(52, 21);
+            this.txb_amount.TabIndex = 3;
+            this.txb_amount.Text = "";
+            this.txb_amount.WordWrap = false;
             // 
-            // textbox_price
+            // txb_price
             // 
-            this.textbox_price.Location = new System.Drawing.Point(34, 2);
-            this.textbox_price.Name = "textbox_price";
-            this.textbox_price.Size = new System.Drawing.Size(52, 21);
-            this.textbox_price.TabIndex = 59;
+            this.txb_price.Location = new System.Drawing.Point(34, 2);
+            this.txb_price.Multiline = false;
+            this.txb_price.Name = "txb_price";
+            this.txb_price.Size = new System.Drawing.Size(52, 21);
+            this.txb_price.TabIndex = 2;
+            this.txb_price.Text = "";
+            this.txb_price.WordWrap = false;
             // 
             // label_amount
             // 
@@ -386,26 +437,26 @@
             this.label_amount.TabIndex = 58;
             this.label_amount.Text = "数量";
             // 
-            // lable_buy
+            // label_price
             // 
-            this.lable_buy.AutoSize = true;
-            this.lable_buy.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lable_buy.Location = new System.Drawing.Point(2, 6);
-            this.lable_buy.Name = "lable_buy";
-            this.lable_buy.Size = new System.Drawing.Size(31, 12);
-            this.lable_buy.TabIndex = 57;
-            this.lable_buy.Text = "买入";
+            this.label_price.AutoSize = true;
+            this.label_price.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_price.Location = new System.Drawing.Point(2, 6);
+            this.label_price.Name = "label_price";
+            this.label_price.Size = new System.Drawing.Size(31, 12);
+            this.label_price.TabIndex = 57;
+            this.label_price.Text = "买入";
             // 
             // QuoteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(380, 506);
+            this.ClientSize = new System.Drawing.Size(372, 506);
             this.Controls.Add(this.HSpliter);
             this.KeyPreview = true;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(388, 540);
-            this.MinimumSize = new System.Drawing.Size(195, 540);
+            this.MaximumSize = new System.Drawing.Size(380, 540);
+            this.MinimumSize = new System.Drawing.Size(190, 540);
             this.Name = "QuoteForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OnFormClosed);
@@ -435,33 +486,33 @@
 
         private System.Windows.Forms.SplitContainer HSpliter;
         private System.Windows.Forms.SplitContainer VSpliter;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox riseRateTextBox;
-        private System.Windows.Forms.TextBox dropRateTextBox;
-        private System.Windows.Forms.TextBox risingPriceTextBox;
-        private System.Windows.Forms.TextBox closingTextBox;
-        private System.Windows.Forms.TextBox openningTextBox;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox moneyTextBox;
-        private System.Windows.Forms.TextBox currentPriceTextBox;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox stockCodeTextBox;
+        private System.Windows.Forms.Label lab_rising_rate;
+        private System.Windows.Forms.RichTextBox txb_rise_rate;
+        private System.Windows.Forms.RichTextBox txb_limit_price;
+        private System.Windows.Forms.RichTextBox txb_rising_price;
+        private System.Windows.Forms.RichTextBox txb_closing_price;
+        private System.Windows.Forms.RichTextBox txb_openning_price;
+        private System.Windows.Forms.RichTextBox txb_current_price;
+        private System.Windows.Forms.Label lab_openning_price;
+        private System.Windows.Forms.Label lab_closing_price;
+        private System.Windows.Forms.TextBox txb_money;
+        private System.Windows.Forms.Label lab_money;
+        private System.Windows.Forms.Label lab_limit_price;
+        private System.Windows.Forms.Label lab_current_price;
+        private System.Windows.Forms.Label lab_rising_price;
+        private System.Windows.Forms.TextBox txb_stockcode;
         private System.Windows.Forms.ListView QuoteList;
         private System.Windows.Forms.SplitContainer SubVSpliter;
         private System.Windows.Forms.ListView TransactionDetailList;
         private System.Windows.Forms.ListView TransactionList;
-        private System.Windows.Forms.TextBox textbox_f3_pool;
-        private System.Windows.Forms.TextBox textbox_f2_pool;
+        private System.Windows.Forms.TextBox txb_f3_pool;
+        private System.Windows.Forms.TextBox txb_f2_pool;
         private System.Windows.Forms.Label label_f3;
         private System.Windows.Forms.Label label_f2;
-        private System.Windows.Forms.TextBox textbox_amount;
-        private System.Windows.Forms.TextBox textbox_price;
+        private System.Windows.Forms.TextBox txb_amount;
+        private System.Windows.Forms.TextBox txb_price;
         private System.Windows.Forms.Label label_amount;
-        private System.Windows.Forms.Label lable_buy;
+        private System.Windows.Forms.Label label_price;
 
 
     }

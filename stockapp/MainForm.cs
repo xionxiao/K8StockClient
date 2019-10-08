@@ -20,7 +20,6 @@ namespace K8
     public partial class MainForm : Form
     {
         private string mTradeServer = "http://" + Settings.Default.TradeServerIP;
-        private string ordernum = "";
         private OrderListDataSet mOrderListDataSet = new OrderListDataSet();
         delegate void Reflist_JArray();
         delegate void Reflist_JObject(JObject jo);
@@ -42,41 +41,6 @@ namespace K8
             f4.ShowDialog();
         }
 
-        public class OrderListDataItem
-        {
-            public string mOrderTime;
-            public string mStockCode;
-            public string mStockName;
-            public double mOrderPrice;
-            public int mOrderSize;
-            public string mOrderDirect;    // 买卖方向
-            public string mOrderId;     // 委托编号
-            public string mOrderStatus; // 订单状态
-
-            private void init(JObject jobject)
-            {
-                this.mOrderTime = jobject["委托时间"].ToString();//Convert.ToDateTime(jobject["委托时间"].ToString());
-                this.mStockCode = jobject["证券代码"].ToString();
-                this.mStockName = jobject["证券名称"].ToString();
-                this.mOrderPrice = Convert.ToDouble(jobject["委托价格"].ToString());
-                this.mOrderSize = Convert.ToInt32(jobject["委托数量"].ToString());
-                this.mOrderDirect = jobject["买卖标志"].ToString();
-                this.mOrderId = jobject["合同编号"].ToString();
-                this.mOrderStatus = jobject["状态说明"].ToString();
-            }
-
-            public OrderListDataItem(JObject jobject)
-            {
-                init(jobject);
-            }
-
-            public OrderListDataItem(String str)
-            {
-                JObject jobject = (JObject)JsonConvert.DeserializeObject(str);
-                init(jobject);
-            }
-        }
-
         public class OrderListDataSet
         {
             public HashSet<String> checked_ids = new HashSet<string>();
@@ -91,27 +55,53 @@ namespace K8
                 }
             }
 
+            public void clear()
+            {
+                mOrderListDataSet.Clear();
+            }
+
             public OrderListDataItem getItem(String id)
             {
-                return mOrderListDataSet[id];
+                try
+                {
+                    return mOrderListDataSet[id];
+                }
+                catch
+                {
+                    return null;
+                }
             }
 
             public OrderListDataItem getItem(int index)
             {
-                List<String> list = new List<String>(mOrderListDataSet.Keys);
-                return mOrderListDataSet[list[index]];
+                try
+                {
+                    List<String> list = new List<String>(mOrderListDataSet.Keys);
+                    return mOrderListDataSet[list[index]];
+                }
+                catch
+                {
+                    return null;
+                }
             }
 
             public OrderListDataItem[] getItems()
             {
-                var array = new OrderListDataItem[mOrderListDataSet.Count];
-                int i = 0;
-                foreach (var k in mOrderListDataSet.Keys)
+                try
                 {
-                    array[i] = mOrderListDataSet[k];
-                    i++;
+                    var array = new OrderListDataItem[mOrderListDataSet.Count];
+                    int i = 0;
+                    foreach (var k in mOrderListDataSet.Keys)
+                    {
+                        array[i] = mOrderListDataSet[k];
+                        i++;
+                    }
+                    return array;
                 }
-                return array;
+                catch
+                {
+                    return null;
+                }
             }
         }
 
@@ -127,11 +117,11 @@ namespace K8
             this.OrderList.Columns.Add("状态", 60);
             this.OrderList.Columns.Add("0", 60);
 
-            this.PositionList.Columns.Add("证券代码", 80);
-            this.PositionList.Columns.Add("证券名称", 80);
-            this.PositionList.Columns.Add("仓位方向", 100);
-            this.PositionList.Columns.Add("证券数量", 80);
-            this.PositionList.Columns.Add("0", 80);
+            this.DayPositionList.Columns.Add("证券代码", 80);
+            this.DayPositionList.Columns.Add("证券名称", 80);
+            this.DayPositionList.Columns.Add("仓位方向", 100);
+            this.DayPositionList.Columns.Add("证券数量", 80);
+            this.DayPositionList.Columns.Add("0", 80);
             //this.listView2.Columns.Add("持仓均价", 80);
             //this.listView2.Columns.Add("参考盈亏", 100);
             //this.listView2.Columns.Add("盈亏比例", 80);
@@ -139,12 +129,11 @@ namespace K8
             Control.CheckForIllegalCrossThreadCalls = false;
 
             OrderList.DoubleBuffering(true);
-            PositionList.DoubleBuffering(true);
+            DayPositionList.DoubleBuffering(true);
 
             Thread thread = new Thread(Run);
             thread.IsBackground = true;
             thread.Start();
-
         }
 
         private int refresh_ol_count = 0;
@@ -160,45 +149,48 @@ namespace K8
                 }
                 else
                 {
-                    OrderList.BeginUpdate();
-                    OrderList.Items.Clear();
                     refresh_ol_count++;
                     OrderList.Columns[8].Text = refresh_ol_count.ToString();
                     var data_item = mOrderListDataSet.getItems();
-                    for (int i = 0; i < data_item.Length; i++)
+                    if (data_item != null)
                     {
+                        OrderList.BeginUpdate();
+                        OrderList.Items.Clear();
+                        for (int i = 0; i < data_item.Length; i++)
+                        {
 
-                        ListViewItem view_item = new ListViewItem();
-                        view_item.SubItems[0].Text = data_item[i].mOrderTime.ToString();
-                        view_item.SubItems.Add(data_item[i].mStockCode);
-                        view_item.SubItems.Add(data_item[i].mStockName);
-                        view_item.SubItems.Add(data_item[i].mOrderPrice.ToString());
-                        view_item.SubItems.Add(data_item[i].mOrderSize.ToString());
-                        view_item.SubItems.Add(data_item[i].mOrderDirect);
-                        if (data_item[i].mOrderDirect.Equals("买入担保品"))
-                        {
-                            view_item.ForeColor = Color.Red;
-                        }
-                        else if (data_item[i].mOrderDirect.Equals("卖出担保品")
-                            || data_item[i].mOrderDirect.Equals("融券卖出"))
-                        {
-                            view_item.ForeColor = QuoteForm.RGB(0x65E339);
-                        }
+                            ListViewItem view_item = new ListViewItem();
+                            view_item.SubItems[0].Text = data_item[i].mOrderTime.ToString();
+                            view_item.SubItems.Add(data_item[i].mStockCode);
+                            view_item.SubItems.Add(data_item[i].mStockName);
+                            view_item.SubItems.Add(data_item[i].mOrderPrice.ToString());
+                            view_item.SubItems.Add(data_item[i].mOrderSize.ToString());
+                            view_item.SubItems.Add(data_item[i].mOrderDirect);
+                            if (data_item[i].mOrderDirect.Equals("买入担保品"))
+                            {
+                                view_item.ForeColor = Color.Red;
+                            }
+                            else if (data_item[i].mOrderDirect.Equals("卖出担保品")
+                                || data_item[i].mOrderDirect.Equals("融券卖出"))
+                            {
+                                view_item.ForeColor = QuoteForm.RGB(0x65E339);
+                            }
 
-                        view_item.SubItems.Add(data_item[i].mOrderId);
-                        view_item.SubItems.Add(data_item[i].mOrderStatus);
-                        if (data_item[i].mOrderId.Equals(mOrderListDataSet.selected_id))
-                        {
-                            view_item.Selected = true;
+                            view_item.SubItems.Add(data_item[i].mOrderId);
+                            view_item.SubItems.Add(data_item[i].mOrderStatus);
+                            if (data_item[i].mOrderId.Equals(mOrderListDataSet.selected_id))
+                            {
+                                view_item.Selected = true;
+                            }
+                            if (mOrderListDataSet.checked_ids.Contains(data_item[i].mOrderId))
+                            {
+                                view_item.Checked = true;
+                            }
+                            OrderList.Items.Add(view_item);
                         }
-                        if (mOrderListDataSet.checked_ids.Contains(data_item[i].mOrderId))
-                        {
-                            view_item.Checked = true;
-                        }
-                        OrderList.Items.Add(view_item);
+                        //OrderList.EnsureVisible(OrderList.Items.Count - 1);
+                        OrderList.EndUpdate();
                     }
-                    //OrderList.EnsureVisible(OrderList.Items.Count - 1);
-                    OrderList.EndUpdate();
                 }
             }
             catch
@@ -208,23 +200,23 @@ namespace K8
         }
 
         private int refresh_pl_count = 0;
-        private void refresh_PositionList(JObject ja)
+        private void refresh_DayPositionList(JObject ja)
         {
             if (ja == null || ja.Count == 0)
                 return;
             //是否为创建控件的线程，不是为true
-            if (this.PositionList.InvokeRequired)
+            if (this.DayPositionList.InvokeRequired)
             {
                 //为当前控件指定委托
-                this.PositionList.Invoke(new Reflist_JObject(refresh_PositionList), ja);
+                this.DayPositionList.Invoke(new Reflist_JObject(refresh_DayPositionList), ja);
             }
             else
             {
                 try
                 {
-                    PositionList.Items.Clear();
-                    PositionList.BeginUpdate();
-                    PositionList.Columns[4].Text = refresh_pl_count.ToString();
+                    DayPositionList.Items.Clear();
+                    DayPositionList.BeginUpdate();
+                    DayPositionList.Columns[4].Text = refresh_pl_count.ToString();
                     refresh_pl_count++;
                     foreach (JProperty jp in ja.Properties())
                     {
@@ -242,9 +234,9 @@ namespace K8
                         {
                             item1.ForeColor = QuoteForm.RGB(0x65E339); ;
                         }
-                        PositionList.Items.Add(item1);
+                        DayPositionList.Items.Add(item1);
                     }
-                    PositionList.EndUpdate();
+                    DayPositionList.EndUpdate();
                 }
                 catch
                 {
@@ -295,6 +287,7 @@ namespace K8
             FetchOrdersList(false);
             FetchDeals(false);
             FetchStockPool(false);
+            FetchPosition(false);
         }
 
         public void FetchPosition(bool once=true)
@@ -306,7 +299,22 @@ namespace K8
             client.ExecuteAsync(request, response =>
             {
                 var temp = str_to_jarray("position", response.Content);
-                //DataSet.gPositionList = temp;
+                if (temp != null)
+                {
+                    DataSet.gPositionList.Clear();
+                    try
+                    {
+                        foreach (var i in temp)
+                        {
+                            JObject jo = (JObject)JsonConvert.DeserializeObject(i.ToString());
+                            var obj = new PositionDataItem(jo);
+                            DataSet.gPositionList.Add(obj.stock_code, obj);
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
                 if (once == false)
                 {
                     Thread.Sleep(Settings.Default.PositionRefreshDelay);
@@ -325,12 +333,15 @@ namespace K8
             {
                 var temp = str_to_jobject("stockpool", response.Content);
                 //DataSet.gStockPool = temp;
-                foreach (var i in temp)
+                if (temp != null)
                 {
-                    JObject jo = (JObject)JsonConvert.DeserializeObject(i.Value.ToString());
-                    if(!DataSet.gStockPool.ContainsKey(i.Key)) 
+                    foreach (var i in temp)
                     {
-                        DataSet.gStockPool.Add(i.Key, Convert.ToInt32(jo["融券数量"]));
+                        JObject jo = (JObject)JsonConvert.DeserializeObject(i.Value.ToString());
+                        if (!DataSet.gStockPool.ContainsKey(i.Key))
+                        {
+                            DataSet.gStockPool.Add(i.Key, Convert.ToInt32(jo["融券数量"]));
+                        }
                     }
                 }
                 if (once == false)
@@ -352,6 +363,7 @@ namespace K8
                 var temp = str_to_jarray("orderlist", response.Content);
                 if (temp != null)
                 {
+                    mOrderListDataSet.clear();
                     for (int i = 0; i < temp.Count; i++)
                     {
                         mOrderListDataSet.addItem(new OrderListDataItem((JObject)temp[i]));
@@ -375,7 +387,7 @@ namespace K8
             {
                 var temp = str_to_jarray("deals", res.Content);
                 var temp1 = filter_data(temp);
-                refresh_PositionList(temp1);
+                refresh_DayPositionList(temp1);
                 DataSet.gDeals = temp1;
                 if (once == false)
                 {
@@ -461,8 +473,11 @@ namespace K8
                 foreach(var i in mOrderListDataSet.checked_ids)
                 {
                     var order = mOrderListDataSet.getItem(i);
-                    string str = mTradeServer + "/cancel?stock=" + order.mStockCode + "&order=" + order.mOrderId;
-                    string ret = QuoteForm.GetRequestData_Post(str);       
+                    if (order != null)
+                    {
+                        string str = mTradeServer + "/cancel?stock=" + order.mStockCode + "&order=" + order.mOrderId;
+                        string ret = QuoteForm.GetRequestData_Post(str);
+                    }
                 }
             }
         }
@@ -477,7 +492,7 @@ namespace K8
             temp = mTradeServer + "/query?catalogues=deals";
             string str1 = QuoteForm.GetRequestData(temp);
             ja = str_to_jarray("deals", str1);
-            refresh_PositionList(filter_data(ja));
+            refresh_DayPositionList(filter_data(ja));
         }
 
         protected override void WndProc(ref Message m)

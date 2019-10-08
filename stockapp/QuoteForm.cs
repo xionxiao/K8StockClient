@@ -83,13 +83,26 @@ namespace K8
             this.TransactionDetailList.Columns.Add("D", 24);
             this.TransactionDetailList.Columns.Add("时间", 70);
             this.TransactionDetailList.Columns.Add("", 10);
+            for (int i = 0; i <30; ++i)
+            {
+                item = new ListViewItem();
+                item.UseItemStyleForSubItems = false;
+                TransactionDetailList.Items.Add(item);
+            }
 
             this.TransactionList.Columns.Add("价格", 48);
             this.TransactionList.Columns.Add("数量", 48);
             this.TransactionList.Columns.Add("时间", 48);
             this.TransactionList.Columns.Add("C", 24);
             this.TransactionList.Columns.Add("", 10);
-            
+            /*
+            for (int i = 0; i < 30; ++i)
+            {
+                item = new ListViewItem();
+                item.UseItemStyleForSubItems = false;
+                TransactionList.Items.Add(item);
+            }
+            */
         }
 
         private JObject str_to_jobject(string str)
@@ -239,18 +252,18 @@ namespace K8
                 {
                     TransactionDetailList.BeginUpdate();
                     TransactionDetailList.Columns[4].Text = (++ref_list2_count).ToString();
-                    TransactionDetailList.Items.Clear();
+                    //TransactionDetailList.Items.Clear();
 
                     for (int i = 0; i < ja.Count; i++)
                     {
-                        ListViewItem item = new ListViewItem();
+                        ListViewItem item = TransactionDetailList.Items[i];
                         item.UseItemStyleForSubItems = false;
                         item.SubItems[0].Text = ja[i]["价格"].ToString().Substring(0,
                             ja[i]["价格"].ToString().IndexOf(".") + 3);
-                        item.SubItems.Add(ja[i]["成交量"].ToString().Substring(0,
+                        item.SubItems[1].Text = (ja[i]["成交量"].ToString().Substring(0,
                            ja[i]["成交量"].ToString().IndexOf(".")));
-                        item.SubItems.Add(ja[i]["性质"].ToString());
-                        item.SubItems.Add(ja[i]["成交时间"].ToString());
+                        item.SubItems[2].Text = (ja[i]["性质"].ToString());
+                        item.SubItems[3].Text = (ja[i]["成交时间"].ToString());
                         if (ja[i]["性质"].ToString() == "S")
                         {
                             item.SubItems[0].ForeColor = RGB(0x65E339); //green
@@ -265,9 +278,9 @@ namespace K8
                             item.SubItems[2].ForeColor = RGB(0x5C5CFF);
                             item.SubItems[3].ForeColor = RGB(0x5C5CFF);
                         }
-                        TransactionDetailList.Items.Add(item);
+                        //TransactionDetailList.Items.Add(item);
                     }
-                    TransactionDetailList.EnsureVisible(TransactionDetailList.Items.Count - 1);
+                    //TransactionDetailList.EnsureVisible(TransactionDetailList.Items.Count - 1);
                     TransactionDetailList.EndUpdate();
                 }
             }

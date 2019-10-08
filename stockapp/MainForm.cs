@@ -350,10 +350,14 @@ namespace K8
             client.ExecuteAsync(request, response =>
             {
                 var temp = str_to_jarray("orderlist", response.Content);
-                for (int i=0; i<temp.Count; i++) {
-                    mOrderListDataSet.addItem(new OrderListDataItem((JObject)temp[i]));
+                if (temp != null)
+                {
+                    for (int i = 0; i < temp.Count; i++)
+                    {
+                        mOrderListDataSet.addItem(new OrderListDataItem((JObject)temp[i]));
+                    }
+                    refresh_OrderList();
                 }
-                refresh_OrderList();
                 if (once == false)
                 {
                     Thread.Sleep(Settings.Default.OrdersListRefreshDelay);

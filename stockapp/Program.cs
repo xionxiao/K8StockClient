@@ -24,8 +24,8 @@ namespace K8
     class DataSet
     {
         public static JArray gOrderList = null;
-        public static JArray gPositionList = null;
-        public static JArray gDeals = null;
-        public static JObject gStockPool = null;
+        public static Dictionary<String, int>gPositionList = new Dictionary<string,int>();
+        public static JObject gDeals = null;
+        public static Dictionary<String, int> gStockPool = new Dictionary<string, int>();
     }
 }

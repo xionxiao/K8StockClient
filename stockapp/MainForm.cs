@@ -294,6 +294,7 @@ namespace K8
         {
             FetchOrdersList(false);
             FetchDeals(false);
+            FetchStockPool(false);
         }
 
         public void FetchPosition(bool once=true)
@@ -305,7 +306,7 @@ namespace K8
             client.ExecuteAsync(request, response =>
             {
                 var temp = str_to_jarray("position", response.Content);
-                DataSet.gPositionList = temp;
+                //DataSet.gPositionList = temp;
                 if (once == false)
                 {
                     Thread.Sleep(Settings.Default.PositionRefreshDelay);
@@ -323,7 +324,15 @@ namespace K8
             client.ExecuteAsync(request, response =>
             {
                 var temp = str_to_jobject("stockpool", response.Content);
-                DataSet.gStockPool = temp;
+                //DataSet.gStockPool = temp;
+                foreach (var i in temp)
+                {
+                    JObject jo = (JObject)JsonConvert.DeserializeObject(i.Value.ToString());
+                    if(!DataSet.gStockPool.ContainsKey(i.Key)) 
+                    {
+                        DataSet.gStockPool.Add(i.Key, Convert.ToInt32(jo["融券数量"]));
+                    }
+                }
                 if (once == false)
                 {
                     Thread.Sleep(Settings.Default.StockPoolRefreshDelay);
@@ -361,8 +370,9 @@ namespace K8
             client.ExecuteAsync(request, res =>
             {
                 var temp = str_to_jarray("deals", res.Content);
-                refresh_PositionList(filter_data(temp));
-                DataSet.gDeals = temp;
+                var temp1 = filter_data(temp);
+                refresh_PositionList(temp1);
+                DataSet.gDeals = temp1;
                 if (once == false)
                 {
                     Thread.Sleep(Settings.Default.DealsRefreshDelay);
@@ -444,16 +454,12 @@ namespace K8
             }
             if (e.KeyCode == Keys.Escape)
             {
-                string stock = "";
-                for (int i = 0; i < OrderList.Items.Count; i++)
+                foreach(var i in mOrderListDataSet.checked_ids)
                 {
-                    if (ordernum.Equals(OrderList.Items[i].SubItems[6].Text))
-                    {
-                        stock = OrderList.Items[i].SubItems[1].Text;
-                    }
+                    var order = mOrderListDataSet.getItem(i);
+                    string str = mTradeServer + "/cancel?stock=" + order.mStockCode + "&order=" + order.mOrderId;
+                    string ret = QuoteForm.GetRequestData_Post(str);       
                 }
-                string str = mTradeServer + "/cancel?stock=" + stock + "&order=" + ordernum;
-                string ret = QuoteForm.GetRequestData_Post(str);
             }
         }
 

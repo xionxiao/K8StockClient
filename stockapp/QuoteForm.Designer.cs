@@ -49,14 +49,14 @@
             this.SubVSpliter = new System.Windows.Forms.SplitContainer();
             this.TransactionDetailList = new System.Windows.Forms.ListView();
             this.TransactionList = new System.Windows.Forms.ListView();
-            this.quantityTextBox = new System.Windows.Forms.TextBox();
-            this.priceTextBox = new System.Windows.Forms.TextBox();
+            this.textbox_f3_pool = new System.Windows.Forms.TextBox();
+            this.textbox_f2_pool = new System.Windows.Forms.TextBox();
+            this.label_f3 = new System.Windows.Forms.Label();
+            this.label_f2 = new System.Windows.Forms.Label();
+            this.textbox_amount = new System.Windows.Forms.TextBox();
+            this.textbox_price = new System.Windows.Forms.TextBox();
             this.label_amount = new System.Windows.Forms.Label();
             this.lable_buy = new System.Windows.Forms.Label();
-            this.F3PoolTextBox = new System.Windows.Forms.TextBox();
-            this.F2PoolTextBox = new System.Windows.Forms.TextBox();
-            this.label_F3 = new System.Windows.Forms.Label();
-            this.label_F2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.HSpliter)).BeginInit();
             this.HSpliter.Panel1.SuspendLayout();
             this.HSpliter.Panel2.SuspendLayout();
@@ -86,16 +86,16 @@
             // 
             // HSpliter.Panel2
             // 
-            this.HSpliter.Panel2.Controls.Add(this.F3PoolTextBox);
-            this.HSpliter.Panel2.Controls.Add(this.F2PoolTextBox);
-            this.HSpliter.Panel2.Controls.Add(this.label_F3);
-            this.HSpliter.Panel2.Controls.Add(this.label_F2);
-            this.HSpliter.Panel2.Controls.Add(this.quantityTextBox);
-            this.HSpliter.Panel2.Controls.Add(this.priceTextBox);
+            this.HSpliter.Panel2.Controls.Add(this.textbox_f3_pool);
+            this.HSpliter.Panel2.Controls.Add(this.textbox_f2_pool);
+            this.HSpliter.Panel2.Controls.Add(this.label_f3);
+            this.HSpliter.Panel2.Controls.Add(this.label_f2);
+            this.HSpliter.Panel2.Controls.Add(this.textbox_amount);
+            this.HSpliter.Panel2.Controls.Add(this.textbox_price);
             this.HSpliter.Panel2.Controls.Add(this.label_amount);
             this.HSpliter.Panel2.Controls.Add(this.lable_buy);
             this.HSpliter.Size = new System.Drawing.Size(380, 506);
-            this.HSpliter.SplitterDistance = 480;
+            this.HSpliter.SplitterDistance = 477;
             this.HSpliter.SplitterWidth = 1;
             this.HSpliter.TabIndex = 0;
             // 
@@ -129,7 +129,7 @@
             // VSpliter.Panel2
             // 
             this.VSpliter.Panel2.Controls.Add(this.SubVSpliter);
-            this.VSpliter.Size = new System.Drawing.Size(380, 480);
+            this.VSpliter.Size = new System.Drawing.Size(380, 477);
             this.VSpliter.SplitterDistance = 185;
             this.VSpliter.SplitterWidth = 1;
             this.VSpliter.TabIndex = 0;
@@ -300,8 +300,8 @@
             // SubVSpliter.Panel2
             // 
             this.SubVSpliter.Panel2.Controls.Add(this.TransactionList);
-            this.SubVSpliter.Size = new System.Drawing.Size(194, 480);
-            this.SubVSpliter.SplitterDistance = 240;
+            this.SubVSpliter.Size = new System.Drawing.Size(194, 477);
+            this.SubVSpliter.SplitterDistance = 238;
             this.SubVSpliter.TabIndex = 0;
             // 
             // TransactionDetailList
@@ -310,7 +310,7 @@
             this.TransactionDetailList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TransactionDetailList.Location = new System.Drawing.Point(0, 0);
             this.TransactionDetailList.Name = "TransactionDetailList";
-            this.TransactionDetailList.Size = new System.Drawing.Size(194, 240);
+            this.TransactionDetailList.Size = new System.Drawing.Size(194, 238);
             this.TransactionDetailList.TabIndex = 1;
             this.TransactionDetailList.UseCompatibleStateImageBehavior = false;
             this.TransactionDetailList.View = System.Windows.Forms.View.Details;
@@ -321,24 +321,60 @@
             this.TransactionList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TransactionList.Location = new System.Drawing.Point(0, 0);
             this.TransactionList.Name = "TransactionList";
-            this.TransactionList.Size = new System.Drawing.Size(194, 236);
+            this.TransactionList.Size = new System.Drawing.Size(194, 235);
             this.TransactionList.TabIndex = 1;
             this.TransactionList.UseCompatibleStateImageBehavior = false;
             this.TransactionList.View = System.Windows.Forms.View.Details;
             // 
-            // quantityTextBox
+            // textbox_f3_pool
             // 
-            this.quantityTextBox.Location = new System.Drawing.Point(124, 2);
-            this.quantityTextBox.Name = "quantityTextBox";
-            this.quantityTextBox.Size = new System.Drawing.Size(52, 21);
-            this.quantityTextBox.TabIndex = 60;
+            this.textbox_f3_pool.Location = new System.Drawing.Point(325, 2);
+            this.textbox_f3_pool.Name = "textbox_f3_pool";
+            this.textbox_f3_pool.ReadOnly = true;
+            this.textbox_f3_pool.Size = new System.Drawing.Size(52, 21);
+            this.textbox_f3_pool.TabIndex = 64;
             // 
-            // priceTextBox
+            // textbox_f2_pool
             // 
-            this.priceTextBox.Location = new System.Drawing.Point(34, 2);
-            this.priceTextBox.Name = "priceTextBox";
-            this.priceTextBox.Size = new System.Drawing.Size(52, 21);
-            this.priceTextBox.TabIndex = 59;
+            this.textbox_f2_pool.Location = new System.Drawing.Point(225, 2);
+            this.textbox_f2_pool.Name = "textbox_f2_pool";
+            this.textbox_f2_pool.ReadOnly = true;
+            this.textbox_f2_pool.Size = new System.Drawing.Size(52, 21);
+            this.textbox_f2_pool.TabIndex = 64;
+            // 
+            // label_f3
+            // 
+            this.label_f3.AutoSize = true;
+            this.label_f3.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_f3.Location = new System.Drawing.Point(285, 6);
+            this.label_f3.Name = "label_f3";
+            this.label_f3.Size = new System.Drawing.Size(32, 12);
+            this.label_f3.TabIndex = 62;
+            this.label_f3.Text = "F3池";
+            // 
+            // label_f2
+            // 
+            this.label_f2.AutoSize = true;
+            this.label_f2.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label_f2.Location = new System.Drawing.Point(185, 6);
+            this.label_f2.Name = "label_f2";
+            this.label_f2.Size = new System.Drawing.Size(32, 12);
+            this.label_f2.TabIndex = 61;
+            this.label_f2.Text = "F2池";
+            // 
+            // textbox_amount
+            // 
+            this.textbox_amount.Location = new System.Drawing.Point(124, 2);
+            this.textbox_amount.Name = "textbox_amount";
+            this.textbox_amount.Size = new System.Drawing.Size(52, 21);
+            this.textbox_amount.TabIndex = 60;
+            // 
+            // textbox_price
+            // 
+            this.textbox_price.Location = new System.Drawing.Point(34, 2);
+            this.textbox_price.Name = "textbox_price";
+            this.textbox_price.Size = new System.Drawing.Size(52, 21);
+            this.textbox_price.TabIndex = 59;
             // 
             // label_amount
             // 
@@ -359,42 +395,6 @@
             this.lable_buy.Size = new System.Drawing.Size(31, 12);
             this.lable_buy.TabIndex = 57;
             this.lable_buy.Text = "买入";
-            // 
-            // F3PoolTextBox
-            // 
-            this.F3PoolTextBox.Location = new System.Drawing.Point(319, 2);
-            this.F3PoolTextBox.Name = "F3PoolTextBox";
-            this.F3PoolTextBox.ReadOnly = true;
-            this.F3PoolTextBox.Size = new System.Drawing.Size(52, 21);
-            this.F3PoolTextBox.TabIndex = 64;
-            // 
-            // F2PoolTextBox
-            // 
-            this.F2PoolTextBox.Location = new System.Drawing.Point(229, 2);
-            this.F2PoolTextBox.Name = "F2PoolTextBox";
-            this.F2PoolTextBox.ReadOnly = true;
-            this.F2PoolTextBox.Size = new System.Drawing.Size(52, 21);
-            this.F2PoolTextBox.TabIndex = 63;
-            // 
-            // label_F3
-            // 
-            this.label_F3.AutoSize = true;
-            this.label_F3.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label_F3.Location = new System.Drawing.Point(287, 6);
-            this.label_F3.Name = "label_F3";
-            this.label_F3.Size = new System.Drawing.Size(32, 12);
-            this.label_F3.TabIndex = 62;
-            this.label_F3.Text = "F3池";
-            // 
-            // label_F2
-            // 
-            this.label_F2.AutoSize = true;
-            this.label_F2.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label_F2.Location = new System.Drawing.Point(189, 6);
-            this.label_F2.Name = "label_F2";
-            this.label_F2.Size = new System.Drawing.Size(32, 12);
-            this.label_F2.TabIndex = 61;
-            this.label_F2.Text = "F2池";
             // 
             // QuoteForm
             // 
@@ -454,12 +454,12 @@
         private System.Windows.Forms.SplitContainer SubVSpliter;
         private System.Windows.Forms.ListView TransactionDetailList;
         private System.Windows.Forms.ListView TransactionList;
-        private System.Windows.Forms.TextBox F3PoolTextBox;
-        private System.Windows.Forms.TextBox F2PoolTextBox;
-        private System.Windows.Forms.Label label_F3;
-        private System.Windows.Forms.Label label_F2;
-        private System.Windows.Forms.TextBox quantityTextBox;
-        private System.Windows.Forms.TextBox priceTextBox;
+        private System.Windows.Forms.TextBox textbox_f3_pool;
+        private System.Windows.Forms.TextBox textbox_f2_pool;
+        private System.Windows.Forms.Label label_f3;
+        private System.Windows.Forms.Label label_f2;
+        private System.Windows.Forms.TextBox textbox_amount;
+        private System.Windows.Forms.TextBox textbox_price;
         private System.Windows.Forms.Label label_amount;
         private System.Windows.Forms.Label lable_buy;
 

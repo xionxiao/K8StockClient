@@ -31,7 +31,7 @@
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.QuoteMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingsMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.QuitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.QuitMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -61,7 +61,7 @@
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.QuoteMenu,
             this.SettingsMenu,
-            this.QuitToolStripMenuItem});
+            this.QuitMenu});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Size = new System.Drawing.Size(694, 24);
@@ -82,11 +82,12 @@
             this.SettingsMenu.Text = "设置";
             this.SettingsMenu.Click += new System.EventHandler(this.SettingMenuItem_Click);
             // 
-            // QuitToolStripMenuItem
+            // QuitMenu
             // 
-            this.QuitToolStripMenuItem.Name = "QuitToolStripMenuItem";
-            this.QuitToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
-            this.QuitToolStripMenuItem.Text = "退出";
+            this.QuitMenu.Name = "QuitMenu";
+            this.QuitMenu.Size = new System.Drawing.Size(43, 20);
+            this.QuitMenu.Text = "退出";
+            this.QuitMenu.Click += new System.EventHandler(this.QuitMenu_Click);
             // 
             // splitContainer1
             // 
@@ -167,13 +168,13 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "当日持仓";
             // 
-            // PositionList
+            // DayPositionList
             // 
             this.DayPositionList.BackColor = System.Drawing.Color.Black;
             this.DayPositionList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DayPositionList.ForeColor = System.Drawing.Color.LightGray;
             this.DayPositionList.Location = new System.Drawing.Point(3, 17);
-            this.DayPositionList.Name = "PositionList";
+            this.DayPositionList.Name = "DayPositionList";
             this.DayPositionList.Size = new System.Drawing.Size(688, 176);
             this.DayPositionList.TabIndex = 0;
             this.DayPositionList.UseCompatibleStateImageBehavior = false;
@@ -213,7 +214,7 @@
             this.MainMenuStrip = this.mainMenu;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "股票管理";
+            this.Text = "K8操盘软件";
             this.Load += new System.EventHandler(this.MainFormInit);
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
@@ -240,7 +241,7 @@
         private System.Windows.Forms.MenuStrip mainMenu;
         private System.Windows.Forms.ToolStripMenuItem QuoteMenu;
         private System.Windows.Forms.ToolStripMenuItem SettingsMenu;
-        private System.Windows.Forms.ToolStripMenuItem QuitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem QuitMenu;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.GroupBox groupBox1;

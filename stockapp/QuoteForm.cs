@@ -30,16 +30,20 @@ namespace K8
         private string mMarketIP;
         private string mTradeIP;
         private int choice_f = 0;           /*区别f1 f2 f3*/
-        private Thread mThread = null;
         private IntPtr mMainFormWndHandle;     /*主窗口句柄*/
         private Form mMainForm;
         delegate void Reflist(JObject ja);   /*声明委托*/
         private string[] CH_NUM = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十" };
+        private RestClient mMarketClient;
+        private RestClient mTradeClient;
 
         public QuoteForm(Form fm)
         {
             this.mMarketIP = Properties.Settings.Default.MarketServerIP;
             this.mTradeIP = Properties.Settings.Default.TradeServerIP;
+            this.mMarketClient = new RestClient("http://" + mMarketIP);
+            this.mTradeClient = new RestClient("http://" + mTradeIP);
+
             mMainForm = fm;
             mMainFormWndHandle = fm.Handle;
 
@@ -327,69 +331,67 @@ namespace K8
 
         public void FetchQuote(bool once = true)
         {
-            var client = new RestClient("http://" + mMarketIP);
-            var request = new RestRequest("query", Method.GET);
-            request.AddParameter("catalogues", "quote10");
-            request.AddParameter("stocks", mStockCode);
-
-            client.ExecuteAsync(request, response =>
+            if (mMarketClient != null)
             {
-                var temp = str_to_jobject(response.Content);
-                RefreshQuoteList(temp);
-                refresh_lefttop_controls(temp);
-                if (!once)
+                var request = new RestRequest("query", Method.GET);
+                request.AddParameter("catalogues", "quote10");
+                request.AddParameter("stocks", mStockCode);
+
+                // AsyncRequest is MultiThread
+                mMarketClient.ExecuteAsync(request, response =>
                 {
-                    Thread.Sleep(Settings.Default.QuoteRefreshDelay);
-                    FetchQuote(false);
-                }
-            });
+                    var temp = str_to_jobject(response.Content);
+                    RefreshQuoteList(temp);
+                    refresh_lefttop_controls(temp);
+                    if (!once)
+                    {
+                        Thread.Sleep(Settings.Default.QuoteRefreshDelay);
+                        FetchQuote(false);
+                    }
+                });
+            }
         }
 
         public void FetchTransactionDetail(bool once = true)
         {
-            var client = new RestClient("http://" + mMarketIP);
-            var request = new RestRequest("query", Method.GET);
-            request.AddParameter("catalogues", "transaction_detail");
-            request.AddParameter("stock", mStockCode);
-
-            client.ExecuteAsync(request, response =>
+            if (mMarketClient != null)
             {
-                JObject ja1 = str_to_jobject(response.Content);
-                RefreshTransactionDetailList(ja1);
-                if (!once)
+                var request = new RestRequest("query", Method.GET);
+                request.AddParameter("catalogues", "transaction_detail");
+                request.AddParameter("stock", mStockCode);
+
+                mMarketClient.ExecuteAsync(request, response =>
                 {
-                    Thread.Sleep(Settings.Default.TransactionDetailRefreshDelay);
-                    FetchTransactionDetail(false);
-                }
-            });
+                    JObject ja1 = str_to_jobject(response.Content);
+                    RefreshTransactionDetailList(ja1);
+                    if (!once)
+                    {
+                        Thread.Sleep(Settings.Default.TransactionDetailRefreshDelay);
+                        FetchTransactionDetail(false);
+                    }
+                });
+            }
         }
 
         public void FetchTransaction(bool once = true)
         {
-            var client = new RestClient("http://" + mMarketIP);
-            var request = new RestRequest("query", Method.GET);
-            request.AddParameter("catalogues", "transaction");
-            request.AddParameter("stock", mStockCode);
-
-            client.ExecuteAsync(request, response =>
+            if (mMarketClient != null)
             {
-                JObject ja1 = str_to_jobject(response.Content);
-                RefreshTransactionList(ja1);
-                if (!once)
+                var request = new RestRequest("query", Method.GET);
+                request.AddParameter("catalogues", "transaction");
+                request.AddParameter("stock", mStockCode);
+            
+                mMarketClient.ExecuteAsync(request, response =>
                 {
-                    Thread.Sleep(Settings.Default.TransactionRefreshDelay);
-                    FetchTransaction(false);
-                }
-            });
-        }
-
-        private void Run(object num)
-        {
-            TransactionDetailList.EnsureVisible(TransactionDetailList.Items.Count-1);
-            TransactionList.EnsureVisible(TransactionDetailList.Items.Count - 1);
-            FetchQuote(false);
-            FetchTransactionDetail(false);
-            FetchTransaction(false);
+                    JObject ja1 = str_to_jobject(response.Content);
+                    RefreshTransactionList(ja1);
+                    if (!once)
+                    {
+                        Thread.Sleep(Settings.Default.TransactionRefreshDelay);
+                        FetchTransaction(false);
+                    }
+                });
+            }
         }
 
         private void handle_shiftup_msg()
@@ -458,7 +460,6 @@ namespace K8
                     return;
                 }
             }
-
         }
 
         private void handle_escape_msg()
@@ -492,13 +493,11 @@ namespace K8
                 return;
             }
 
-            if (mThread == null)
-            {
-                //创建一个线程
-                mThread = new Thread(Run);
-                mThread.IsBackground = true;
-                mThread.Start();
-            }
+            TransactionDetailList.EnsureVisible(TransactionDetailList.Items.Count - 1);
+            TransactionList.EnsureVisible(TransactionDetailList.Items.Count - 1);
+            FetchQuote(false);
+            FetchTransactionDetail(false);
+            FetchTransaction(false);
         }
 
         private void post_order()
@@ -819,30 +818,6 @@ namespace K8
             return Color.FromArgb(r, g, b);
         }
 
-        public static string GetRequestData(string sUrl)
-        {
-            //MessageBox.Show(sUrl);
-            //使用HttpWebRequest类的Create方法创建一个请求到uri的对象。
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(sUrl);
-            //指定请求的方式为Get方式
-            request.Method = WebRequestMethods.Http.Get;
-            request.Timeout = 1000;
-            //获取该请求所响应回来的资源，并强转为HttpWebResponse响应对象
-            try
-            {
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-
-                string str = reader.ReadToEnd();
-                response.Close();
-                return str;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
         public static string GetRequestData_Post(string sUrl)
         {
             //MessageBox.Show(sUrl);
@@ -946,10 +921,7 @@ namespace K8
 
         private void OnFormClosed(object sender, FormClosedEventArgs e)
         {
-            if (mThread != null && mThread.IsAlive == true)
-            {
-                mThread.Abort();
-            }
+            mMarketClient = null;
         }
     }
 }

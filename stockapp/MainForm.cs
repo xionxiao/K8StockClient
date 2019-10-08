@@ -131,9 +131,7 @@ namespace K8
             OrderList.DoubleBuffering(true);
             DayPositionList.DoubleBuffering(true);
 
-            Thread thread = new Thread(Run);
-            thread.IsBackground = true;
-            thread.Start();
+            StartFetchData();
         }
 
         private int refresh_ol_count = 0;
@@ -282,7 +280,7 @@ namespace K8
             }
         }
 
-        public void Run()
+        private void StartFetchData()
         {
             FetchOrdersList(false);
             FetchDeals(false);
@@ -367,6 +365,7 @@ namespace K8
                     for (int i = 0; i < temp.Count; i++)
                     {
                         mOrderListDataSet.addItem(new OrderListDataItem((JObject)temp[i]));
+                        Print(mOrderListDataSet.checked_ids.ToString());
                     }
                     refresh_OrderList();
                 }
@@ -482,17 +481,17 @@ namespace K8
             }
         }
 
-        protected void refresh_control()
-        {
-            string temp = mTradeServer + "/query?catalogues=orderlist";
-            string str = QuoteForm.GetRequestData(temp);
-            JArray ja = str_to_jarray("orderlist", str);
-            refresh_OrderList();
 
-            temp = mTradeServer + "/query?catalogues=deals";
-            string str1 = QuoteForm.GetRequestData(temp);
-            ja = str_to_jarray("deals", str1);
-            refresh_DayPositionList(filter_data(ja));
+        public void Print(string ss)
+        {
+            int current_index = OutPutBox.TopIndex;
+            OutPutBox.Items.Add(ss);
+            int visibleItems = OutPutBox.ClientSize.Height / OutPutBox.ItemHeight;
+            var index = Math.Max(OutPutBox.Items.Count - visibleItems + 1, 0);
+            if (index == 0 || index - current_index < 4)
+            {
+                OutPutBox.TopIndex = index;
+            }
         }
 
         protected override void WndProc(ref Message m)
@@ -505,7 +504,7 @@ namespace K8
                     ml = (Win32API.My_lParam)m.GetLParam(t);
                     if (ml.s != null)
                         OutPutBox.Items.Add(ml.s);
-                    refresh_control();
+                    //refresh_control();
                     break;
             }
             base.WndProc(ref m);
@@ -540,6 +539,11 @@ namespace K8
             {
                 mOrderListDataSet.checked_ids.Add(OrderList.Items[e.Index].SubItems[6].Text);
             }
+        }
+
+        private void QuitMenu_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 

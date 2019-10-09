@@ -21,7 +21,8 @@ namespace K8
     {
         private string mTradeServer = "http://" + Settings.Default.TradeServerIP;
         private OrderListDataSet mOrderListDataSet = new OrderListDataSet();
-        delegate void Reflist_JArray();
+        delegate void Refresh_Delegate();
+        delegate void PrintMessageDelegate(String msg);
         delegate void Reflist_JObject(JObject jo);
 
         public MainForm()
@@ -143,7 +144,7 @@ namespace K8
                 if (this.OrderList.InvokeRequired)
                 {
                     //为当前控件指定委托
-                    this.OrderList.Invoke(new Reflist_JArray(refresh_OrderList));
+                    this.OrderList.Invoke(new Refresh_Delegate(refresh_OrderList));
                 }
                 else
                 {
@@ -152,6 +153,7 @@ namespace K8
                     var data_item = mOrderListDataSet.getItems();
                     if (data_item != null)
                     {
+                        int top_index = (OrderList.TopItem != null) ? OrderList.TopItem.Index : -1;
                         OrderList.BeginUpdate();
                         OrderList.Items.Clear();
                         for (int i = 0; i < data_item.Length; i++)
@@ -186,8 +188,26 @@ namespace K8
                             }
                             OrderList.Items.Add(view_item);
                         }
-                        //OrderList.EnsureVisible(OrderList.Items.Count - 1);
+                        if (top_index > 0 && OrderList.Items.Count> top_index)
+                        {
+                            //OrderList.TopItem = OrderList.Items[top_index];
+                            //OrderList.TopItem.EnsureVisible();
+                            //OrderList.TopItem.Focused = true;
+                            //PrintMessage(top_index.ToString() + " " + OrderList.Items.Count);
+                        }
                         OrderList.EndUpdate();
+                        if (top_index > 0 && OrderList.Items.Count > top_index)
+                        {
+                            
+                            int H = OrderList.Height;
+                            int h = OrderList.TopItem.GetBounds(ItemBoundsPortion.Entire).Height;
+                            int n = H / h - 1;
+                            if ( n + top_index >= OrderList.Items.Count-1)
+                                OrderList.TopItem = OrderList.Items[top_index+1];
+                            else
+                                OrderList.TopItem = OrderList.Items[top_index];
+                            PrintMessage(top_index.ToString() + " " + OrderList.Items.Count);
+                        }
                     }
                 }
             }
@@ -200,8 +220,6 @@ namespace K8
         private int refresh_pl_count = 0;
         private void refresh_DayPositionList(JObject ja)
         {
-            if (ja == null || ja.Count == 0)
-                return;
             //是否为创建控件的线程，不是为true
             if (this.DayPositionList.InvokeRequired)
             {
@@ -212,27 +230,27 @@ namespace K8
             {
                 try
                 {
-                    DayPositionList.Items.Clear();
                     DayPositionList.BeginUpdate();
+                    DayPositionList.Items.Clear();
                     DayPositionList.Columns[4].Text = refresh_pl_count.ToString();
                     refresh_pl_count++;
                     foreach (JProperty jp in ja.Properties())
                     {
-                        ListViewItem item1 = new ListViewItem();
-                        item1.SubItems[0].Text = ja[jp.Name]["证券代码"].ToString();
-                        item1.SubItems.Add(ja[jp.Name]["证券名称"].ToString());
-                        item1.SubItems.Add(ja[jp.Name]["买卖标志"].ToString());
-                        item1.SubItems.Add(ja[jp.Name]["成交数量"].ToString());
+                        ListViewItem item = new ListViewItem();
+                        item.SubItems[0].Text = ja[jp.Name]["证券代码"].ToString();
+                        item.SubItems.Add(ja[jp.Name]["证券名称"].ToString());
+                        item.SubItems.Add(ja[jp.Name]["买卖标志"].ToString());
+                        item.SubItems.Add(ja[jp.Name]["成交数量"].ToString());
 
                         if (ja[jp.Name]["买卖标志"].ToString().Contains("买入"))
                         {
-                            item1.ForeColor = Color.Red;
+                            item.ForeColor = Color.Red;
                         }
                         else if (ja[jp.Name]["买卖标志"].ToString().Contains("卖出"))
                         {
-                            item1.ForeColor = QuoteForm.RGB(0x65E339); ;
+                            item.ForeColor = QuoteForm.RGB(0x65E339); ;
                         }
-                        DayPositionList.Items.Add(item1);
+                        DayPositionList.Items.Add(item);
                     }
                     DayPositionList.EndUpdate();
                 }
@@ -365,7 +383,6 @@ namespace K8
                     for (int i = 0; i < temp.Count; i++)
                     {
                         mOrderListDataSet.addItem(new OrderListDataItem((JObject)temp[i]));
-                        Print(mOrderListDataSet.checked_ids.ToString());
                     }
                     refresh_OrderList();
                 }
@@ -482,15 +499,23 @@ namespace K8
         }
 
 
-        public void Print(string ss)
+        public void PrintMessage(string msg)
         {
-            int current_index = OutPutBox.TopIndex;
-            OutPutBox.Items.Add(ss);
-            int visibleItems = OutPutBox.ClientSize.Height / OutPutBox.ItemHeight;
-            var index = Math.Max(OutPutBox.Items.Count - visibleItems + 1, 0);
-            if (index == 0 || index - current_index < 4)
+            if (this.OutPutBox.InvokeRequired)
             {
-                OutPutBox.TopIndex = index;
+                //为当前控件指定委托
+                this.OutPutBox.Invoke(new PrintMessageDelegate(PrintMessage));
+            }
+            else
+            {
+                int current_index = OutPutBox.TopIndex;
+                OutPutBox.Items.Add(msg);
+                int visibleItems = OutPutBox.ClientSize.Height / OutPutBox.ItemHeight;
+                var index = Math.Max(OutPutBox.Items.Count - visibleItems + 1, 0);
+                if (index == 0 || index - current_index < 4)
+                {
+                    OutPutBox.TopIndex = index;
+                }
             }
         }
 
@@ -503,7 +528,7 @@ namespace K8
                     Type t = ml.GetType();
                     ml = (Win32API.My_lParam)m.GetLParam(t);
                     if (ml.s != null)
-                        OutPutBox.Items.Add(ml.s);
+                        PrintMessage(ml.s);
                     //refresh_control();
                     break;
             }

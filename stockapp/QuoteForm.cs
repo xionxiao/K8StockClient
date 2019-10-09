@@ -31,7 +31,7 @@ namespace K8
         private string mTradeIP;
         private int choice_f = 0;           /*区别f1 f2 f3*/
         private IntPtr mMainFormWndHandle;     /*主窗口句柄*/
-        private Form mMainForm;
+        private MainForm mMainForm;
         delegate void Reflist(JObject ja);   /*声明委托*/
         private string[] CH_NUM = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十" };
         private RestClient mMarketClient;
@@ -44,7 +44,7 @@ namespace K8
             this.mMarketClient = new RestClient("http://" + mMarketIP);
             this.mTradeClient = new RestClient("http://" + mTradeIP);
 
-            mMainForm = fm;
+            mMainForm = (MainForm)fm;
             mMainFormWndHandle = fm.Handle;
 
             InitializeComponent();
@@ -508,36 +508,60 @@ namespace K8
                 return;
             if (choice_f == 1)
             {
-                string str = "http://" + mTradeIP + "/buy?stock=" + mStockCode + "&price=" + price +
-                 "&share=" + num;
+                var request = new RestRequest("buy", Method.POST);
+                request.AddParameter("stock", mStockCode);
+                request.AddParameter("price", price);
+                request.AddParameter("share", num);
 
-                Thread thread = new Thread(new ParameterizedThreadStart(post_msg_to_main_wnd));
-                thread.IsBackground = true;
-                thread.Start(str);
+                mMarketClient.ExecuteAsync(request, response =>
+                {
+                    var res = str_to_jobject(response.Content);
+                    mMainForm.PrintMessage(res.ToString());
+                });
             }
             if (choice_f == 2)
             {
-                string str = "http://" + mTradeIP + "/sell?stock=" + mStockCode + "&price=" + price +
-                 "&share=" + num;
-                Thread thread = new Thread(new ParameterizedThreadStart(post_msg_to_main_wnd));
-                thread.IsBackground = true;
-                thread.Start(str);
+                var request = new RestRequest("sell", Method.POST);
+                request.AddParameter("stock", mStockCode);
+                request.AddParameter("price", price);
+                request.AddParameter("share", num);
+
+                mMarketClient.ExecuteAsync(request, response =>
+                {
+                    var res = str_to_jobject(response.Content);
+                    mMainForm.PrintMessage(res.ToString());
+                });
             }
             if (choice_f == 3)
             {
                 string str = "http://" + mTradeIP + "/short?type=frompool&stock=" + mStockCode + "&price=" + price +
                      "&share=" + num;
-                Thread thread = new Thread(new ParameterizedThreadStart(post_msg_to_main_wnd));
-                thread.IsBackground = true;
-                thread.Start(str);
+                var request = new RestRequest("short", Method.POST);
+                request.AddParameter("type", "frompool");
+                request.AddParameter("stock", mStockCode);
+                request.AddParameter("price", price);
+                request.AddParameter("share", num);
+
+                mMarketClient.ExecuteAsync(request, response =>
+                {
+                    var res = str_to_jobject(response.Content);
+                    mMainForm.PrintMessage(res.ToString());
+                });
             }
             if (choice_f == 4)
             {
                 string str = "http://" + mTradeIP + "/short?type=direct&stock=" + mStockCode +
                     "&share=" + num + "&price=" + price;
-                Thread thread = new Thread(new ParameterizedThreadStart(post_msg_to_main_wnd));
-                thread.IsBackground = true;
-                thread.Start(str);
+                var request = new RestRequest("short", Method.POST);
+                request.AddParameter("stock", mStockCode);
+                request.AddParameter("price", price);
+                request.AddParameter("share", num);
+
+                mMarketClient.ExecuteAsync(request, response =>
+                {
+                    var res = str_to_jobject(response.Content);
+                    mMainForm.PrintMessage(res.ToString());
+                });
             }
             choice_f = 0;
             label_price.Visible = false;

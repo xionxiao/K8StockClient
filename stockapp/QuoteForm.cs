@@ -502,10 +502,10 @@ namespace K8
 
         private void post_order()
         {
-            float price = float.Parse(txb_price.Text);
-            int num = int.Parse(txb_amount.Text);
             if (mStockCode == null)
                 return;
+            float price = float.Parse(txb_price.Text);
+            int num = int.Parse(txb_amount.Text);
             if (choice_f == 1)
             {
                 var request = new RestRequest("buy", Method.POST);
@@ -513,10 +513,20 @@ namespace K8
                 request.AddParameter("price", price);
                 request.AddParameter("share", num);
 
-                mMarketClient.ExecuteAsync(request, response =>
+                mTradeClient.ExecuteAsync(request, response =>
                 {
                     var res = str_to_jobject(response.Content);
-                    mMainForm.PrintMessage(res.ToString());
+                    if (res != null)
+                    {
+                        if (res["result"] != null)
+                        {
+                            mMainForm.PrintMessage(res["result"].ToString());
+                        }
+                        if (res["error"] != null)
+                        {
+                            mMainForm.PrintMessage(res["error"].ToString());
+                        }
+                    }
                 });
             }
             if (choice_f == 2)
@@ -526,10 +536,20 @@ namespace K8
                 request.AddParameter("price", price);
                 request.AddParameter("share", num);
 
-                mMarketClient.ExecuteAsync(request, response =>
+                mTradeClient.ExecuteAsync(request, response =>
                 {
                     var res = str_to_jobject(response.Content);
-                    mMainForm.PrintMessage(res.ToString());
+                    if (res != null)
+                    {
+                        if (res["result"] != null)
+                        {
+                            mMainForm.PrintMessage(res["result"].ToString());
+                        }
+                        if (res["error"] != null)
+                        {
+                            mMainForm.PrintMessage(res["error"].ToString());
+                        }
+                    }
                 });
             }
             if (choice_f == 3)
@@ -542,10 +562,20 @@ namespace K8
                 request.AddParameter("price", price);
                 request.AddParameter("share", num);
 
-                mMarketClient.ExecuteAsync(request, response =>
+                mTradeClient.ExecuteAsync(request, response =>
                 {
                     var res = str_to_jobject(response.Content);
-                    mMainForm.PrintMessage(res.ToString());
+                    if (res != null)
+                    {
+                        if (res["result"] != null)
+                        {
+                            mMainForm.PrintMessage(res["result"].ToString());
+                        }
+                        if (res["error"] != null)
+                        {
+                            mMainForm.PrintMessage(res["error"].ToString());
+                        }
+                    }
                 });
             }
             if (choice_f == 4)
@@ -557,19 +587,29 @@ namespace K8
                 request.AddParameter("price", price);
                 request.AddParameter("share", num);
 
-                mMarketClient.ExecuteAsync(request, response =>
+                mTradeClient.ExecuteAsync(request, response =>
                 {
                     var res = str_to_jobject(response.Content);
-                    mMainForm.PrintMessage(res.ToString());
+                    if (res != null)
+                    {
+                        if (res["result"] != null)
+                        {
+                            mMainForm.PrintMessage(res["result"].ToString());
+                        }
+                        if (res["error"] != null)
+                        {
+                            mMainForm.PrintMessage(res["error"].ToString());
+                        }
+                    }
                 });
             }
             choice_f = 0;
-            label_price.Visible = false;
-            txb_amount.Visible = false;
-            txb_amount.Text = "";
-            label_amount.Visible = false;
-            txb_price.Visible = false;
-            txb_price.Text = "";
+            //label_price.Visible = false;
+            //txb_amount.Visible = false;
+            //txb_amount.Text = "";
+            //label_amount.Visible = false;
+            //txb_price.Visible = false;
+            //txb_price.Text = "";
         }
 
         private void handle_f1_msg()
@@ -796,6 +836,8 @@ namespace K8
             {
                 post_order();
             }
+            if (mStockCode == null)
+                return;
             if (e.KeyCode == Keys.F1)
             {
                 handle_f1_msg();

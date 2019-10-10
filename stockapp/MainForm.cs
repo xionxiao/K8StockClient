@@ -188,13 +188,6 @@ namespace K8
                             }
                             OrderList.Items.Add(view_item);
                         }
-                        if (top_index > 0 && OrderList.Items.Count> top_index)
-                        {
-                            //OrderList.TopItem = OrderList.Items[top_index];
-                            //OrderList.TopItem.EnsureVisible();
-                            //OrderList.TopItem.Focused = true;
-                            //PrintMessage(top_index.ToString() + " " + OrderList.Items.Count);
-                        }
                         OrderList.EndUpdate();
                         if (top_index > 0 && OrderList.Items.Count > top_index)
                         {
@@ -206,9 +199,10 @@ namespace K8
                                 OrderList.TopItem = OrderList.Items[top_index+1];
                             else
                                 OrderList.TopItem = OrderList.Items[top_index];
-                            PrintMessage(top_index.ToString() + " " + OrderList.Items.Count);
+                            //PrintMessage(top_index.ToString() + " " + OrderList.Items.Count);
                         }
                     }
+                    //OrderList.EndUpdate();
                 }
             }
             catch
@@ -504,7 +498,7 @@ namespace K8
             if (this.OutPutBox.InvokeRequired)
             {
                 //为当前控件指定委托
-                this.OutPutBox.Invoke(new PrintMessageDelegate(PrintMessage));
+                this.OutPutBox.Invoke(new PrintMessageDelegate(PrintMessage), msg);
             }
             else
             {

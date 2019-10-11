@@ -19,11 +19,8 @@ namespace K8
 {
     public partial class MainForm : Form
     {
-        private string mTradeServer = "http://" + Settings.Default.TradeServerIP;
+        private RestClient mTradeClient = new RestClient("http://" + Settings.Default.TradeServerIP);
         private OrderListDataSet mOrderListDataSet = new OrderListDataSet();
-        delegate void Refresh_Delegate();
-        delegate void PrintMessageDelegate(String msg);
-        delegate void Reflist_JObject(JObject jo);
 
         public MainForm()
         {
@@ -67,8 +64,9 @@ namespace K8
                 {
                     return mOrderListDataSet[id];
                 }
-                catch
+                catch (Exception e)
                 {
+                    MessageBox.Show(e.ToString());
                     return null;
                 }
             }
@@ -80,8 +78,9 @@ namespace K8
                     List<String> list = new List<String>(mOrderListDataSet.Keys);
                     return mOrderListDataSet[list[index]];
                 }
-                catch
+                catch (Exception e)
                 {
+                    MessageBox.Show(e.ToString());
                     return null;
                 }
             }
@@ -99,8 +98,9 @@ namespace K8
                     }
                     return array;
                 }
-                catch
+                catch (Exception e)
                 {
+                    MessageBox.Show(e.ToString());
                     return null;
                 }
             }
@@ -136,6 +136,7 @@ namespace K8
         }
 
         private int refresh_ol_count = 0;
+        delegate void Refresh_Delegate();
         private void refresh_OrderList()
         {
             try
@@ -199,19 +200,19 @@ namespace K8
                                 OrderList.TopItem = OrderList.Items[top_index+1];
                             else
                                 OrderList.TopItem = OrderList.Items[top_index];
-                            //PrintMessage(top_index.ToString() + " " + OrderList.Items.Count);
                         }
                     }
-                    //OrderList.EndUpdate();
                 }
             }
-            catch
+            catch (Exception e)
             {
+                MessageBox.Show(e.ToString());
                 return;
             }
         }
 
         private int refresh_pl_count = 0;
+        delegate void Reflist_JObject(JObject jo);
         private void refresh_DayPositionList(JObject ja)
         {
             //是否为创建控件的线程，不是为true
@@ -228,28 +229,32 @@ namespace K8
                     DayPositionList.Items.Clear();
                     DayPositionList.Columns[4].Text = refresh_pl_count.ToString();
                     refresh_pl_count++;
-                    foreach (JProperty jp in ja.Properties())
+                    if (ja != null)
                     {
-                        ListViewItem item = new ListViewItem();
-                        item.SubItems[0].Text = ja[jp.Name]["证券代码"].ToString();
-                        item.SubItems.Add(ja[jp.Name]["证券名称"].ToString());
-                        item.SubItems.Add(ja[jp.Name]["买卖标志"].ToString());
-                        item.SubItems.Add(ja[jp.Name]["成交数量"].ToString());
+                        foreach (JProperty jp in ja.Properties())
+                        {
+                            ListViewItem item = new ListViewItem();
+                            item.SubItems[0].Text = ja[jp.Name]["证券代码"].ToString();
+                            item.SubItems.Add(ja[jp.Name]["证券名称"].ToString());
+                            item.SubItems.Add(ja[jp.Name]["买卖标志"].ToString());
+                            item.SubItems.Add(ja[jp.Name]["成交数量"].ToString());
 
-                        if (ja[jp.Name]["买卖标志"].ToString().Contains("买入"))
-                        {
-                            item.ForeColor = Color.Red;
+                            if (ja[jp.Name]["买卖标志"].ToString().Contains("买入"))
+                            {
+                                item.ForeColor = Color.Red;
+                            }
+                            else if (ja[jp.Name]["买卖标志"].ToString().Contains("卖出"))
+                            {
+                                item.ForeColor = QuoteForm.RGB(0x65E339); ;
+                            }
+                            DayPositionList.Items.Add(item);
                         }
-                        else if (ja[jp.Name]["买卖标志"].ToString().Contains("卖出"))
-                        {
-                            item.ForeColor = QuoteForm.RGB(0x65E339); ;
-                        }
-                        DayPositionList.Items.Add(item);
                     }
                     DayPositionList.EndUpdate();
                 }
-                catch
+                catch (Exception e)
                 {
+                    MessageBox.Show(e.ToString());
                     return;
                 }
             } 
@@ -267,8 +272,9 @@ namespace K8
                 JArray ja = (JArray)JsonConvert.DeserializeObject(jo[field].ToString());
                 return ja;
             }
-            catch
+            catch (Exception e)
             {
+                MessageBox.Show(e.ToString());
                 return null;
             }
 
@@ -286,8 +292,23 @@ namespace K8
                 JObject jo1 = (JObject)JsonConvert.DeserializeObject(jo[field].ToString());
                 return jo1;
             }
-            catch
+            catch (Exception e)
             {
+                MessageBox.Show(e.ToString());
+                return null;
+            }
+        }
+
+        private JObject str_to_jobject(string str)
+        {
+            try
+            {
+                JObject jo = (JObject)JsonConvert.DeserializeObject(str);
+                return jo;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
                 return null;
             }
         }
@@ -302,11 +323,10 @@ namespace K8
 
         public void FetchPosition(bool once=true)
         {
-            var client = new RestClient(mTradeServer);
             var request = new RestRequest("query", Method.GET);
             request.AddParameter("catalogues", "position");
 
-            client.ExecuteAsync(request, response =>
+            mTradeClient.ExecuteAsync(request, response =>
             {
                 var temp = str_to_jarray("position", response.Content);
                 if (temp != null)
@@ -321,8 +341,9 @@ namespace K8
                             DataSet.gPositionList.Add(obj.stock_code, obj);
                         }
                     }
-                    catch
+                    catch (Exception e)
                     {
+                        PrintMessage(e.ToString());
                     }
                 }
                 if (once == false)
@@ -335,14 +356,12 @@ namespace K8
 
         public void FetchStockPool(bool once = true)
         {
-            var client = new RestClient(mTradeServer);
             var request = new RestRequest("query", Method.GET);
             request.AddParameter("catalogues", "stockpool");
 
-            client.ExecuteAsync(request, response =>
+            mTradeClient.ExecuteAsync(request, response =>
             {
                 var temp = str_to_jobject("stockpool", response.Content);
-                //DataSet.gStockPool = temp;
                 if (temp != null)
                 {
                     foreach (var i in temp)
@@ -364,11 +383,10 @@ namespace K8
 
         public void FetchOrdersList(bool once = true)
         {
-            var client = new RestClient(mTradeServer);
             var request = new RestRequest("query", Method.GET);
             request.AddParameter("catalogues", "orderlist");
 
-            client.ExecuteAsync(request, response =>
+            mTradeClient.ExecuteAsync(request, response =>
             {
                 var temp = str_to_jarray("orderlist", response.Content);
                 if (temp != null)
@@ -390,10 +408,9 @@ namespace K8
 
         public void FetchDeals(bool once = true)
         {
-            var client = new RestClient(mTradeServer);
             var request = new RestRequest("query", Method.GET);
             request.AddParameter("catalogues", "deals");
-            client.ExecuteAsync(request, res =>
+            mTradeClient.ExecuteAsync(request, res =>
             {
                 var temp = str_to_jarray("deals", res.Content);
                 var temp1 = filter_data(temp);
@@ -485,14 +502,32 @@ namespace K8
                     var order = mOrderListDataSet.getItem(i);
                     if (order != null)
                     {
-                        string str = mTradeServer + "/cancel?stock=" + order.mStockCode + "&order=" + order.mOrderId;
-                        string ret = QuoteForm.GetRequestData_Post(str);
+                        var request = new RestRequest("cancel", Method.POST);
+                        request.AddParameter("stock", order.mStockCode);
+                        request.AddParameter("order", order.mOrderId);
+
+                        mTradeClient.ExecuteAsync(request, response =>
+                        {
+                            var res = str_to_jobject(response.Content);
+                            if (res != null)
+                            {
+                                if (res["result"] != null)
+                                {
+                                    this.PrintMessage(res["result"].ToString());
+                                }
+                                if (res["error"] != null)
+                                {
+                                    this.PrintMessage(res["error"].ToString());
+                                }
+                            }
+                
+                        });
                     }
                 }
             }
         }
 
-
+        delegate void PrintMessageDelegate(String msg);
         public void PrintMessage(string msg)
         {
             if (this.OutPutBox.InvokeRequired)
@@ -513,22 +548,6 @@ namespace K8
             }
         }
 
-        protected override void WndProc(ref Message m)
-        {
-            switch (m.Msg)
-            {
-                case 0x63:
-                    Win32API.My_lParam ml = new Win32API.My_lParam();
-                    Type t = ml.GetType();
-                    ml = (Win32API.My_lParam)m.GetLParam(t);
-                    if (ml.s != null)
-                        PrintMessage(ml.s);
-                    //refresh_control();
-                    break;
-            }
-            base.WndProc(ref m);
-        }
-
         private void OrderList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (OrderList.SelectedItems.Count != 0)
@@ -540,12 +559,6 @@ namespace K8
 
         private void OrderList_CheckedIndexChanged(object sender, EventArgs e)
         {
-            /*
-            for (int i = 0; i < OrderList.CheckedItems.Count; i++)
-            {
-                mOrderListDataSet.checked_ids.Add(OrderList.CheckedItems[i].SubItems[6].Text);
-            }
-             * */
         }
 
         private void OrderList_Check(object sender, ItemCheckEventArgs e)

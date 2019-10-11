@@ -9,6 +9,8 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Net;
 using System.IO;
+using System.Threading;
+using System.Timers;
 using System.Runtime.Serialization;
 using System.Web;
 using Newtonsoft.Json;
@@ -17,7 +19,6 @@ using System.Diagnostics;
 
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Threading;
 using RestSharp;
 using K8.Properties;
 
@@ -25,27 +26,24 @@ namespace K8
 {
     public partial class QuoteForm : Form
     {
-        private int stocknum = 100;
+        private int stocknum = 100;        /* 增减股数 */
         private string mStockCode = null;
-        private string mMarketIP;
-        private string mTradeIP;
         private int choice_f = 0;           /*区别f1 f2 f3*/
-        private IntPtr mMainFormWndHandle;     /*主窗口句柄*/
         private MainForm mMainForm;
         delegate void Reflist(JObject ja);   /*声明委托*/
         private string[] CH_NUM = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十" };
         private RestClient mMarketClient;
         private RestClient mTradeClient;
+        private System.Timers.Timer mTimer;
 
         public QuoteForm(Form fm)
         {
-            this.mMarketIP = Properties.Settings.Default.MarketServerIP;
-            this.mTradeIP = Properties.Settings.Default.TradeServerIP;
+            String mMarketIP = Properties.Settings.Default.MarketServerIP;
+            String mTradeIP = Properties.Settings.Default.TradeServerIP;
             this.mMarketClient = new RestClient("http://" + mMarketIP);
             this.mTradeClient = new RestClient("http://" + mTradeIP);
 
             mMainForm = (MainForm)fm;
-            mMainFormWndHandle = fm.Handle;
 
             InitializeComponent();
 
@@ -113,6 +111,21 @@ namespace K8
                 item.SubItems.Add("");
                 TransactionList.Items.Add(item);
             }
+
+            /* 初始化定时器，定时刷新F2、F3池 */
+            mTimer = new System.Timers.Timer(1000);
+            mTimer.Elapsed += new ElapsedEventHandler(timer_event_handler);
+            mTimer.AutoReset = true;
+            mTimer.Enabled = true;
+        }
+
+        private void timer_event_handler(object sender, ElapsedEventArgs e)
+        {
+            if (mStockCode != null)
+            {
+                get_f2_pool();
+                get_f3_pool();
+            }
         }
 
         private JObject str_to_jobject(string str)
@@ -122,8 +135,9 @@ namespace K8
                 JObject jo = (JObject)JsonConvert.DeserializeObject(str);
                 return jo;
             }
-            catch
+            catch (Exception e)
             {
+                MessageBox.Show(e.ToString());
                 return null;
             }
         }
@@ -186,8 +200,9 @@ namespace K8
                 }
                 TransactionList.EndUpdate();
             }
-            catch
+            catch (Exception e)
             {
+                //MessageBox.Show(e.ToString());
                 return;
             }
         }
@@ -238,8 +253,9 @@ namespace K8
                 }
                 QuoteList.EndUpdate();
             }
-            catch
+            catch (Exception e)
             {
+                //MessageBox.Show(e.ToString());
                 return;
             }
         }
@@ -289,13 +305,14 @@ namespace K8
                     TransactionDetailList.EndUpdate();
                 }
             }
-            catch
+            catch (Exception e)
             {
+                //MessageBox.Show(e.ToString());
                 return;
             }
         }
 
-        private void refresh_lefttop_controls(JObject jo)
+        private void refresh_quote_controls(JObject jo)
         {
             try
             {
@@ -323,8 +340,9 @@ namespace K8
                 temp1 = price * 0.9;
                 this.txb_limit_price.Text = string.Format("{0:F2}", temp1);
             }
-            catch
+            catch (Exception e)
             {
+                //MessageBox.Show(e.ToString());
                 return;
             }
         }
@@ -342,7 +360,7 @@ namespace K8
                 {
                     var temp = str_to_jobject(response.Content);
                     RefreshQuoteList(temp);
-                    refresh_lefttop_controls(temp);
+                    refresh_quote_controls(temp);
                     if (!once)
                     {
                         Thread.Sleep(Settings.Default.QuoteRefreshDelay);
@@ -404,8 +422,9 @@ namespace K8
                     price += 0.01F;
                     txb_price.Text = price.ToString();
                 }
-                catch
+                catch (Exception e)
                 {
+                    MessageBox.Show(e.ToString()); 
                     return;
                 }
                 txb_price.Focus();
@@ -419,8 +438,9 @@ namespace K8
                     num += 100;
                     txb_amount.Text = num.ToString();
                 }
-                catch
+                catch (Exception e)
                 {
+                    MessageBox.Show(e.ToString());
                     return;
                 }
                 txb_amount.Focus();
@@ -440,8 +460,9 @@ namespace K8
                     price -= 0.01;
                     txb_price.Text = price.ToString();
                 }
-                catch
+                catch (Exception e)
                 {
+                    MessageBox.Show(e.ToString());
                     return;
                 }
             }
@@ -455,22 +476,27 @@ namespace K8
                     num -= 100;
                     txb_amount.Text = num.ToString();
                 }
-                catch
+                catch (Exception e)
                 {
+                    MessageBox.Show(e.ToString());
                     return;
                 }
             }
         }
 
-        private void handle_escape_msg()
+        private void clear_form()
         {
             choice_f = 0;
-            label_price.Visible = false;
-            txb_amount.Visible = false;
+            label_price.Visible = true;
             txb_amount.Text = "";
-            label_amount.Visible = false;
-            txb_price.Visible = false;
+            label_amount.Visible = true;
             txb_price.Text = "";
+            label_f2.Visible = true;
+            txb_f2_pool.Visible = true;
+            txb_f2_pool.Text = "";
+            label_f3.Visible = true;
+            txb_f3_pool.Visible = true;
+            txb_f3_pool.Text = "";
         }
 
         private void start_recv_data()
@@ -484,7 +510,8 @@ namespace K8
             txb_rising_price.Text = "";
             txb_limit_price.Text = "";
             txb_rise_rate.Text = "";
-            txb_f2_pool.Text = "";
+
+            clear_form();
 
             mStockCode = txb_stockcode.Text;
             if (!Regex.IsMatch(mStockCode, @"^\d{6}$"))
@@ -493,6 +520,8 @@ namespace K8
                 return;
             }
 
+            get_f2_pool();
+            get_f3_pool();
             TransactionDetailList.EnsureVisible(TransactionDetailList.Items.Count - 1);
             TransactionList.EnsureVisible(TransactionDetailList.Items.Count - 1);
             FetchQuote(false);
@@ -504,112 +533,111 @@ namespace K8
         {
             if (mStockCode == null)
                 return;
-            float price = float.Parse(txb_price.Text);
-            int num = int.Parse(txb_amount.Text);
-            if (choice_f == 1)
+            try
             {
-                var request = new RestRequest("buy", Method.POST);
-                request.AddParameter("stock", mStockCode);
-                request.AddParameter("price", price);
-                request.AddParameter("share", num);
 
-                mTradeClient.ExecuteAsync(request, response =>
+                float price = float.Parse(txb_price.Text);
+                int num = int.Parse(txb_amount.Text);
+
+                if (choice_f == 1)
                 {
-                    var res = str_to_jobject(response.Content);
-                    if (res != null)
+                    var request = new RestRequest("buy", Method.POST);
+                    request.AddParameter("stock", mStockCode);
+                    request.AddParameter("price", price);
+                    request.AddParameter("share", num);
+
+                    mTradeClient.ExecuteAsync(request, response =>
                     {
-                        if (res["result"] != null)
+                        var res = str_to_jobject(response.Content);
+                        if (res != null)
                         {
-                            mMainForm.PrintMessage(res["result"].ToString());
+                            if (res["result"] != null)
+                            {
+                                mMainForm.PrintMessage(res["result"].ToString());
+                            }
+                            if (res["error"] != null)
+                            {
+                                mMainForm.PrintMessage(res["error"].ToString());
+                            }
                         }
-                        if (res["error"] != null)
+                    });
+                }
+                if (choice_f == 2)
+                {
+                    var request = new RestRequest("sell", Method.POST);
+                    request.AddParameter("stock", mStockCode);
+                    request.AddParameter("price", price);
+                    request.AddParameter("share", num);
+
+                    mTradeClient.ExecuteAsync(request, response =>
+                    {
+                        var res = str_to_jobject(response.Content);
+                        if (res != null)
                         {
-                            mMainForm.PrintMessage(res["error"].ToString());
+                            if (res["result"] != null)
+                            {
+                                mMainForm.PrintMessage(res["result"].ToString());
+                            }
+                            if (res["error"] != null)
+                            {
+                                mMainForm.PrintMessage(res["error"].ToString());
+                            }
                         }
-                    }
-                });
+                    });
+                }
+                if (choice_f == 3)
+                {
+                    var request = new RestRequest("short", Method.POST);
+                    request.AddParameter("type", "frompool");
+                    request.AddParameter("stock", mStockCode);
+                    request.AddParameter("price", price);
+                    request.AddParameter("share", num);
+
+                    mTradeClient.ExecuteAsync(request, response =>
+                    {
+                        var res = str_to_jobject(response.Content);
+                        if (res != null)
+                        {
+                            if (res["result"] != null)
+                            {
+                                mMainForm.PrintMessage(res["result"].ToString());
+                            }
+                            if (res["error"] != null)
+                            {
+                                mMainForm.PrintMessage(res["error"].ToString());
+                            }
+                        }
+                    });
+                }
+                if (choice_f == 4)
+                {
+                    var request = new RestRequest("short", Method.POST);
+                    request.AddParameter("stock", mStockCode);
+                    request.AddParameter("price", price);
+                    request.AddParameter("share", num);
+
+                    mTradeClient.ExecuteAsync(request, response =>
+                    {
+                        var res = str_to_jobject(response.Content);
+                        if (res != null)
+                        {
+                            if (res["result"] != null)
+                            {
+                                mMainForm.PrintMessage(res["result"].ToString());
+                            }
+                            if (res["error"] != null)
+                            {
+                                mMainForm.PrintMessage(res["error"].ToString());
+                            }
+                        }
+                    });
+                }
+                clear_form();
             }
-            if (choice_f == 2)
+            catch (Exception e)
             {
-                var request = new RestRequest("sell", Method.POST);
-                request.AddParameter("stock", mStockCode);
-                request.AddParameter("price", price);
-                request.AddParameter("share", num);
-
-                mTradeClient.ExecuteAsync(request, response =>
-                {
-                    var res = str_to_jobject(response.Content);
-                    if (res != null)
-                    {
-                        if (res["result"] != null)
-                        {
-                            mMainForm.PrintMessage(res["result"].ToString());
-                        }
-                        if (res["error"] != null)
-                        {
-                            mMainForm.PrintMessage(res["error"].ToString());
-                        }
-                    }
-                });
+                MessageBox.Show(e.ToString());
             }
-            if (choice_f == 3)
-            {
-                string str = "http://" + mTradeIP + "/short?type=frompool&stock=" + mStockCode + "&price=" + price +
-                     "&share=" + num;
-                var request = new RestRequest("short", Method.POST);
-                request.AddParameter("type", "frompool");
-                request.AddParameter("stock", mStockCode);
-                request.AddParameter("price", price);
-                request.AddParameter("share", num);
-
-                mTradeClient.ExecuteAsync(request, response =>
-                {
-                    var res = str_to_jobject(response.Content);
-                    if (res != null)
-                    {
-                        if (res["result"] != null)
-                        {
-                            mMainForm.PrintMessage(res["result"].ToString());
-                        }
-                        if (res["error"] != null)
-                        {
-                            mMainForm.PrintMessage(res["error"].ToString());
-                        }
-                    }
-                });
-            }
-            if (choice_f == 4)
-            {
-                string str = "http://" + mTradeIP + "/short?type=direct&stock=" + mStockCode +
-                    "&share=" + num + "&price=" + price;
-                var request = new RestRequest("short", Method.POST);
-                request.AddParameter("stock", mStockCode);
-                request.AddParameter("price", price);
-                request.AddParameter("share", num);
-
-                mTradeClient.ExecuteAsync(request, response =>
-                {
-                    var res = str_to_jobject(response.Content);
-                    if (res != null)
-                    {
-                        if (res["result"] != null)
-                        {
-                            mMainForm.PrintMessage(res["result"].ToString());
-                        }
-                        if (res["error"] != null)
-                        {
-                            mMainForm.PrintMessage(res["error"].ToString());
-                        }
-                    }
-                });
-            }
-            choice_f = 0;
-            //label_price.Visible = false;
-            //txb_amount.Visible = false;
-            //txb_amount.Text = "";
-            //label_amount.Visible = false;
-            //txb_price.Visible = false;
-            //txb_price.Text = "";
         }
 
         private void handle_f1_msg()
@@ -626,14 +654,7 @@ namespace K8
 
             label_f2.Visible = true;
             txb_f2_pool.Visible = true;
-            if (DataSet.gPositionList.ContainsKey(mStockCode))
-            {
-                txb_f2_pool.Text = DataSet.gPositionList[mStockCode].available_quantitiy.ToString();
-            }
-            else
-            {
-                txb_f2_pool.Text = "0";
-            }
+            get_f2_pool();
 
             label_f3.Visible = false;
             txb_f3_pool.Visible = false;
@@ -656,6 +677,18 @@ namespace K8
             choice_f = 1;
         }
 
+        private void get_f2_pool()
+        {
+            if (mStockCode != null && DataSet.gPositionList.ContainsKey(mStockCode))
+            {
+                txb_f2_pool.Text = DataSet.gPositionList[mStockCode].available_quantitiy.ToString();
+            }
+            else
+            {
+                txb_f2_pool.Text = "0";
+            }
+        }
+
         private void handle_f2_msg()
         {
             label_price.Visible = true;
@@ -670,16 +703,8 @@ namespace K8
             txb_price.Visible = true;
 
             label_f2.Visible = true;
-            label_f2.Text = "F2池";
             txb_f2_pool.Visible = true;
-            if (DataSet.gPositionList.ContainsKey(mStockCode))
-            {
-                txb_f2_pool.Text = DataSet.gPositionList[mStockCode].available_quantitiy.ToString();
-            }
-            else
-            {
-                txb_f2_pool.Text = "0";
-            }
+            get_f2_pool();
 
             label_f3.Visible = false;
             txb_f3_pool.Visible = false;
@@ -719,15 +744,7 @@ namespace K8
 
             label_f3.Visible = true;
             txb_f3_pool.Visible = true;
-            if (DataSet.gStockPool.ContainsKey(mStockCode))
-            {
-                txb_f3_pool.Text = DataSet.gStockPool[mStockCode].ToString();
-            }
-            else
-            {
-                txb_f3_pool.Text = "0";
-            }
-
+            get_f3_pool();
 
             if (QuoteList.Items.Count > 0)
             {
@@ -746,6 +763,18 @@ namespace K8
             choice_f = 3;
         }
 
+        private void get_f3_pool()
+        {
+            if (mStockCode != null && DataSet.gStockPool.ContainsKey(mStockCode))
+            {
+                txb_f3_pool.Text = DataSet.gStockPool[mStockCode].ToString();
+            }
+            else
+            {
+                txb_f3_pool.Text = "0";
+            }
+        }
+
         private void handle_f4_msg()
         {
             label_price.Visible = true;
@@ -754,8 +783,7 @@ namespace K8
             label_amount.Visible = true;
             txb_price.Visible = true;
 
-            label_f2.Text = "F2池";
-            label_f3.Text = "";
+            label_f3.Visible = false;
             txb_f3_pool.Visible = false;
             
             label_price.Text = "卖出";
@@ -786,10 +814,8 @@ namespace K8
             label_amount.Visible = true;
             txb_price.Visible = true;
 
-            label_f2.Text = "公共池";
-            label_f3.Text = "";
+            label_f3.Visible = false;
             txb_f3_pool.Visible = false;
-
 
             label_price.Text = "卖出";
             label_price.ForeColor = Color.Blue;
@@ -822,7 +848,7 @@ namespace K8
             }
             if (e.KeyCode == Keys.Escape)
             {
-                handle_escape_msg();
+                clear_form();
             }
             if (e.KeyCode == Keys.Enter && txb_stockcode.Focused)
             {
@@ -882,30 +908,6 @@ namespace K8
             int b = 0xFF0000 & color;
             b >>= 16;
             return Color.FromArgb(r, g, b);
-        }
-
-        public static string GetRequestData_Post(string sUrl)
-        {
-            //MessageBox.Show(sUrl);
-            //使用HttpWebRequest类的Create方法创建一个请求到uri的对象。
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(sUrl);
-            //指定请求的方式为Get方式
-            request.Method = WebRequestMethods.Http.Post;
-            request.Timeout = 1000;
-            //获取该请求所响应回来的资源，并强转为HttpWebResponse响应对象
-            try
-            {
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                StreamReader reader = new StreamReader(response.GetResponseStream());
-
-                string str = reader.ReadToEnd();
-                response.Close();
-                return str;
-            }
-            catch
-            {
-                return null;
-            }
         }
 
         private void OnFromLoad(object sender, EventArgs e)
@@ -973,16 +975,6 @@ namespace K8
                 return;
             }
             base.WndProc(ref m);
-        }
-
-        public void post_msg_to_main_wnd(object str)
-        {
-            string str1 = (string)str;
-            string str2 = GetRequestData_Post(str1);
-            Win32API.My_lParam lp = new Win32API.My_lParam();
-            lp.i = 3;
-            lp.s = str2;
-            Win32API.SendMessage(mMainFormWndHandle, 0x63, 0, ref lp);
         }
 
         private void OnFormClosed(object sender, FormClosedEventArgs e)

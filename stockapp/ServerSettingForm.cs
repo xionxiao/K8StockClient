@@ -19,24 +19,30 @@ namespace K8
 
         private void Form_Load(object sender, EventArgs e)
         {
-            this.textBox1.Text = Settings.Default.MarketServerIP;
-            this.textBox2.Text = Settings.Default.TradeServerIP;
+            this.textbox_market_ip.Text = Settings.Default.MarketServerIP;
+            this.textbox_trade_ip.Text = Settings.Default.TradeServerIP;
         }
 
-        private void OnKeyDown(object sender, KeyEventArgs e)
+        private void Form_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
-            {  
-                Settings.Default.MarketServerIP = this.textBox1.Text;
-                Settings.Default.TradeServerIP = this.textBox2.Text;
-                Settings.Default.Save();
-                Settings.Default.Upgrade();
-                this.Close();
+            {
+                btn_ok_Click(sender, e);
             }
         }
 
-        private void Form4_FormClosing(object sender, FormClosingEventArgs e)
+        private void btn_ok_Click(object sender, EventArgs e)
         {
+            Settings.Default.MarketServerIP = this.textbox_market_ip.Text;
+            Settings.Default.TradeServerIP = this.textbox_trade_ip.Text;
+            Settings.Default.Save();
+            Settings.Default.Upgrade();
+            this.Close();
+        }
+
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

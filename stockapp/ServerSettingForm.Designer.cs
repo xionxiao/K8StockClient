@@ -28,96 +28,121 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.groupBox1.SuspendLayout();
+            this.groupBox = new System.Windows.Forms.GroupBox();
+            this.btn_cancel = new System.Windows.Forms.Button();
+            this.btn_ok = new System.Windows.Forms.Button();
+            this.label_note = new System.Windows.Forms.Label();
+            this.textbox_trade_ip = new System.Windows.Forms.TextBox();
+            this.textbox_market_ip = new System.Windows.Forms.TextBox();
+            this.label_trade_ip = new System.Windows.Forms.Label();
+            this.label_market_ip = new System.Windows.Forms.Label();
+            this.groupBox.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // groupBox
             // 
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(25, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(326, 150);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
+            this.groupBox.Controls.Add(this.btn_cancel);
+            this.groupBox.Controls.Add(this.btn_ok);
+            this.groupBox.Controls.Add(this.label_note);
+            this.groupBox.Controls.Add(this.textbox_trade_ip);
+            this.groupBox.Controls.Add(this.textbox_market_ip);
+            this.groupBox.Controls.Add(this.label_trade_ip);
+            this.groupBox.Controls.Add(this.label_market_ip);
+            this.groupBox.Location = new System.Drawing.Point(25, 12);
+            this.groupBox.Name = "groupBox";
+            this.groupBox.Size = new System.Drawing.Size(326, 150);
+            this.groupBox.TabIndex = 0;
+            this.groupBox.TabStop = false;
             // 
-            // label3
+            // btn_cancel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(71, 116);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(179, 12);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "地址的格式:例子(127.0.0.1:80)";
+            this.btn_cancel.Location = new System.Drawing.Point(188, 117);
+            this.btn_cancel.Name = "btn_cancel";
+            this.btn_cancel.Size = new System.Drawing.Size(75, 23);
+            this.btn_cancel.TabIndex = 4;
+            this.btn_cancel.Text = "取消";
+            this.btn_cancel.UseVisualStyleBackColor = true;
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
-            // textBox2
+            // btn_ok
             // 
-            this.textBox2.Location = new System.Drawing.Point(116, 76);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(117, 21);
-            this.textBox2.TabIndex = 3;
+            this.btn_ok.Location = new System.Drawing.Point(59, 117);
+            this.btn_ok.Name = "btn_ok";
+            this.btn_ok.Size = new System.Drawing.Size(75, 23);
+            this.btn_ok.TabIndex = 3;
+            this.btn_ok.Text = "确定";
+            this.btn_ok.UseVisualStyleBackColor = true;
+            this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
             // 
-            // textBox1
+            // label_note
             // 
-            this.textBox1.Location = new System.Drawing.Point(116, 31);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(117, 21);
-            this.textBox1.TabIndex = 2;
+            this.label_note.AutoSize = true;
+            this.label_note.Location = new System.Drawing.Point(68, 94);
+            this.label_note.Name = "label_note";
+            this.label_note.Size = new System.Drawing.Size(179, 12);
+            this.label_note.TabIndex = 4;
+            this.label_note.Text = "地址的格式:例子(127.0.0.1:80)";
             // 
-            // label2
+            // textbox_trade_ip
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(57, 79);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "交易地址";
+            this.textbox_trade_ip.Location = new System.Drawing.Point(125, 57);
+            this.textbox_trade_ip.Name = "textbox_trade_ip";
+            this.textbox_trade_ip.Size = new System.Drawing.Size(117, 21);
+            this.textbox_trade_ip.TabIndex = 2;
             // 
-            // label1
+            // textbox_market_ip
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(57, 34);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 12);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "行情地址";
+            this.textbox_market_ip.Location = new System.Drawing.Point(125, 18);
+            this.textbox_market_ip.Name = "textbox_market_ip";
+            this.textbox_market_ip.Size = new System.Drawing.Size(117, 21);
+            this.textbox_market_ip.TabIndex = 1;
             // 
-            // ServerIpSettingForm
+            // label_trade_ip
+            // 
+            this.label_trade_ip.AutoSize = true;
+            this.label_trade_ip.Location = new System.Drawing.Point(66, 61);
+            this.label_trade_ip.Name = "label_trade_ip";
+            this.label_trade_ip.Size = new System.Drawing.Size(53, 12);
+            this.label_trade_ip.TabIndex = 1;
+            this.label_trade_ip.Text = "交易地址";
+            // 
+            // label_market_ip
+            // 
+            this.label_market_ip.AutoSize = true;
+            this.label_market_ip.Location = new System.Drawing.Point(66, 22);
+            this.label_market_ip.Name = "label_market_ip";
+            this.label_market_ip.Size = new System.Drawing.Size(53, 12);
+            this.label_market_ip.TabIndex = 0;
+            this.label_market_ip.Text = "行情地址";
+            // 
+            // ServerSettingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(379, 187);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox);
             this.KeyPreview = true;
-            this.Name = "ServerIpSettingForm";
+            this.Name = "ServerSettingForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "服务器地址设置";
             this.TopMost = true;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form4_FormClosing);
             this.Load += new System.EventHandler(this.Form_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(Form_OnKeyDown);
+            this.groupBox.ResumeLayout(false);
+            this.groupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.GroupBox groupBox;
+        private System.Windows.Forms.Label label_trade_ip;
+        private System.Windows.Forms.Label label_market_ip;
+        private System.Windows.Forms.TextBox textbox_trade_ip;
+        private System.Windows.Forms.TextBox textbox_market_ip;
+        private System.Windows.Forms.Label label_note;
+        private System.Windows.Forms.Button btn_cancel;
+        private System.Windows.Forms.Button btn_ok;
     }
 }

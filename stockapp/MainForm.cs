@@ -66,7 +66,6 @@ namespace K8
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.ToString());
                     return null;
                 }
             }
@@ -80,7 +79,6 @@ namespace K8
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.ToString());
                     return null;
                 }
             }
@@ -100,7 +98,6 @@ namespace K8
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.ToString());
                     return null;
                 }
             }
@@ -206,7 +203,6 @@ namespace K8
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
                 return;
             }
         }
@@ -254,7 +250,6 @@ namespace K8
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(e.ToString());
                     return;
                 }
             } 
@@ -274,7 +269,6 @@ namespace K8
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
                 return null;
             }
 
@@ -294,7 +288,6 @@ namespace K8
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
                 return null;
             }
         }
@@ -308,7 +301,6 @@ namespace K8
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
                 return null;
             }
         }

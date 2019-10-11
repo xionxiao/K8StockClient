@@ -137,7 +137,6 @@ namespace K8
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.ToString());
                 return null;
             }
         }

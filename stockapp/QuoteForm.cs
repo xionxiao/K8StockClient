@@ -30,19 +30,14 @@ namespace K8
         private string mStockCode = null;
         private int choice_f = 0;           /*区别f1 f2 f3*/
         private MainForm mMainForm;
-        delegate void Reflist(JObject ja);   /*声明委托*/
         private string[] CH_NUM = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十" };
-        private RestClient mMarketClient;
-        private RestClient mTradeClient;
+        private bool mStartPulling = false;
         private System.Timers.Timer mTimer;
+        //private String mMarketIP = Properties.Settings.Default.MarketServerIP;
+        //private String mTradeIP = Properties.Settings.Default.TradeServerIP;
 
         public QuoteForm(Form fm)
         {
-            String mMarketIP = Properties.Settings.Default.MarketServerIP;
-            String mTradeIP = Properties.Settings.Default.TradeServerIP;
-            this.mMarketClient = new RestClient("http://" + mMarketIP);
-            this.mTradeClient = new RestClient("http://" + mTradeIP);
-
             mMainForm = (MainForm)fm;
 
             InitializeComponent();
@@ -82,8 +77,8 @@ namespace K8
 
             this.TransactionDetailList.Columns.Add("价格", 40);
             this.TransactionDetailList.Columns.Add("数量", 35);
-            this.TransactionDetailList.Columns.Add("D", 24);
-            this.TransactionDetailList.Columns.Add("时间", 65);
+            this.TransactionDetailList.Columns.Add("D", 20);
+            this.TransactionDetailList.Columns.Add("时间", 60);
             //this.TransactionDetailList.Columns.Add("", 10);
             for (int i = 0; i <30; ++i)
             {
@@ -135,7 +130,7 @@ namespace K8
                 JObject jo = (JObject)JsonConvert.DeserializeObject(str);
                 return jo;
             }
-            catch (Exception e)
+            catch
             {
                 return null;
             }
@@ -199,14 +194,14 @@ namespace K8
                 }
                 TransactionList.EndUpdate();
             }
-            catch (Exception e)
+            catch
             {
-                //MessageBox.Show(e.ToString());
                 return;
             }
         }
 
         private int ref_list1_count = 0;
+        delegate void Reflist(JObject ja);   /*声明委托*/
         private void RefreshQuoteList(JObject jo)
         {
             try
@@ -252,7 +247,7 @@ namespace K8
                 }
                 QuoteList.EndUpdate();
             }
-            catch (Exception e)
+            catch
             {
                 //MessageBox.Show(e.ToString());
                 return;
@@ -304,9 +299,8 @@ namespace K8
                     TransactionDetailList.EndUpdate();
                 }
             }
-            catch (Exception e)
+            catch
             {
-                //MessageBox.Show(e.ToString());
                 return;
             }
         }
@@ -339,23 +333,23 @@ namespace K8
                 temp1 = price * 0.9;
                 this.txb_limit_price.Text = string.Format("{0:F2}", temp1);
             }
-            catch (Exception e)
+            catch
             {
-                //MessageBox.Show(e.ToString());
                 return;
             }
         }
 
         public void FetchQuote(bool once = true)
         {
-            if (mMarketClient != null)
+            if (mStartPulling)
             {
+                var client = new RestClient("http://" + Properties.Settings.Default.MarketServerIP);
                 var request = new RestRequest("query", Method.GET);
                 request.AddParameter("catalogues", "quote10");
                 request.AddParameter("stocks", mStockCode);
 
                 // AsyncRequest is MultiThread
-                mMarketClient.ExecuteAsync(request, response =>
+                client.ExecuteAsync(request, response =>
                 {
                     var temp = str_to_jobject(response.Content);
                     RefreshQuoteList(temp);
@@ -371,13 +365,14 @@ namespace K8
 
         public void FetchTransactionDetail(bool once = true)
         {
-            if (mMarketClient != null)
+            if (mStartPulling)
             {
+                var client = new RestClient("http://" + Properties.Settings.Default.MarketServerIP);
                 var request = new RestRequest("query", Method.GET);
                 request.AddParameter("catalogues", "transaction_detail");
                 request.AddParameter("stock", mStockCode);
 
-                mMarketClient.ExecuteAsync(request, response =>
+                client.ExecuteAsync(request, response =>
                 {
                     JObject ja1 = str_to_jobject(response.Content);
                     RefreshTransactionDetailList(ja1);
@@ -392,13 +387,14 @@ namespace K8
 
         public void FetchTransaction(bool once = true)
         {
-            if (mMarketClient != null)
+            if (mStartPulling)
             {
+                var client = new RestClient("http://" + Properties.Settings.Default.MarketServerIP);
                 var request = new RestRequest("query", Method.GET);
                 request.AddParameter("catalogues", "transaction");
                 request.AddParameter("stock", mStockCode);
             
-                mMarketClient.ExecuteAsync(request, response =>
+                client.ExecuteAsync(request, response =>
                 {
                     JObject ja1 = str_to_jobject(response.Content);
                     RefreshTransactionList(ja1);
@@ -519,6 +515,7 @@ namespace K8
                 return;
             }
 
+            mStartPulling = true;
             get_f2_pool();
             get_f3_pool();
             TransactionDetailList.EnsureVisible(TransactionDetailList.Items.Count - 1);
@@ -537,6 +534,7 @@ namespace K8
 
                 float price = float.Parse(txb_price.Text);
                 int num = int.Parse(txb_amount.Text);
+                var client = new RestClient("http://" + Properties.Settings.Default.TradeServerIP);
 
                 if (choice_f == 1)
                 {
@@ -545,7 +543,7 @@ namespace K8
                     request.AddParameter("price", price);
                     request.AddParameter("share", num);
 
-                    mTradeClient.ExecuteAsync(request, response =>
+                    client.ExecuteAsync(request, response =>
                     {
                         var res = str_to_jobject(response.Content);
                         if (res != null)
@@ -568,7 +566,7 @@ namespace K8
                     request.AddParameter("price", price);
                     request.AddParameter("share", num);
 
-                    mTradeClient.ExecuteAsync(request, response =>
+                    client.ExecuteAsync(request, response =>
                     {
                         var res = str_to_jobject(response.Content);
                         if (res != null)
@@ -592,7 +590,7 @@ namespace K8
                     request.AddParameter("price", price);
                     request.AddParameter("share", num);
 
-                    mTradeClient.ExecuteAsync(request, response =>
+                    client.ExecuteAsync(request, response =>
                     {
                         var res = str_to_jobject(response.Content);
                         if (res != null)
@@ -615,7 +613,7 @@ namespace K8
                     request.AddParameter("price", price);
                     request.AddParameter("share", num);
 
-                    mTradeClient.ExecuteAsync(request, response =>
+                    client.ExecuteAsync(request, response =>
                     {
                         var res = str_to_jobject(response.Content);
                         if (res != null)
@@ -978,7 +976,7 @@ namespace K8
 
         private void OnFormClosed(object sender, FormClosedEventArgs e)
         {
-            mMarketClient = null;
+            mStartPulling = false;
         }
     }
 }

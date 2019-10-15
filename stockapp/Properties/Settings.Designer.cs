@@ -25,7 +25,7 @@ namespace K8.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("123.57.232.178:80")]
+        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1:80")]
         public string MarketServerIP {
             get {
                 return ((string)(this["MarketServerIP"]));

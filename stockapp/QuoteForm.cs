@@ -33,8 +33,6 @@ namespace K8
         private string[] CH_NUM = { "零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十" };
         private bool mStartPulling = false;
         private System.Timers.Timer mTimer;
-        //private String mMarketIP = Properties.Settings.Default.MarketServerIP;
-        //private String mTradeIP = Properties.Settings.Default.TradeServerIP;
 
         public QuoteForm(Form fm)
         {

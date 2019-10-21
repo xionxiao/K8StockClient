@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Concurrent;
 
 namespace K8
 {
@@ -28,6 +29,7 @@ namespace K8
             stock_code = jo["证券代码"].ToString();
             stock_name = jo["证券名称"].ToString();
             stock_quantity = Convert.ToInt32(jo["证券数量"].ToString());
+            inventory_quantitiy = Convert.ToInt32(jo["库存数量"].ToString());
             available_quantitiy = Convert.ToInt32(jo["可卖数量"].ToString());
             reference_value = Convert.ToDouble(jo["参考市值"].ToString());
             reference_cost = Convert.ToDouble(jo["参考成本"].ToString());
@@ -41,6 +43,7 @@ namespace K8
         public string stock_name;                   //证券名称
         public int stock_quantity;                  //证券数量
         public int available_quantitiy;             //可卖数量
+        public int inventory_quantitiy;             //库存数量
         public double reference_value;              //参考市值
         public double reference_cost;               //参考成本
         public double reference_price;              //参考市值价格
@@ -86,9 +89,9 @@ namespace K8
 
     static class DataSet
     {
-        public static JArray gOrderList = null;
-        public static Dictionary<String, PositionDataItem> gPositionList = new Dictionary<String, PositionDataItem>();
-        public static JObject gDeals = null;
-        public static Dictionary<String, int> gStockPool = new Dictionary<string, int>();
+        //public static JArray gOrderList = null;
+        public static ConcurrentDictionary<String, PositionDataItem> gPositionList = new ConcurrentDictionary<String, PositionDataItem>();
+        //public static JObject gDeals = null;
+        public static ConcurrentDictionary<String, int> gStockPool = new ConcurrentDictionary<string, int>();
     }
 }

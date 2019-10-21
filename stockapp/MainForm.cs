@@ -312,7 +312,6 @@ namespace K8
         private void StartFetchData()
         {
             FetchOrdersList(false);
-            //FetchDeals(false);
             FetchStockPool(false);
             FetchPosition(false);
         }
@@ -496,10 +495,6 @@ namespace K8
             }
         }
 
-        private void OrderList_CheckedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
         private void OrderList_Check(object sender, ItemCheckEventArgs e)
         {
             if (e.CurrentValue == CheckState.Checked)
@@ -516,6 +511,21 @@ namespace K8
         {
             Application.Exit();
         }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            const string sPath = @"output.log.txt";
+
+            using (StreamWriter sw = File.AppendText(sPath))
+            {
+                sw.WriteLine(DateTime.Now.ToString());
+                foreach (var i in this.OutPutBox.Items)
+                {
+                    sw.WriteLine(this.OutPutBox.Items.ToString());
+                }
+            }
+            base.OnFormClosing(e);
+        } 
     }
 
     public static class ControlExtensions

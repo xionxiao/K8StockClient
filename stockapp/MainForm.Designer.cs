@@ -152,7 +152,6 @@
             this.OrderList.UseCompatibleStateImageBehavior = false;
             this.OrderList.View = System.Windows.Forms.View.Details;
             this.OrderList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.OrderList_Check);
-            this.OrderList.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.OrderList_CheckedIndexChanged);
             this.OrderList.SelectedIndexChanged += new System.EventHandler(this.OrderList_SelectedIndexChanged);
             this.OrderList.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OrderList_KeyDown);
             // 

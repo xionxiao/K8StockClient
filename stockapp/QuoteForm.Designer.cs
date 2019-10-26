@@ -237,12 +237,10 @@
             // txb_money
             // 
             this.txb_money.Location = new System.Drawing.Point(95, 5);
-            this.txb_money.Multiline = false;
             this.txb_money.Name = "txb_money";
             this.txb_money.ReadOnly = true;
             this.txb_money.Size = new System.Drawing.Size(83, 21);
             this.txb_money.TabIndex = 79;
-            this.txb_money.Text = "";
             this.txb_money.WordWrap = false;
             // 
             // txb_current_price
@@ -302,11 +300,9 @@
             // txb_stockcode
             // 
             this.txb_stockcode.Location = new System.Drawing.Point(1, 5);
-            this.txb_stockcode.Multiline = false;
             this.txb_stockcode.Name = "txb_stockcode";
             this.txb_stockcode.Size = new System.Drawing.Size(55, 21);
             this.txb_stockcode.TabIndex = 1;
-            this.txb_stockcode.Text = "";
             this.txb_stockcode.WordWrap = false;
             // 
             // QuoteList
@@ -368,23 +364,19 @@
             // txb_f3_pool
             // 
             this.txb_f3_pool.Location = new System.Drawing.Point(317, 2);
-            this.txb_f3_pool.Multiline = false;
             this.txb_f3_pool.Name = "txb_f3_pool";
             this.txb_f3_pool.ReadOnly = true;
             this.txb_f3_pool.Size = new System.Drawing.Size(52, 21);
             this.txb_f3_pool.TabIndex = 64;
-            this.txb_f3_pool.Text = "";
             this.txb_f3_pool.WordWrap = false;
             // 
             // txb_f2_pool
             // 
             this.txb_f2_pool.Location = new System.Drawing.Point(219, 2);
-            this.txb_f2_pool.Multiline = false;
             this.txb_f2_pool.Name = "txb_f2_pool";
             this.txb_f2_pool.ReadOnly = true;
             this.txb_f2_pool.Size = new System.Drawing.Size(52, 21);
             this.txb_f2_pool.TabIndex = 64;
-            this.txb_f2_pool.Text = "";
             this.txb_f2_pool.WordWrap = false;
             // 
             // label_f3
@@ -393,9 +385,9 @@
             this.label_f3.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_f3.Location = new System.Drawing.Point(277, 6);
             this.label_f3.Name = "label_f3";
-            this.label_f3.Size = new System.Drawing.Size(32, 12);
+            this.label_f3.Size = new System.Drawing.Size(31, 12);
             this.label_f3.TabIndex = 62;
-            this.label_f3.Text = "F3池";
+            this.label_f3.Text = "可融";
             // 
             // label_f2
             // 
@@ -403,28 +395,24 @@
             this.label_f2.Font = new System.Drawing.Font("SimSun", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label_f2.Location = new System.Drawing.Point(183, 6);
             this.label_f2.Name = "label_f2";
-            this.label_f2.Size = new System.Drawing.Size(32, 12);
+            this.label_f2.Size = new System.Drawing.Size(31, 12);
             this.label_f2.TabIndex = 61;
-            this.label_f2.Text = "F2池";
+            this.label_f2.Text = "可卖";
             // 
             // txb_amount
             // 
             this.txb_amount.Location = new System.Drawing.Point(124, 2);
-            this.txb_amount.Multiline = false;
             this.txb_amount.Name = "txb_amount";
             this.txb_amount.Size = new System.Drawing.Size(52, 21);
             this.txb_amount.TabIndex = 3;
-            this.txb_amount.Text = "";
             this.txb_amount.WordWrap = false;
             // 
             // txb_price
             // 
             this.txb_price.Location = new System.Drawing.Point(34, 2);
-            this.txb_price.Multiline = false;
             this.txb_price.Name = "txb_price";
             this.txb_price.Size = new System.Drawing.Size(52, 21);
             this.txb_price.TabIndex = 2;
-            this.txb_price.Text = "";
             this.txb_price.WordWrap = false;
             // 
             // label_amount

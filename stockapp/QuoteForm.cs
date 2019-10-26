@@ -116,8 +116,8 @@ namespace K8
         {
             if (mStockCode != null)
             {
-                get_f2_pool();
-                get_f3_pool();
+                this.txb_f2_pool.Text = get_f2_pool().ToString();
+                this.txb_f3_pool.Text = get_f3_pool().ToString();
             }
         }
 
@@ -514,8 +514,8 @@ namespace K8
             }
 
             mStartPulling = true;
-            get_f2_pool();
-            get_f3_pool();
+            this.txb_f2_pool.Text = get_f2_pool().ToString();
+            this.txb_f3_pool.Text = get_f3_pool().ToString();
             TransactionDetailList.EnsureVisible(TransactionDetailList.Items.Count - 1);
             TransactionList.EnsureVisible(TransactionDetailList.Items.Count - 1);
             FetchQuote(false);
@@ -649,10 +649,11 @@ namespace K8
 
             label_f2.Visible = true;
             txb_f2_pool.Visible = true;
-            get_f2_pool();
+            txb_f2_pool.Text = get_f2_pool().ToString();
 
-            label_f3.Visible = false;
-            txb_f3_pool.Visible = false;
+            label_f3.Visible = true;
+            txb_f3_pool.Visible = true;
+            txb_f3_pool.Text = get_f3_pool().ToString();
 
             if (QuoteList.Items.Count > 0)
             {
@@ -672,15 +673,15 @@ namespace K8
             choice_f = 1;
         }
 
-        private void get_f2_pool()
+        private int get_f2_pool()
         {
             if (mStockCode != null && DataSet.gPositionList.ContainsKey(mStockCode))
             {
-                txb_f2_pool.Text = DataSet.gPositionList[mStockCode].available_quantitiy.ToString();
+                 return DataSet.gPositionList[mStockCode].available_quantitiy;
             }
             else
             {
-                txb_f2_pool.Text = "0";
+                return 0;
             }
         }
 
@@ -699,7 +700,7 @@ namespace K8
 
             label_f2.Visible = true;
             txb_f2_pool.Visible = true;
-            get_f2_pool();
+            this.txb_f2_pool.Text = get_f2_pool().ToString();
 
             label_f3.Visible = false;
             txb_f3_pool.Visible = false;
@@ -739,7 +740,7 @@ namespace K8
 
             label_f3.Visible = true;
             txb_f3_pool.Visible = true;
-            get_f3_pool();
+            this.txb_f3_pool.Text = get_f3_pool().ToString();
 
             if (QuoteList.Items.Count > 0)
             {
@@ -758,15 +759,15 @@ namespace K8
             choice_f = 3;
         }
 
-        private void get_f3_pool()
+        private int get_f3_pool()
         {
             if (mStockCode != null && DataSet.gStockPool.ContainsKey(mStockCode))
             {
-                txb_f3_pool.Text = DataSet.gStockPool[mStockCode].ToString();
+                return DataSet.gStockPool[mStockCode];
             }
             else
             {
-                txb_f3_pool.Text = "0";
+                return 0;
             }
         }
 

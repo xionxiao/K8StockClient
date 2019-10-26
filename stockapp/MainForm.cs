@@ -521,7 +521,7 @@ namespace K8
                 sw.WriteLine(DateTime.Now.ToString());
                 foreach (var i in this.OutPutBox.Items)
                 {
-                    sw.WriteLine(this.OutPutBox.Items.ToString());
+                    sw.WriteLine(i.ToString());
                 }
             }
             base.OnFormClosing(e);

@@ -152,9 +152,9 @@ namespace K8
                     TransactionList.BeginUpdate();
                     //TransactionList.Columns[4].Text = (++ref_list3_count).ToString();
                     //TransactionList.Items.Clear();
-                    for (int i = 0; i < ja.Count; i++)
+                    for (int i = 0; i < ja.Count ; i++)
                     {
-                        ListViewItem item = TransactionList.Items[i];
+                        ListViewItem item = TransactionList.Items[ja.Count-i-1];
                         item.SubItems[0].Text = ja[i]["价格"].ToString().Substring(0,
                             ja[i]["价格"].ToString().IndexOf(".") + 3);
                         int nq = int.Parse(ja[i]["现量"].ToString());
@@ -517,7 +517,7 @@ namespace K8
             this.txb_f2_pool.Text = get_f2_pool().ToString();
             this.txb_f3_pool.Text = get_f3_pool().ToString();
             TransactionDetailList.EnsureVisible(TransactionDetailList.Items.Count - 1);
-            TransactionList.EnsureVisible(TransactionDetailList.Items.Count - 1);
+            //TransactionList.EnsureVisible(TransactionDetailList.Items.Count - 1);
             FetchQuote(false);
             FetchTransactionDetail(false);
             FetchTransaction(false);

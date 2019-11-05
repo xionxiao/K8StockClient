@@ -49,7 +49,7 @@ namespace K8
             this.QuoteList.Columns.Add("", 40);
             this.QuoteList.Columns.Add("价格", 50);
             this.QuoteList.Columns.Add("数量", 50);
-            this.QuoteList.Columns.Add("0", 70);
+            this.QuoteList.Columns.Add("0", 70);    // 测试计数器
             ListViewItem item = new ListViewItem();
             for (int i = 0; i < 10; i++)
             {
@@ -118,19 +118,6 @@ namespace K8
             {
                 this.txb_f2_pool.Text = get_f2_pool().ToString();
                 this.txb_f3_pool.Text = get_f3_pool().ToString();
-            }
-        }
-
-        private JObject str_to_jobject(string str)
-        {
-            try
-            {
-                JObject jo = (JObject)JsonConvert.DeserializeObject(str);
-                return jo;
-            }
-            catch
-            {
-                return null;
             }
         }
 
@@ -904,6 +891,19 @@ namespace K8
             int b = 0xFF0000 & color;
             b >>= 16;
             return Color.FromArgb(r, g, b);
+        }
+
+        private static JObject str_to_jobject(string str)
+        {
+            try
+            {
+                JObject jo = (JObject)JsonConvert.DeserializeObject(str);
+                return jo;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         private void OnFromLoad(object sender, EventArgs e)

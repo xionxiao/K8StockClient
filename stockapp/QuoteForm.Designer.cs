@@ -94,8 +94,8 @@
             this.HSpliter.Panel2.Controls.Add(this.txb_price);
             this.HSpliter.Panel2.Controls.Add(this.label_amount);
             this.HSpliter.Panel2.Controls.Add(this.label_price);
-            this.HSpliter.Size = new System.Drawing.Size(372, 506);
-            this.HSpliter.SplitterDistance = 477;
+            this.HSpliter.Size = new System.Drawing.Size(372, 491);
+            this.HSpliter.SplitterDistance = 465;
             this.HSpliter.SplitterWidth = 1;
             this.HSpliter.TabIndex = 0;
             // 
@@ -129,7 +129,7 @@
             // VSpliter.Panel2
             // 
             this.VSpliter.Panel2.Controls.Add(this.SubVSpliter);
-            this.VSpliter.Size = new System.Drawing.Size(372, 477);
+            this.VSpliter.Size = new System.Drawing.Size(372, 465);
             this.VSpliter.SplitterDistance = 180;
             this.VSpliter.SplitterWidth = 1;
             this.VSpliter.TabIndex = 0;
@@ -310,10 +310,10 @@
             this.QuoteList.BackColor = System.Drawing.Color.Black;
             this.QuoteList.ForeColor = System.Drawing.Color.Gray;
             this.QuoteList.Location = new System.Drawing.Point(0, 100);
-            this.QuoteList.MinimumSize = new System.Drawing.Size(180, 380);
+            this.QuoteList.MinimumSize = new System.Drawing.Size(180, 365);
             this.QuoteList.Name = "QuoteList";
             this.QuoteList.Scrollable = false;
-            this.QuoteList.Size = new System.Drawing.Size(180, 380);
+            this.QuoteList.Size = new System.Drawing.Size(180, 365);
             this.QuoteList.TabIndex = 73;
             this.QuoteList.TabStop = false;
             this.QuoteList.UseCompatibleStateImageBehavior = false;
@@ -333,8 +333,8 @@
             // SubVSpliter.Panel2
             // 
             this.SubVSpliter.Panel2.Controls.Add(this.TransactionList);
-            this.SubVSpliter.Size = new System.Drawing.Size(191, 477);
-            this.SubVSpliter.SplitterDistance = 238;
+            this.SubVSpliter.Size = new System.Drawing.Size(191, 465);
+            this.SubVSpliter.SplitterDistance = 239;
             this.SubVSpliter.TabIndex = 0;
             // 
             // TransactionDetailList
@@ -343,7 +343,7 @@
             this.TransactionDetailList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TransactionDetailList.Location = new System.Drawing.Point(0, 0);
             this.TransactionDetailList.Name = "TransactionDetailList";
-            this.TransactionDetailList.Size = new System.Drawing.Size(191, 238);
+            this.TransactionDetailList.Size = new System.Drawing.Size(191, 239);
             this.TransactionDetailList.TabIndex = 1;
             this.TransactionDetailList.TabStop = false;
             this.TransactionDetailList.UseCompatibleStateImageBehavior = false;
@@ -355,7 +355,7 @@
             this.TransactionList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TransactionList.Location = new System.Drawing.Point(0, 0);
             this.TransactionList.Name = "TransactionList";
-            this.TransactionList.Size = new System.Drawing.Size(191, 235);
+            this.TransactionList.Size = new System.Drawing.Size(191, 222);
             this.TransactionList.TabIndex = 1;
             this.TransactionList.TabStop = false;
             this.TransactionList.UseCompatibleStateImageBehavior = false;
@@ -363,7 +363,7 @@
             // 
             // txb_f3_pool
             // 
-            this.txb_f3_pool.Location = new System.Drawing.Point(317, 2);
+            this.txb_f3_pool.Location = new System.Drawing.Point(313, 2);
             this.txb_f3_pool.Name = "txb_f3_pool";
             this.txb_f3_pool.ReadOnly = true;
             this.txb_f3_pool.Size = new System.Drawing.Size(52, 21);
@@ -372,7 +372,7 @@
             // 
             // txb_f2_pool
             // 
-            this.txb_f2_pool.Location = new System.Drawing.Point(219, 2);
+            this.txb_f2_pool.Location = new System.Drawing.Point(218, 2);
             this.txb_f2_pool.Name = "txb_f2_pool";
             this.txb_f2_pool.ReadOnly = true;
             this.txb_f2_pool.Size = new System.Drawing.Size(52, 21);
@@ -439,12 +439,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(372, 506);
+            this.ClientSize = new System.Drawing.Size(372, 491);
             this.Controls.Add(this.HSpliter);
             this.KeyPreview = true;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(380, 540);
-            this.MinimumSize = new System.Drawing.Size(190, 540);
+            this.MaximumSize = new System.Drawing.Size(380, 525);
+            this.MinimumSize = new System.Drawing.Size(190, 525);
             this.Name = "QuoteForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OnFormClosed);

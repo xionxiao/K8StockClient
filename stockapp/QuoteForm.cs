@@ -45,7 +45,8 @@ namespace K8
             TransactionDetailList.DoubleBuffering(true);
             TransactionList.DoubleBuffering(true);
 
-            this.AutoScaleMode = AutoScaleMode.Dpi;
+            this.AutoScaleMode = AutoScaleMode.None;
+            this.AutoSize = false;
             this.QuoteList.Columns.Add("", 40);
             this.QuoteList.Columns.Add("价格", 50);
             this.QuoteList.Columns.Add("数量", 50);
